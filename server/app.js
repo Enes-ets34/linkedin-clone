@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const routers = require("./routers/router");
+const path = require("path");
 
 const app = express();
 const connectDatabase = require("./helpers/database/connectDatabase");
@@ -22,6 +23,9 @@ app.use(express.json());
 
 //ROUTES
 app.use("/", routers);
+
+//STATIC FILES
+app.use(express.static(path.join(__dirname,"public")))
 
 app.use(errorHandler);
 //PORT

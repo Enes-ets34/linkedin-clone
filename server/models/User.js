@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const userSchema = new Schema({
   password: {
@@ -25,6 +26,12 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now(),
   },
+  reset_password_token: {
+    type: String,
+  },
+  reset_password_expire: {
+    type: Date,
+  },
   full_name: {
     type: String,
     min: 3,
@@ -33,6 +40,7 @@ const userSchema = new Schema({
   },
   profile_image: {
     type: String,
+    default: "default.jpg",
   },
   about: {
     type: String,
@@ -69,6 +77,17 @@ userSchema.methods.generatejwtFromUser = function () {
     expiresIn: JWT_EXPIRE,
   });
   return token;
+};
+userSchema.methods.getResetPasswordTokenFromUser = function () {
+  const { RESET_PASSWORD_EXPIRE } = process.env;
+  const randomHexString = crypto.randomBytes(15).toString("hex");
+  const resetPasswordToken = crypto
+    .createHash("SHA256")
+    .update(randomHexString)
+    .digest("hex");
+  this.reset_password_token = resetPasswordToken;
+  this.reset_password_expire = Date.now() + parseInt(RESET_PASSWORD_EXPIRE);
+  return this.reset_password_token
 };
 
 //Pre Hooks

@@ -17,11 +17,10 @@ const getAccessToRoute = (req, res, next) => {
       next(new CustomError("You are not auth. for this route.", 403));
     }
     req.user = {
-      id: decoded,
+      ...decoded,
     };
     next();
   });
 };
-
 
 module.exports = { getAccessToRoute };

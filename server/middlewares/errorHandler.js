@@ -5,6 +5,9 @@ const errorHandler = (err, req, res, next) => {
   if (err.name === "SyntaxError") {
     customError = new CustomError("Unexpected Syntax", 400);
   }
+  if (err.name === "CastError") {
+    customError = new CustomError("There is no user id with that id", 400);
+  }
   if (err.code === 11000 && err.name === "MongoServerError") {
     customError = new CustomError("Please Try Different valid An Email", 400);
   }
