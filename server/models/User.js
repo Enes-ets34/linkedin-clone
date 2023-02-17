@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const CryptoJS = require("crypto-js");
+
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
@@ -9,7 +10,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
     minlength: [6, "Please Provide A Password with min lenth 6"],
-    trim: [true, "Please Provide A Password"],
+    trim: true,
     select: false,
   },
   email: {
@@ -21,6 +22,12 @@ const userSchema = new Schema({
       "Please Provide A Valid Email",
     ],
     trim: true,
+  },
+  slug: {
+    type: String,
+  },
+  name: {
+    type: String,
   },
   created_at: {
     type: Date,
@@ -69,8 +76,9 @@ const userSchema = new Schema({
 //UserSchema Functions
 userSchema.methods.generatejwtFromUser = function () {
   const { JWT_SECRET_KEY, JWT_EXPIRE } = process.env;
+
   const payload = {
-    id: this._id,
+    id: this.id,
     name: this.name,
   };
   const token = jwt.sign(payload, JWT_SECRET_KEY, {
@@ -87,7 +95,7 @@ userSchema.methods.getResetPasswordTokenFromUser = function () {
     .digest("hex");
   this.reset_password_token = resetPasswordToken;
   this.reset_password_expire = Date.now() + parseInt(RESET_PASSWORD_EXPIRE);
-  return this.reset_password_token
+  return this.reset_password_token;
 };
 
 //Pre Hooks
@@ -100,7 +108,6 @@ userSchema.pre("validate", function (next, err) {
   if (!this.isModified("password")) return next();
   const user = this;
   user.password = CryptoJS.HmacSHA1(user.password, _SALTKEY).toString();
-
   next();
 });
 

@@ -1,4 +1,4 @@
-const CustomError = require("../helpers/error/CutomError");
+const CustomError = require("../helpers/error/CustomError");
 const User = require("../models/User");
 const asyncErrorWrapper = require("express-async-handler");
 const { sendJwtToClient } = require("../helpers/authorization/tokenHelpers");
@@ -28,16 +28,18 @@ const login = asyncErrorWrapper(async (req, res, next) => {
   sendJwtToClient(user, res);
 });
 const logout = asyncErrorWrapper(async (req, res, next) => {
-  const { JWT_COOKIE_EXPIRE } = process.env;
+  
+
   return res
     .status(200)
-    .cookie({
+    .cookie("token", null, {
       httpOnly: true,
       expires: new Date(Date.now()),
+      secure: true,
     })
     .json({
       success: true,
-      message: "Logged In Succesfully",
+      message: "Logout Successfull",
     });
 });
 const getUser = (req, res, next) => {

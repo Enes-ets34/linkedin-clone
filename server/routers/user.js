@@ -1,12 +1,22 @@
 const express = require("express");
 const router = express.Router();
 
-const { getSingleUser,getAllUsers } = require("../controllers/userController");
+const {
+  getSingleUserBySlug,
+  getAllUsers,
+  updateUser,
+  editUser,
+  getSingleUserById
+} = require("../controllers/userController");
 const {
   checkUserExist,
 } = require("../middlewares/database/databaseErrorHelpers");
+const {getAccessToRoute} = require('../middlewares/authorization/auth')
 
-router.get("/:id", checkUserExist, getSingleUser);
+router.get("/:id", checkUserExist, getSingleUserById);
+router.get("/user/:slug", checkUserExist,getSingleUserBySlug);
+router.get("/edit/:id", getAccessToRoute, editUser);
 router.get("/", getAllUsers);
+router.put("/update/", getAccessToRoute, updateUser);
 
 module.exports = router;

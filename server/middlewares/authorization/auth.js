@@ -1,12 +1,14 @@
-const CustomError = require("../../helpers/error/CutomError");
+const Post = require("../../models/Post");
+const CustomError = require("../../helpers/error/CustomError");
 const jwt = require("jsonwebtoken");
 
 const {
   isTokenIncluded,
   getAccessTokenFromHeader,
 } = require("../../helpers/authorization/tokenHelpers");
+const asyncErrorWrapper = require("express-async-handler");
 
-const getAccessToRoute = (req, res, next) => {
+const getAccessToRoute = asyncErrorWrapper(async (req, res, next) => {
   const { JWT_SECRET_KEY } = process.env;
   if (!isTokenIncluded(req)) {
     return next(new CustomError("You are not auth. for this route.", 401));
@@ -17,10 +19,21 @@ const getAccessToRoute = (req, res, next) => {
       next(new CustomError("You are not auth. for this route.", 403));
     }
     req.user = {
-      ...decoded,
+      id: decoded.id,
+      name: decoded.name,
     };
     next();
   });
-};
+});
+const getPostOwnerAccessToRoute = asyncErrorWrapper(async (req, res, next) => {
+  const userId = req.user.id;
+  const postId = req.params.id;
+  const post = await Post.findById(postId);
 
-module.exports = { getAccessToRoute };
+  if (post.user.toString() !== userId) {
+    return next(new CustomError("Only Post owner can do this.", 403));
+  }
+  next();
+});
+
+module.exports = { getAccessToRoute, getPostOwnerAccessToRoute };
