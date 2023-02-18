@@ -1,5 +1,16 @@
+<script setup>
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+const route = useRouter()
+const hideNavbar = computed(() => {
+    return route.currentRoute.value.name === "Login" || route.currentRoute.value.name === "Register"
+})
+
+
+</script>
 <template>
-    <header class="fixed z-[1] top-0 left-0 right-0 border-b-[1px] bg-white border-b-[rgba(0,0,0,0.2)] mb-3 ">
+    <header v-if="!hideNavbar"
+        class="fixed z-[1] top-0 left-0 right-0 border-b-[1px] bg-white border-b-[rgba(0,0,0,0.2)] mb-3 ">
         <nav class="">
             <div class="container w-full   py-6 px-4 md:py-2 md:px-0">
                 <div class="flex justify-between items-center">
@@ -8,6 +19,7 @@
                         <i class="fa-brands fa-linkedin text-3xl md:text-5xl text-primary"></i>
                         <!-- /Logo -->
                         <!-- Search Area -->
+
                         <input
                             class="hidden lg:block bg-slate-100 px-4  py-1 placeholder:text-slate-600 focus:outline-2 focus:border-primary focus:w-[85%]  rounded-md text-sm h-10 "
                             placeholder="Arama Yap" type="text">
@@ -28,10 +40,9 @@
                         <li
                             class="flex flex-col justify-start items-center text-center hover:cursor-pointer group border-0 lg:border-b-2  border-black w-12 md:w-20">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
-                                fill="currentColor" class="mercado-match group-hover:fill-black w-40" width="24"
-                                height="24" focusable="false">
-                                <path
-                                    d="M23 9v2h-2v7a3 3 0 01-3 3h-4v-6h-4v6H6a3 3 0 01-3-3v-7H1V9l11-7 5 3.18V2h3v5.09z">
+                                fill="currentColor" class="mercado-match group-hover:fill-black w-40" width="24" height="24"
+                                focusable="false">
+                                <path d="M23 9v2h-2v7a3 3 0 01-3 3h-4v-6h-4v6H6a3 3 0 01-3-3v-7H1V9l11-7 5 3.18V2h3v5.09z">
                                 </path>
                             </svg> <small class="hidden lg:block">Anasayfa</small>
                         </li>

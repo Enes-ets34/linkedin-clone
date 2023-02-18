@@ -1,0 +1,20 @@
+import axios from "axios";
+import store from "../store";
+
+const appAxios = axios.create({
+  baseURL: "http://localhost:3000",
+  withCredentials: false,
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer: ${localStorage.access_token}`,
+  },
+});
+appAxios.interceptors.request.use((config) => {
+  config.headers = {
+    ...config.headers,
+    Authorization: `Bearer: ${localStorage.access_token}`,
+  };
+  return config;
+});
+
+export default appAxios;
