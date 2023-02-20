@@ -1,16 +1,31 @@
+<script setup>
+import { defineProps } from 'vue';
+const props = defineProps({
+    currentUser: {
+        type: Object,
+    }
+})
+console.log('props.currentUser :>> ', props);
+
+</script>
 <template>
     <div class="border bg-white rounded-lg">
+        
         <img class="rounded-t-lg"
             src="https://media.licdn.com/dms/image/D4D16AQFHK_sNYVFAOg/profile-displaybackgroundimage-shrink_350_1400/0/1676201844347?e=1681948800&v=beta&t=oOIDZleH7CwOJIS-dYm5WoWMJE-MHBCsD2XKtqoXop4"
             alt="">
         <img class="relative z-0 -mt-8 mb-4 mx-auto rounded-full items-center border-white border-4 w-20"
             src="https://media.licdn.com/dms/image/D4D03AQHzAd40z9LpCQ/profile-displayphoto-shrink_100_100/0/1676202254256?e=1681948800&v=beta&t=DAw7ak9SeH67CvwSku0UFInvyJCNwSBsBILDPZ7tbRM"
             alt="">
+       
+            
         <div class="text-center border-b-gray-300 border-b pb-3">
             <p class="font-semibold hover:underline decoration-1">
-                <a href="#">Enes Taha Sarı</a>
+                <!-- <a href="#">{{ props?.currentUser?.full_name }}</a> -->
+                <a href="#">Enes Taha SARI</a>
             </p>
-            <small class="text-xs text-muted font-light">Software Developer</small>
+            <!-- <small class="text-xs text-muted font-light">{{ props?.currentUser?.title }}</small> -->
+             <small class="text-xs text-muted font-light">Software Developer | Vue.js</small> 
         </div>
         <div class="hidden md:block">
             <div class="py-2 border-b">
@@ -31,7 +46,7 @@
                     <small class="text-xs text-muted font-light">Özel araç ve içgörülere erişin</small>
                     <div class="flex justify-start items-start space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="13x13"
-                            class="mercado-match w-5" focusable="false">
+                            class="mercado-match w-6 " focusable="false">
                             <path d="M20 20a3.36 3.36 0 001-2.39V6.38A3.38 3.38 0 0017.62 3H6.38A3.36 3.36 0 004 4z"
                                 fill="#f8c77e">
                             </path>

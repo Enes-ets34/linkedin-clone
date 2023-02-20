@@ -2,23 +2,33 @@ import router from "../../router";
 export default {
   namespaced: true,
   state: {
-    user: {
-      id: 1,
-      name: "enes",
-    },
+    user: {},
+    access_token: null,
   },
   mutations: {
-    setUser(state, pUser) {
+    setUserInfo(state, pUser) {
       state.user = pUser;
+      localStorage.user = JSON.stringify(pUser);
     },
     clearUser(state) {
       state.user = null;
     },
   },
-  actions: {},
+  actions: {
+    signin({ commit }, pUser) {
+      console.log("pUSer :>> ", pUser);
+      commit("setUserInfo", pUser);
+    },
+    signup({ commit }, pUser) {
+      console.log("pUSer :>> ", pUser);
+      commit("setUserInfo", pUser);
+      router?.push("/")
+    },
+  },
   modules: {},
   getters: {
     getCurrentUser: (state) => state.user,
-    isAuth: (state) => state.user !== null,
+    isAuth: (state) => state.user !== null && state.accessToken !== null,
+    getAccessToken: (state) => state.tokens?.accessToken,
   },
 };

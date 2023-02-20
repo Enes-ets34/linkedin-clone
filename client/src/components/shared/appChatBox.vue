@@ -3,7 +3,8 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 const route = useRouter()
 const hideChatBox = computed(() => {
-    return route.currentRoute.value.name === "Login" || route.currentRoute.value.name === "Register"
+    
+    return route.currentRoute.value.fullPath.includes('signin') || route.currentRoute.value.fullPath.includes('signup')
 })
 </script>
 <template>

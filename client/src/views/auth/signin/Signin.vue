@@ -1,19 +1,24 @@
 <script setup>
-import { inject } from 'vue';
+import { computed, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-
+const route = useRouter()
+const router = useRouter()
 const store = useStore()
-const appAxios = inject("appAxios");
-appAxios.get('http://localhost:3000/post')
-    .then((res) => {
-        console.log('res :>> ', res);
-    }).catch((err) => {
-        console.error(err);
-    });
+const showCard = computed(() => {
+    return route?.currentRoute?.value.name === 'Signin'
+})
+const userData = reactive({})
+const setUserEmail = () => {
+    store.commit('users/setUserInfo',userData)
+    router?.push("/signin/name_info")
+}
 </script>
 <template>
+    {{ store.getters['users/getCurrentUser'] }}
     <div class="bg-[#f3f2ef] rounded-md w-screen h-screen">
         <div class="container pt-12 px-4 md:py-5">
+            
             <div class=" mb-5 hidden md:flex  items-center text-primary text-4xl space-x-1">
                 <h3 class="font-bold ">Linked</h3><i class="fa-brands fa-linkedin"></i>
             </div>
@@ -21,18 +26,19 @@ appAxios.get('http://localhost:3000/post')
                 hayatınızdan en iyi şekilde
                 yararlanın
             </h3>
-            <div class="flex-1 md:w-2/5 mx-auto rounded-md bg-white py-6 px-6 space-y-4">
+            <router-view></router-view>
+            <div v-if="showCard" class="flex-1 md:w-2/5 mx-auto rounded-md bg-white py-6 px-6 space-y-4">
 
                 <div class="flex flex-col">
                     <label for="email" class="text-muted text-sm">E-posta</label>
-                    <input type="email" id="email"
-                        class="mt-1 px-2 py-1 border border-1 border-muted focus:outline-black rounded-sm" />
+                    <input v-model="userData.email" type="email" id="email"
+                        class="mt-1 px-2 py-1 border border-1 border-muted focus:outline-black rounded-md" />
                 </div>
                 <div class="flex flex-col">
                     <label for="password" class="text-muted text-sm">Şifre (6 veya daha fazla karakter)</label>
                     <div class="relative flex justify-between items-center">
-                        <input type="password" id="password"
-                            class="mt-1 px-2 py-1 border border-1 border-muted focus:outline-black w-full rounded-sm" />
+                        <input v-model="userData.password" type="password" id="password"
+                            class="mt-1 px-2 py-1 border border-1 border-muted focus:outline-black w-full rounded-md" />
                         <small class="hover:cursor-pointer  absolute right-2 text-muted  hover:underline">Göster</small>
                     </div>
                 </div>
@@ -46,7 +52,7 @@ appAxios.get('http://localhost:3000/post')
                             Politikasını</a> kabul etmiş olursunuz.
                     </small>
                 </div>
-                <button
+                <button @click="setUserEmail()"
                     class="bg-primary w-full rounded-full py-3  text-white active:bg-[#09223b] hover:bg-[#004182] font-bold">
                     Kabul Et ve Katıl
 
@@ -80,11 +86,9 @@ appAxios.get('http://localhost:3000/post')
                     </svg>
                     <p> Google ile devam edin</p>
                 </button>
-                <p class="text-center">Zaten LinkedIn'a üye misiniz? <router-link to="/login"
+                <p class="text-center">Zaten LinkedIn'a üye misiniz? <router-link to="/signup"
                         class="text-primary hover:cursor-pointer hover:underline font-bold">Oturum Açın</router-link></p>
             </div>
-            <p class="text-center mt-4 text-sm">Bir iş için sayfa oluşturmak mı istiyorsunuz? <a href="#"
-                    class="text-primary hover:underline  font-bold">Yardım alın</a></p>
         </div>
     </div>
 </template>
