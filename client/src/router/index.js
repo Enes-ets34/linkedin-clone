@@ -43,9 +43,33 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  let user = null;
-  if (localStorage?.user) user = JSON.parse(localStorage?.user);
-  store.commit("users/setUserInfo", user);
+  let user,
+    access_token = null;
+  const authenticatedPages = ["Home", "Profile"];
+  // LocalStorage üzerinde User var mi?
+
+  if (localStorage?.user) {
+    user = JSON.parse(localStorage?.user);
+  }
+  if (localStorage?.access_token) {
+    access_token = JSON.parse(localStorage?.access_token);
+  }
+
+  // LocalStorage üzerinde User varsa Store'u güncelle
+  if (user && access_token) {
+    store.commit("users/setUser", user);
+    store.commit("users/setAccessToken", access_token);
+  }
+  // isAuthenticated bilgisini Store üzerinden al..
+  const isAuth = store.getters["users/isAuth"];
+
+  // Rules...
+  // Eğer Giriş yapmamışsa ve User ile ilgili bölümlere girmek istiyorsa.. Engelle ve Login sayfasına yönlendir..
+  if (!isAuth && authenticatedPages.indexOf(to.name) > -1) return next({ name: "Signup" });
+
+  if (isAuth && (to.name === "Signup" || to.name === "Signin"))  return next({ name: "Home" });
+
   next();
 });
+
 export default router;

@@ -7,12 +7,14 @@ const router = useRouter()
 const store = useStore()
 
 
+
 const location = computed(() => {
    return country.value + ' ' + city.value
 })
 const country = ref(null)
 const city = ref(null)
-const userData = { ...store.getters['users/getCurrentUser'] }
+
+const userData = { ...store.state.users.registerData }
 const setUserLocation = () => {
    userData.location = location
    store.commit('users/setUserInfo', userData)
@@ -21,6 +23,7 @@ const setUserLocation = () => {
 
 </script>
 <template >
+   
    <div class="flex-1 md:w-2/5 mx-auto text-center space-y-4 mb-4">
       <p class="text-2xl">
          {{ userData.full_name }}, Hoş geldiniz!

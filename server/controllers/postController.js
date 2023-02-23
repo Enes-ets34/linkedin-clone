@@ -3,7 +3,7 @@ const CustomError = require("../helpers/error/CustomError");
 const Post = require("../models/Post");
 
 const getAllPosts = asyncErrorWrapper(async (req, res, next) => {
-  const posts = await Post.find();
+  const posts = await Post.find().populate('comments').populate('user')
   res.send({
     success: true,
     posts,

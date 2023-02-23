@@ -28,8 +28,6 @@ const login = asyncErrorWrapper(async (req, res, next) => {
   sendJwtToClient(user, res);
 });
 const logout = asyncErrorWrapper(async (req, res, next) => {
-  
-
   return res
     .status(200)
     .cookie("token", null, {

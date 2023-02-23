@@ -1,11 +1,21 @@
+<script setup>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+const store = useStore()
+const currentUser = computed(() => store.getters['users/getCurrentUser'])
+const logout = () => {
+    store.commit('users/logout')
+}
+</script>
 <template>
-    <div class="opacity-0 group-hover:opacity-100 transition-all duration-300 pt-4 top-[50px] absolute z-[1] w-1/5 right-[365px] ">
+    <div
+        class="opacity-0 group-hover:opacity-100 transition-all duration-300 pt-4 top-[50px] absolute z-[1] flex-1 right-4 md:w-1/5 md:right-[365px] ">
         <div class="py-3  hidden group-hover:flex flex-col rounded-md rounded-tr-none  bg-white shadow-xl  border">
             <div class="flex px-2 flex-col border-b space-y-2 pb-2">
-                <div class="flex justify-start items-center space-x-2"> <img
+                <div class="flex justify-start items-center space-x-2"> 
+                    <img
                         class="rounded-full  border-white border-4 w-16"
-                        src="https://media.licdn.com/dms/image/D4D03AQHzAd40z9LpCQ/profile-displayphoto-shrink_100_100/0/1676202254256?e=1681948800&v=beta&t=DAw7ak9SeH67CvwSku0UFInvyJCNwSBsBILDPZ7tbRM"
-                        alt="">
+                        :src="`http://localhost:3000/uploads/${currentUser?.profile_image}`" alt="">
                     <div class="flex flex-col items-start ">
                         <p class="font-semibold">Enes Taha Sarı</p>
                         <p class="text-sm">Software Developer | Vue.js</p>
@@ -33,17 +43,17 @@
                     <li class="text-start hover:underline">Ayarlar ve gizlilik</li>
                     <li class="text-start hover:underline">Yardım</li>
                     <li class="text-start hover:underline">Dil</li>
-                    
+
                 </ul>
             </div>
             <div class="px-3 mt-2 border-b pb-2">
                 <p class="font-semibold text-start">Yönet</p>
                 <ul class="text-sm text-muted">
                     <li class="text-start hover:underline">Gönderi ve faaliyetler</li>
-                    <li class="text-start hover:underline">İş ilanı yayınlama hesabı</li>                    
+                    <li class="text-start hover:underline">İş ilanı yayınlama hesabı</li>
                 </ul>
             </div>
-            <p class="px-3 pt-2 text-sm text-start hover:underline text-muted">Oturumu kapat</p>
+            <p @click="logout()" class="px-3 pt-2 text-sm text-start hover:underline text-muted">Oturumu kapat</p>
         </div>
     </div>
 </template>

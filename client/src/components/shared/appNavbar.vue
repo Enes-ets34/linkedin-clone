@@ -1,11 +1,17 @@
 <script setup>
 import SettingsCard from '../../components/SettingsCard.vue';
 import { computed } from 'vue';
+import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+const store = useStore()
 const route = useRouter()
+
 const hideNavbar = computed(() => {
     return route.currentRoute.value.fullPath.includes('signin') || route.currentRoute.value.fullPath.includes('signup')
 })
+
+const currentUser = computed(() => store.getters['users/getCurrentUser'])
+
 </script>
 <template>
     <header v-if="!hideNavbar"
@@ -87,13 +93,13 @@ const hideNavbar = computed(() => {
                         </li>
                         <li
                             class="flex group flex-col justify-start items-center text-center hover:cursor-pointer group w-12 md:w-20 md:border-r-2  border-gray-300 ">
-                            <img src="https://media.licdn.com/dms/image/D4D03AQHzAd40z9LpCQ/profile-displayphoto-shrink_400_400/0/1676202254256?e=1681948800&v=beta&t=6JsAPyVaEwX2ti9XZZ9bCFBRDcbdSfhaw_2PDUOKg6M"
-                                alt="" class="rounded-full w-8 md:w-6">
+                            <img :src="`http://localhost:3000/uploads/${currentUser?.profile_image}`" alt=""
+                                class="rounded-full w-8 md:w-6">
                             <div class="flex justify-between items-center space-x-1">
                                 <small class="text-muted hidden lg:block group-hover:text-black">Ben</small><i
                                     class="fas fa-caret-down text-muted hidden lg:block group-hover:text-black"></i>
                             </div>
-                            <SettingsCard class=""/>
+                            <SettingsCard class="" />
                         </li>
                         <li
                             class=" flex-col hidden md:flex justify-start items-center text-center hover:cursor-pointer group w-12 md:w-20 ">

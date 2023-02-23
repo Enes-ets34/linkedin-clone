@@ -1,7 +1,10 @@
 <script setup>
 import { computed } from 'vue';
+import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 const route = useRouter()
+const store = useStore()
+const currentUser = computed(() => store.getters['users/getCurrentUser'])
 const hideChatBox = computed(() => {
     
     return route.currentRoute.value.fullPath.includes('signin') || route.currentRoute.value.fullPath.includes('signup')
@@ -16,7 +19,7 @@ const hideChatBox = computed(() => {
             <div class="flex items-center space-x-2">
                 <div class="relative w-8 ">
                     <img class="w-8 rounded-full"
-                        src="https://media.licdn.com/dms/image/D4D03AQHzAd40z9LpCQ/profile-displayphoto-shrink_100_100/0/1676202254256?e=1681948800&v=beta&t=DAw7ak9SeH67CvwSku0UFInvyJCNwSBsBILDPZ7tbRM"
+                    :src="`http://localhost:3000/uploads/${currentUser?.profile_image}`" 
                         alt="">
                     <div
                         class="absolute right-0 bottom-0 rounded-full w-1 h-1 bg-green-700 p-1 border-[1.5px] border-white">

@@ -4,6 +4,7 @@ const CryptoJS = require("crypto-js");
 
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const Post = require("./Post");
 
 const userSchema = new Schema({
   password: {
@@ -26,9 +27,6 @@ const userSchema = new Schema({
   slug: {
     type: String,
   },
-  name: {
-    type: String,
-  },
   created_at: {
     type: Date,
     default: Date.now(),
@@ -47,7 +45,7 @@ const userSchema = new Schema({
   },
   profile_image: {
     type: String,
-    default: "default.jpg",
+    default: "default.png",
   },
   about: {
     type: String,
@@ -67,7 +65,7 @@ const userSchema = new Schema({
   skills: {
     type: Array,
   },
-  company_id: {
+  company: {
     type: Schema.Types.ObjectId,
     ref: "Company",
   },
@@ -111,5 +109,14 @@ userSchema.pre("validate", function (next, err) {
   next();
 });
 
+userSchema.post("remove", async function () {
+  try {
+    await Post.deleteMany({
+      user: this._id,
+    });
+  } catch (error) {
+    return next(error);
+  }
+});
 const User = mongoose.model("User", userSchema);
 module.exports = User;

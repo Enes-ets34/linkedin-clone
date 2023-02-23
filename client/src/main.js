@@ -11,7 +11,6 @@ import App from "./App.vue";
 createApp(App)
   .use(store)
   .use(router)
-  .provide("appAxios", appAxios)
   .component("appNavbar", appNavbar)
   .component("appChatBox", appChatBox)
   .mount("#app");

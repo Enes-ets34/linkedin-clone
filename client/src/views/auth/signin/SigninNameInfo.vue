@@ -5,12 +5,12 @@ import { useRouter } from 'vue-router';
 const router = useRouter()
 const store = useStore()
 
+const name = ref(null)
+const surname = ref(null)
 const full_name = computed(() => {
    return name.value + ' ' + surname.value
 })
-const name = ref(null)
-const surname = ref(null)
-const userData = { ...store.getters['users/getCurrentUser'] }
+const userData = { ...store.state.users.registerData }
 const setUserName = () => {
    userData.full_name = full_name
    store.commit('users/setUserInfo', userData)

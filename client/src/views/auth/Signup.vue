@@ -6,8 +6,8 @@ import { useRouter } from 'vue-router';
 const route = useRouter()
 const store = useStore()
 
-const currentUser = computed(() => store.getters['users/getCurrentUser'])
-const welcomeMessage = computed(() => !currentUser?.value?.full_name ? 'Oturum Aç' : currentUser?.value?.full_name + ', Tekrar Hoş Geldiniz')
+
+const welcomeMessage = computed(() => !localStorage?.lastUserName ? 'Oturum Aç' : localStorage?.lastUserName + ', Tekrar Hoş Geldiniz')
 const userData = reactive({})
 
 const signup = () => {

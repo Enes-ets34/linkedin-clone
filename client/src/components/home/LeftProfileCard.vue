@@ -10,22 +10,21 @@ console.log('props.currentUser :>> ', props);
 </script>
 <template>
     <div class="border bg-white rounded-lg">
-        
+
         <img class="rounded-t-lg"
             src="https://media.licdn.com/dms/image/D4D16AQFHK_sNYVFAOg/profile-displaybackgroundimage-shrink_350_1400/0/1676201844347?e=1681948800&v=beta&t=oOIDZleH7CwOJIS-dYm5WoWMJE-MHBCsD2XKtqoXop4"
             alt="">
         <img class="relative z-0 -mt-8 mb-4 mx-auto rounded-full items-center border-white border-4 w-20"
-            src="https://media.licdn.com/dms/image/D4D03AQHzAd40z9LpCQ/profile-displayphoto-shrink_100_100/0/1676202254256?e=1681948800&v=beta&t=DAw7ak9SeH67CvwSku0UFInvyJCNwSBsBILDPZ7tbRM"
-            alt="">
-       
-            
+            :src="`http://localhost:3000/uploads/${currentUser?.profile_image}`" alt="">
+
+
         <div class="text-center border-b-gray-300 border-b pb-3">
             <p class="font-semibold hover:underline decoration-1">
                 <!-- <a href="#">{{ props?.currentUser?.full_name }}</a> -->
-                <a href="#">Enes Taha SARI</a>
+                <a href="#">{{ currentUser?.full_name }}</a>
             </p>
             <!-- <small class="text-xs text-muted font-light">{{ props?.currentUser?.title }}</small> -->
-             <small class="text-xs text-muted font-light">Software Developer | Vue.js</small> 
+            <small class="text-xs text-muted font-light">{{ currentUser?.title }}</small>
         </div>
         <div class="hidden md:block">
             <div class="py-2 border-b">

@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const comment = require("./comment");
 const {
   getAccessToRoute,
   getPostOwnerAccessToRoute,
@@ -11,7 +12,7 @@ const {
   deletePost,
   updatePost,
   likePost,
-  undoLikePost
+  undoLikePost,
 } = require("../controllers/postController");
 
 router.get("/", getAllPosts);
@@ -30,5 +31,7 @@ router.put(
   [getAccessToRoute, getPostOwnerAccessToRoute],
   updatePost
 );
+
+router.use("/:post_id/comments", comment);
 
 module.exports = router;

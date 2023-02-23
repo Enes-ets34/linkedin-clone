@@ -1,24 +1,28 @@
 <script setup>
-import { computed, reactive } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+const togglePassword = ref(true)
 const route = useRouter()
 const router = useRouter()
 const store = useStore()
 const showCard = computed(() => {
     return route?.currentRoute?.value.name === 'Signin'
 })
+const showPassword = computed(()=>{
+    return !togglePassword.value ? 'text' : 'password'
+})
 const userData = reactive({})
 const setUserEmail = () => {
-    store.commit('users/setUserInfo',userData)
+    store.commit('users/setUserInfo', userData)
     router?.push("/signin/name_info")
 }
 </script>
 <template>
-    {{ store.getters['users/getCurrentUser'] }}
+    {{ store.state.users.registerData }}
     <div class="bg-[#f3f2ef] rounded-md w-screen h-screen">
         <div class="container pt-12 px-4 md:py-5">
-            
+
             <div class=" mb-5 hidden md:flex  items-center text-primary text-4xl space-x-1">
                 <h3 class="font-bold ">Linked</h3><i class="fa-brands fa-linkedin"></i>
             </div>
@@ -37,9 +41,16 @@ const setUserEmail = () => {
                 <div class="flex flex-col">
                     <label for="password" class="text-muted text-sm">Şifre (6 veya daha fazla karakter)</label>
                     <div class="relative flex justify-between items-center">
-                        <input v-model="userData.password" type="password" id="password"
+                        <input v-model="userData.password" :type="showPassword" id="password"
                             class="mt-1 px-2 py-1 border border-1 border-muted focus:outline-black w-full rounded-md" />
-                        <small class="hover:cursor-pointer  absolute right-2 text-muted  hover:underline">Göster</small>
+                        <small v-if="togglePassword" @click="togglePassword = false"
+                            class="hover:cursor-pointer  absolute right-2 text-muted  hover:underline">
+                            Göster
+                        </small>
+                        <small v-else @click="togglePassword = true"
+                            class="hover:cursor-pointer  absolute right-2 text-muted  hover:underline">
+                            Gizle
+                        </small>
                     </div>
                 </div>
                 <div class="text-center">

@@ -11,14 +11,12 @@ const store = useStore()
 const title = ref(null)
 const company = ref(null)
 
-const userData = { ...store.getters['users/getCurrentUser'] }
-
+const userData = { ...store.state.users.registerData }
 
 const setUserTitle = () => {
    userData.title = title.value
    userData.company = company.value
    store.dispatch('users/signin', userData)
-   router?.push("/signup")
 }
 </script>
 <template >
