@@ -1,8 +1,7 @@
 import axios from "axios";
-import store from "../store";
-
+import { BASE_URL } from "../constants";
 const appAxios = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: BASE_URL,
   withCredentials: false,
   // headers: {
   //   "Content-Type": "application/json",
@@ -12,9 +11,10 @@ const appAxios = axios.create({
 appAxios.interceptors.request.use((config) => {
   config.headers = {
     ...config.headers,
-
   };
   return config;
 });
+
+
 
 export default appAxios;

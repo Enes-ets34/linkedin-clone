@@ -8,7 +8,7 @@ const sendEmail = require("../helpers/libraries/sendEmail");
 
 const register = asyncErrorWrapper(async (req, res, next) => {
   const userData = req.body;
-  const user = await User.create(userData);
+  const user = await (await User.create(userData)).populate("company");
 
   sendJwtToClient(user, res);
 });
@@ -18,9 +18,9 @@ const login = asyncErrorWrapper(async (req, res, next) => {
   if (!validateUserInput(userData.email, userData.password)) {
     return next(new CustomError("Please Check Your Inputs.", 400));
   }
-  const user = await User.findOne({ email: userData.email }).select(
-    "+password"
-  );
+  const user = await User.findOne({ email: userData.email })
+    .populate("company")
+    .select("+password");
   if (!(comparePassword(userData.password) === user.password)) {
     return next(new CustomError("Please Check Your Password", 400));
   }

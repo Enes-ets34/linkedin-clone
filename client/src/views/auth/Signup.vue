@@ -1,11 +1,14 @@
 <script setup>
-import { computed } from 'vue';
+import { computed,ref } from 'vue';
 import { useStore } from 'vuex';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 const route = useRouter()
 const store = useStore()
-
+const togglePassword = ref(true)
+const showPassword = computed(()=>{
+    return !togglePassword.value ? 'text' : 'password'
+})
 
 const welcomeMessage = computed(() => !localStorage?.lastUserName ? 'Oturum Aç' : localStorage?.lastUserName + ', Tekrar Hoş Geldiniz')
 const userData = reactive({})
@@ -36,14 +39,18 @@ const signup = () => {
                     </label>
                 </div>
                 <div class=" relative my-4 items-center">
-                    <input type="password" id="password" v-model="userData.password"
+                    <input :type="showPassword" id="password" v-model="userData.password"
                         class="block rounded-md px-2.5 pb-2.5 pt-5 w-full   border border-1 border-black appearance-none  focus:outline-primary  peer"
                         placeholder=" " />
                     <label for="password"
                         class="absolute  hover:cursor-text duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5  peer-focus:dark:text-black text-muted peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">
                         Şifre</label>
-                    <a
-                        class="absolute top-4 right-2 text-primary hover:bg-[#d0e8ff] cursor-pointer rounded-full px-2 font-semibold border border-1 border-transparent active:border-primary">göster</a>
+                    <button
+                    @click="togglePassword = !togglePassword"
+                        class="absolute items-center top-4 right-2 text-primary hover:bg-[#d0e8ff] cursor-pointer rounded-full px-2 font-semibold border border-1 border-transparent active:border-primary">
+                    <p v-if="togglePassword">göster</p>
+                    <p v-else>gizle</p>
+                    </button>
                 </div>
                 <a
                     class=" hover:underline mt-6  py-2 text-primary hover:bg-[#d0e8ff] cursor-pointer rounded-full px-2 font-semibold border border-1 border-transparent active:border-primary">Şifrenizi

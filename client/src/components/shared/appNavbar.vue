@@ -1,5 +1,6 @@
 <script setup>
 import SettingsCard from '../../components/SettingsCard.vue';
+import { BASE_URL } from '../../constants';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -21,7 +22,8 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                 <div class="flex justify-between items-center">
                     <div class=" w-full flex justify-start items-center md:space-x-3">
                         <!-- Logo -->
-                        <i class="fa-brands fa-linkedin text-3xl md:text-5xl text-primary"></i>
+                        <router-link to="/" tag="i"
+                            class="fa-brands fa-linkedin text-3xl md:text-5xl text-primary"></router-link>
                         <!-- /Logo -->
                         <!-- Search Area -->
 
@@ -42,14 +44,16 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                                 </path>
                             </svg><small class="text-muted  hidden lg:block group-hover:text-black">Arama Yap</small>
                         </li>
-                        <li
-                            class="flex flex-col justify-start items-center text-center hover:cursor-pointer group border-0 lg:border-b-2  border-black w-12 md:w-20">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
-                                fill="currentColor" class="mercado-match group-hover:fill-black w-40" width="24" height="24"
-                                focusable="false">
-                                <path d="M23 9v2h-2v7a3 3 0 01-3 3h-4v-6h-4v6H6a3 3 0 01-3-3v-7H1V9l11-7 5 3.18V2h3v5.09z">
-                                </path>
-                            </svg> <small class="hidden lg:block">Anasayfa</small>
+                        <li class="text-muted">
+                            <router-link class="flex flex-col justify-start items-center text-center hover:cursor-pointer group border-0  w-12 md:w-20" active-class="lg:border-b-2 text-black border-black" to="/">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
+                                    fill="currentColor" class="mercado-match group-hover:fill-black w-40" width="24"
+                                    height="24" focusable="false">
+                                    <path
+                                        d="M23 9v2h-2v7a3 3 0 01-3 3h-4v-6h-4v6H6a3 3 0 01-3-3v-7H1V9l11-7 5 3.18V2h3v5.09z">
+                                    </path>
+                                </svg> <small class="hidden lg:block">Anasayfa</small>
+                            </router-link>
                         </li>
                         <li
                             class="flex flex-col justify-start items-center text-center group  hover:cursor-pointer w-12 md:w-20 ">
@@ -93,7 +97,7 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                         </li>
                         <li
                             class="flex group flex-col justify-start items-center text-center hover:cursor-pointer group w-12 md:w-20 md:border-r-2  border-gray-300 ">
-                            <img :src="`http://localhost:3000/uploads/${currentUser?.profile_image}`" alt=""
+                            <img :src="`${BASE_URL}/uploads/${currentUser?.profile_image}`" alt=""
                                 class="rounded-full w-8 md:w-6">
                             <div class="flex justify-between items-center space-x-1">
                                 <small class="text-muted hidden lg:block group-hover:text-black">Ben</small><i

@@ -5,7 +5,7 @@ const CryptoJS = require("crypto-js");
 const slugify = require("slugify");
 
 const getSingleUserById = asyncErrorWrapper(async (req, res, next) => {
-  const user = await User.findOne({ _id: req.params.id });
+  const user = await User.findOne({ _id: req.params.id }).populate("company")
   return res.status(200).json({
     success: true,
     user,
@@ -13,7 +13,6 @@ const getSingleUserById = asyncErrorWrapper(async (req, res, next) => {
 });
 
 const getSingleUserBySlug = asyncErrorWrapper(async (req, res, next) => {
-
   const user = await User.findOne({ slug: req.params.slug });
   return res.status(200).json({
     success: true,

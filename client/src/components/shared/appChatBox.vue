@@ -1,4 +1,5 @@
 <script setup>
+import { BASE_URL } from '../../constants';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -19,7 +20,7 @@ const hideChatBox = computed(() => {
             <div class="flex items-center space-x-2">
                 <div class="relative w-8 ">
                     <img class="w-8 rounded-full"
-                    :src="`http://localhost:3000/uploads/${currentUser?.profile_image}`" 
+                    :src="`${BASE_URL}/uploads/${currentUser?.profile_image}`" 
                         alt="">
                     <div
                         class="absolute right-0 bottom-0 rounded-full w-1 h-1 bg-green-700 p-1 border-[1.5px] border-white">
@@ -31,13 +32,13 @@ const hideChatBox = computed(() => {
                 <span
                     class="font-bold  inline-block align-top hover:bg-gray-200 transition-all duration-150 rounded-full pb-2 px-2">...</span>
                 <i class="fa-solid fa-pen-to-square    hover:bg-gray-200 transition-all duration-150 rounded-full p-2"></i>
-                <i class=" fa-solid fa-chevron-up   hover:bg-gray-200 transition-all duration-150 rounded-full p-2"></i>
+                <i class=" fa-solid fa-chevron-up group-hover:rotate-180  hover:bg-gray-200 transition-all duration-150 rounded-full p-2"></i>
             </div>
         </div>
         <div class=" transition-all duration-1000">
             <div class="px-3 py-2 mb-2 ">
                 <div
-                    class=" flex justify-between items-center px-4 py-1 space-x-2 border border-transparent hover:border-black  bg-slate-100 rounded-sm">
+                    class=" flex justify-between items-center px-4 py-1 space-x-2 border border-transparent hover:border-black bg-slate-100 rounded-sm">
                     <i class="fa-solid fa-magnifying-glass text-muted"></i>
                     <input type="text" placeholder="Mesajlarda ara"
                         class=" bg-transparent border-none outline-none text-sm placeholder:text-muted ">

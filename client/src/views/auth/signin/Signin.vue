@@ -64,7 +64,7 @@ const setUserEmail = () => {
                     </small>
                 </div>
                 <button @click="setUserEmail()"
-                    class="bg-primary w-full rounded-full py-3  text-white active:bg-[#09223b] hover:bg-[#004182] font-bold">
+                    class= " bg-primary w-full rounded-full py-3  text-white active:bg-[#09223b] hover:bg-[#004182] font-bold">
                     Kabul Et ve Katıl
 
                 </button>

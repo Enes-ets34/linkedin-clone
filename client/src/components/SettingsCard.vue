@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { BASE_URL } from '../constants';
+
 const store = useStore()
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
 const logout = () => {
@@ -15,15 +17,15 @@ const logout = () => {
                 <div class="flex justify-start items-center space-x-2"> 
                     <img
                         class="rounded-full  border-white border-4 w-16"
-                        :src="`http://localhost:3000/uploads/${currentUser?.profile_image}`" alt="">
+                        :src="`${BASE_URL}/uploads/${currentUser?.profile_image}`" alt="">
                     <div class="flex flex-col items-start ">
                         <p class="font-semibold">Enes Taha Sarı</p>
                         <p class="text-sm">Software Developer | Vue.js</p>
                     </div>
                 </div>
-                <button
+                <router-link tag="button" to="/profile"
                     class="rounded-full border border-1 border-primary text-primary bg-white py-px hover:bg-blue-100">Profili
-                    görüntüle</button>
+                    görüntüle</router-link>
             </div>
             <div class="px-3 mt-2 border-b pb-2">
                 <p class="font-semibold text-start">Hesap</p>
