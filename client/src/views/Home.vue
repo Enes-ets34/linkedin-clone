@@ -10,10 +10,13 @@ import PostInput from '../components/home/Post/PostInput.vue';
 
 const store = useStore()
 
+
+store.dispatch('posts/fetchPosts')
+
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
 </script>
 <template>
-    <div class="container  mt-20">
+    <div class="container mt-16 sm:mt-20">
 
         <div class="flex flex-col md:flex-row justify-between items-center md:items-start md:space-x-5 ">
             <div class=" flex-col sticky -top-[295px] flex-1 md:basis-1/4 space-y-2  ">
@@ -70,31 +73,33 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                             <button
                                 class="flex items-center py-2 px-1 md:p-2 rounded-md transition-all duration-300 hover:cursor-pointer hover:bg-gray-200 text-sm text-muted space-x-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
-                                fill="#e16745" class="mercado-match w-4 sm:w-6" focusable="false">
-                                <path d="M21 3v2H3V3zm-6 6h6V7h-6zm0 4h6v-2h-6zm0 4h6v-2h-6zM3 21h18v-2H3zM13 7H3v10h10z">
-                                </path>
-                            </svg>
-                            <span>Yazı yaz</span>
-                        </button>
+                                    fill="#e16745" class="mercado-match w-4 sm:w-6" focusable="false">
+                                    <path
+                                        d="M21 3v2H3V3zm-6 6h6V7h-6zm0 4h6v-2h-6zm0 4h6v-2h-6zM3 21h18v-2H3zM13 7H3v10h10z">
+                                    </path>
+                                </svg>
+                                <span>Yazı yaz</span>
+                            </button>
                         </li>
                     </ul>
                 </div>
                 <!-- /Post Input -->
                 <div class="flex items-center text-xs">
-                    <div class="w-96 h-px bg-gray-400 mr-2">
+                    <div class="w-96 h-px bg-gray-400 sm:mr-2">
                     </div>
                     <p class="text-muted">Sıralama ölçütü: </p>
-                    <div class="ml-1 flex justify-between items-center font-bold">
+                    <div class="sm:ml-1 flex justify-between items-center font-bold">
                         En Önemli
                         <i class="fas fa-caret-down ml-1"></i>
                     </div>
                 </div>
                 <!-- Post -->
-                <Post v-for="i in 15" />
+                <Post v-for="post in store.state.posts.posts" :key="post._id" :post="post"/>
                 <!-- /Post -->
             </div>
             <!-- RightSide -->
             <RightSide />
             <!-- /RightSide -->
+        </div>
     </div>
-</div></template>
+</template>

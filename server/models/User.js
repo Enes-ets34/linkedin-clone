@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const CryptoJS = require("crypto-js");
-
+const slugify = require("slugify");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const Post = require("./Post");
@@ -105,6 +105,10 @@ userSchema.pre("validate", function (next, err) {
   //Parola değişmemiş ise
   if (!this.isModified("password")) return next();
   const user = this;
+  user.slug = slugify(user.full_name, {
+    lower: true,
+    strict: true,
+  });
   user.password = CryptoJS.HmacSHA1(user.password, _SALTKEY).toString();
   next();
 });

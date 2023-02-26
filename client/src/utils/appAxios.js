@@ -5,16 +5,15 @@ const appAxios = axios.create({
   withCredentials: false,
   // headers: {
   //   "Content-Type": "application/json",
-  //   Authorization: `Bearer: ${access_token}`,
   // },
+  //   Authorization: `Bearer: ${access_token}`,
 });
-appAxios.interceptors.request.use((config) => {
-  config.headers = {
-    ...config.headers,
-  };
-  return config;
-});
-
-
+// appAxios.interceptors.request.use((config) => {
+//   config.headers = {
+//     ...config.headers,
+//     // Authorization: `Bearer: ${localStorage.access_token}`,
+//   };
+//   return config;
+// });
 
 export default appAxios;

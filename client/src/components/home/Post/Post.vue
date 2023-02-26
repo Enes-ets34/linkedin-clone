@@ -1,14 +1,23 @@
+<script setup>
+import { BASE_URL } from '../../../constants';
+import { defineProps } from 'vue';
+const props = defineProps({
+    post: {
+        type: Object,
+    }
+})
+</script>
 <template><!-- Post -->
     <div class="border pt-3  pb-1 px-4  text-sm bg-white rounded-lg">
         <!-- Post Header -->
         <div class="flex justify-between items-start mb-2 ">
             <div class="flex space-x-2">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a8/Bill_Gates_2017_%28cropped%29.jpg" alt=""
+                <img :src="`${BASE_URL}/uploads/${props.post.user.profile_image}`" alt=""
                     class="rounded-full h-14 object-contain  w-14">
                 <div class="flex flex-col">
-                    <a href="#" class="font-bold text-sm">Bill Gates</a>
-                    <small class="text-xs text-muted">Co-Founder @microsoft</small>
-                    <small class="text-xs text-muted flex items-center space-x-1">1 hafta •<svg
+                    <a href="#" class="font-bold text-sm">{{props.post.user.full_name}}</a>
+                    <small class="text-xs text-muted">{{props.post.user.title}} @{{props.post.user.company.name}}</small>
+                    <small class="text-xs text-muted flex items-center space-x-1">{{props.post.created_at}} •<svg
                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16" fill="#666666"
                             class="mercado-match" width="16" height="16" focusable="false">
                             <path
@@ -23,16 +32,14 @@
         </div>
         <!-- /Post Header -->
         <!-- Post Body -->
-        <p>Lorem ipsum dolor sit amet🦾 consectetur adipisicing elit. Velit autem ipsam neque amet at minima sit animi
-            qui vitae ab, maiores, dolor atque vero officia ✍🏻fuga, deleniti dolorem assumenda quam eligendi eveniet
-            obcaecati itrum. Excepturi accusantium sunt placeat molestiae 🧑🏼‍🚀
-            dicta, nobis se</p>
+        <p>{{props.post.content}}</p>
         <!-- /Post Body -->
         <!-- Currently Likes -->
         <div class="flex justify-between items-center mt-2 text-muted  text-xs">
             <div class="flex space-x-1">
                 <img src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt" alt="">
-                <span>Enes Taha Sarı ve diğer 56 kişi</span>
+                <span v-if="props.post.likes.length > 0">Enes Taha Sarı ve diğer 56 kişi</span>
+                <span v-else>Bunu ilk beğenen sen ol.</span>
             </div>
             <p>4 yorum</p>
         </div>

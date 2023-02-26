@@ -59,7 +59,7 @@ const profileImageUpload = asyncErrorWrapper(async (req, res, next) => {
   res.json({
     success: true,
     message: "Image Uploaded Successfully",
-    data: user,
+    user,
   });
 });
 //Forgot Password

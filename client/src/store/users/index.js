@@ -68,6 +68,28 @@ export default {
         })
         .catch((err) => {});
     },
+    uploadProfilePhoto({ commit }, pUploadedPhoto) {
+      const formData = new FormData();
+      formData.append("profile_image", pUploadedPhoto);
+
+      appAxios
+        .post("/auth/upload", formData, {
+          headers: {
+            Authorization: `Bearer: ${JSON.parse(localStorage?.access_token)}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          if (res?.status === 200) {
+            commit("setUser", res.data.user);
+            localStorage.user = JSON.stringify(res.data.user);
+            location.reload()
+          }
+        })
+        .catch((err) => {
+          // ...
+        });
+    },
   },
   modules: {},
   getters: {

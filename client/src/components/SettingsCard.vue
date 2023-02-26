@@ -11,7 +11,7 @@ const logout = () => {
 </script>
 <template>
     <div
-        class="opacity-0 group-hover:opacity-100 transition-all duration-300 pt-4 top-[50px] absolute z-[1] flex-1 right-4 md:w-1/5 md:right-[365px] ">
+        class="opacity-0 group-hover:opacity-100 transition-all duration-300 pt-4 top-5 md:top-[50px] absolute z-[1]  sm:w-1/5 w-10/12 left-1 md:left-[780px]  ">
         <div class="py-3  hidden group-hover:flex flex-col rounded-md rounded-tr-none  bg-white shadow-xl  border">
             <div class="flex px-2 flex-col border-b space-y-2 pb-2">
                 <div class="flex justify-start items-center space-x-2"> 
