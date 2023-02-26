@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { BASE_URL } from '../../constants';
-import appAxios from "../../utils/appAxios";
+import ProfileRightSide from '../../components/ProfileRightSide.vue';
 
 const store = useStore()
 let currentUser = computed(() => store.getters['users/getCurrentUser'])
@@ -22,9 +22,9 @@ const setProfilePhoto = (e) => {
 }
 </script>
 <template>
-    <div class="container  mt-16 sm:mt-20">
-       <!-- Upload Photo Modal -->
-       <div v-if="photoModal" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="container pb-20 mt-16 sm:mt-20">
+        <!-- Upload Photo Modal -->
+        <div v-if="photoModal" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
             <div @click="closePhotoModal" class="fixed  inset-0 bg-black bg-opacity-75 transition-opacity"></div>
             <div class="fixed  sm:inset-0 z-10 overflow-y-auto">
                 <div class="flex  items-end justify-center p-2  sm:items-center sm:p-0">
@@ -106,7 +106,7 @@ const setProfilePhoto = (e) => {
                 </div>
             </div>
         </div>
-       <!-- /Upload Photo Modal -->
+        <!-- /Upload Photo Modal -->
         <div class="flex flex-col md:flex-row justify-between items-center md:items-start md:space-x-5  ">
             <div class=" flex-col flex-1 md:basis-8/12 space-y-2  ">
                 <div class="border flex flex-col space-y-2 bg-white rounded-lg">
@@ -117,7 +117,8 @@ const setProfilePhoto = (e) => {
                         <div @click="openUploadPhotoModal"
                             class="rounded-full absolute left-5 top-12 md:left-5 md:top-20 md:w-40 border-4 bg-white border-white">
 
-                            <img class="hover:cursor-pointer rounded-full object-contain w-24 h-24 md:w-40 md:h-40" :src="`${BASE_URL}/uploads/${currentUser?.profile_image}`" alt="">
+                            <img class="hover:cursor-pointer rounded-full object-contain w-24 h-24 md:w-40 md:h-40"
+                                :src="`${BASE_URL}/uploads/${currentUser?.profile_image}`" alt="">
                             <div
                                 class="rounded-full  md:p-[px]  text-white bg-primary absolute top-14  md:top-28 right-2 border-2 border-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
@@ -127,7 +128,7 @@ const setProfilePhoto = (e) => {
                             </div>
                         </div>
                     </div>
-                    <div class="flex relative justify-between pt-14  pb-7 pl-6 pr-20 items-start">
+                    <div class="flex relative justify-between pt-14  pb-7 pl-6 pr-5 md:pr-20 items-start">
                         <div
                             class="absolute hover:bg-gray-200 rounded-full p-2 cursor-pointer transition-all duration-300 active:bg-gray-300 group top-4 right-4 ">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
@@ -218,14 +219,13 @@ const setProfilePhoto = (e) => {
                                     Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim possimus temporibus, at
                                     totam illum perspiciatis.
                                 </p>
-                                <div class="flex justify-start items-start space-x-2">
-                                    <p class="text-sm font-semibold">
+                                <div class="text-sm ">
+                                    <span class="font-semibold">
                                         Yetenekler:
-                                    </p>
-                                    <p class="text-sm">
-                                        Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
-                                        Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
-                                    </p>
+                                    </span>
+                                    Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
+                                    Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
+
                                 </div>
                             </div>
                         </div>
@@ -234,19 +234,7 @@ const setProfilePhoto = (e) => {
                 </div>
 
             </div>
-            <div class=" flex-col flex-1 md:basis-3/12 space-y-2  ">
-                <div class="border bg-white rounded-lg">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sed molestiae ratione laboriosam accusantium
-                    facere, laborum repellat, dolorem consectetur officia reprehenderit corrupti iure tenetur. Excepturi,
-                    illum illo, minus aliquid cupiditate dolore veritatis ipsum qui consequuntur nobis itaque beatae hic
-                    fuga illum eveniet ab dolores in! Temporibus, autem quam unde
-                    quo dolorum, earum error harum saepe sapiente iure doloribus ipsum tenetur ipsam recusandae aliquam
-                    nihil, rem ea dolorem similique. Iste repellat sequi neque quam dignissimos modi ex cupiditate
-                    distinctio dolorum sapiente mollitia blanditiis doloremque, est ad autem aut asperiores sed aperiam iure
-                    maxime at officia expedita pariatur? Non numquam autem labore maxime veritatis facilis voluptatibus
-                    assumenda commodi corporis nobis.
-                </div>
-            </div>
+            <ProfileRightSide />
 
         </div>
 
