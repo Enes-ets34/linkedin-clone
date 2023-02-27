@@ -16,6 +16,6 @@ const {getAccessToRoute} = require('../middlewares/authorization/auth')
 router.get("/:slug", checkUserExist,getSingleUserBySlug);
 router.get("/edit/:id", getAccessToRoute, editUser);
 router.get("/", getAllUsers);
-router.put("/update/", getAccessToRoute, updateUser);
+router.put("/update", getAccessToRoute, updateUser);
 
 module.exports = router;

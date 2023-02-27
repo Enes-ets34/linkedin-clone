@@ -4,7 +4,7 @@ import { useStore } from 'vuex';
 import { BASE_URL } from '../../constants';
 import appAxios from "../../utils/appAxios";
 import { useRouter } from 'vue-router';
-import ProfileRightSide from '../../components/ProfileRightSide.vue';
+import ProfileRightSide from '../../components/profile/ProfileRightSide.vue';
 import router from '../../router';
 const route = useRouter()
 const store = useStore()

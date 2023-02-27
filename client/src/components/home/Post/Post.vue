@@ -1,16 +1,4 @@
-<script setup>
-import { defineProps } from 'vue';
 
-import { BASE_URL } from '../../../constants';
-import moment from "../../../composables/moment";
-const { created_at } = moment(props.post.created_at);
-const props = defineProps({
-    post: {
-        type: Object,
-    }
-})
-
-</script>
 <template>
     <!-- Post -->
     <div class="border pt-3  pb-1 px-4  text-sm bg-white rounded-lg">
@@ -40,7 +28,7 @@ const props = defineProps({
         </div>
         <!-- /Post Header -->
         <!-- Post Body -->
-        <p>{{ props.post.content }}</p>
+        <p v-html="formatContent(props.post.content)"></p>
         <!-- /Post Body -->
         <!-- Currently Likes -->
         <div class="flex justify-between items-center mt-2 text-muted  text-xs">
@@ -101,4 +89,24 @@ const props = defineProps({
         </ul>
         <!-- /Currently Likes -->
     </div>
-    <!-- /Post --></template>
+    <!-- /Post -->
+</template>
+<script setup>
+import { BASE_URL } from '../../../constants';
+import moment from "../../../composables/moment";
+
+const { created_at } = moment(props.post.created_at);
+const props = defineProps({
+    post: {
+        type: Object,
+    }
+})
+
+function formatContent(content) {
+  return content.replace(
+    /#\w+/g,
+    '<span class="text-primary cursor-pointer font-semibold">$&</span>'
+  );
+}
+
+</script>

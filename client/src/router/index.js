@@ -62,7 +62,7 @@ router.beforeEach((to, from, next) => {
     user = JSON.parse(localStorage?.user);
   }
   if (localStorage?.access_token) {
-    access_token = JSON.parse(localStorage?.access_token);
+    access_token = localStorage?.access_token;
   }
 
   // LocalStorage üzerinde User varsa Store'u güncelle

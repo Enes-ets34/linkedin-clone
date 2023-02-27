@@ -21,8 +21,10 @@ console.log('props.currentUser :>> ', props);
         <div class="text-center border-b-gray-300 border-b pb-3">
             <p class="font-semibold hover:underline decoration-1">
                 <!-- <a href="#">{{ props?.currentUser?.full_name }}</a> -->
+
                 <router-link to="/profile">{{ currentUser?.full_name }}</router-link>
             </p>
+            
             <!-- <small class="text-xs text-muted font-light">{{ props?.currentUser?.title }}</small> -->
             <small class="text-xs text-muted font-light">{{ currentUser?.title }}</small>
         </div>
@@ -68,3 +70,5 @@ console.log('props.currentUser :>> ', props);
         </div>
     </div>
 </template>
+<style>
+</style>

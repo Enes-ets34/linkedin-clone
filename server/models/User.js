@@ -29,7 +29,7 @@ const userSchema = new Schema({
   },
   created_at: {
     type: Date,
-    default: Date.now(),
+    default: new Date(Date.now()),
   },
   reset_password_token: {
     type: String,

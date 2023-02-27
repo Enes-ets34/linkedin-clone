@@ -10,7 +10,7 @@ const postSchema = new Schema({
   },
   created_at: {
     type: Date,
-    default: Date.now(),
+    default: new Date(Date.now()),
   },
   updated_at: {
     type: Date,
@@ -29,12 +29,12 @@ const postSchema = new Schema({
       ref: "User",
     },
   ],
-  comments:[
+  comments: [
     {
       type: mongoose.Schema.ObjectId,
       ref: "Comment",
-    }
-  ]
+    },
+  ],
 });
 
 const Post = mongoose.model("Post", postSchema);

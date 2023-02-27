@@ -10,20 +10,26 @@ export default {
   mutations: {
     setUser(state, pUser) {
       state.user = pUser;
+      localStorage.user = JSON.stringify(pUser);
+    },
+    setAccessToken(state, pAccessToken) {
+      state.access_token = pAccessToken;
+      localStorage.access_token = pAccessToken;
     },
     setUserInfo(state, pUser) {
       state.registerData = pUser;
     },
-    setAccessToken(state, pAccessToken) {
-      state.access_token = pAccessToken;
-    },
     logout(state) {
+      console.log("object :>> ");
       appAxios
-        .get("/auth/logout", {
-          headers: {
-            Authorization: `Bearer: ${JSON.parse(localStorage?.access_token)}`,
-          },
-        })
+        .get(
+          "/auth/logout"
+          // {
+          //   headers: {
+          //     Authorization: `Bearer: ${JSON.stringify(localStorage?.access_token)}`,
+          //   },
+          // }
+        )
         .then((res) => {
           if (res?.status === 200) {
             localStorage.lastUserName = state?.user?.full_name;
@@ -47,8 +53,6 @@ export default {
           if (res?.status === 200) {
             commit("setUser", res.data.user);
             commit("setAccessToken", res.data.access_token);
-            localStorage.user = JSON.stringify(res.data.user);
-            localStorage.access_token = JSON.stringify(res.data.access_token);
             router?.push("/signup");
           }
         })
@@ -59,10 +63,9 @@ export default {
         .post("/auth/login", pUser)
         .then((res) => {
           if (res?.status === 200) {
+            console.log("res.data :>> ", res.data);
             commit("setUser", res.data.user);
             commit("setAccessToken", res.data.access_token);
-            localStorage.user = JSON.stringify(res.data.user);
-            localStorage.access_token = JSON.stringify(res.data.access_token);
             router?.push("/");
           }
         })
@@ -75,19 +78,29 @@ export default {
       appAxios
         .post("/auth/upload", formData, {
           headers: {
-            Authorization: `Bearer: ${JSON.parse(localStorage?.access_token)}`,
             "Content-Type": "multipart/form-data",
           },
         })
         .then((res) => {
           if (res?.status === 200) {
             commit("setUser", res.data.user);
-            localStorage.user = JSON.stringify(res.data.user);
-            location.reload()
+            location.reload();
           }
         })
         .catch((err) => {
-          // ...
+          console.error(err);
+        });
+    },
+    updateUser({ commit }, pUser) {
+      appAxios
+        .put("/users/update", pUser)
+        .then((res) => {
+          if (res?.status === 200) {
+            commit("setUser", res.data.user);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
         });
     },
   },

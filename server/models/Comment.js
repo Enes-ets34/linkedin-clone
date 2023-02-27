@@ -21,7 +21,7 @@ const commentSchema = new Schema({
   },
   created_at: {
     type: Date,
-    default: Date.now(),
+    default: new Date(Date.now()),
   },
   updated_at: {
     type: Date,
@@ -33,7 +33,7 @@ const commentSchema = new Schema({
   },
 });
 commentSchema.pre("validate", async function (next) {
-  if (!this.isModified('user')) return next();
+  if (!this.isModified("user")) return next();
   try {
     const post = await Post.findById(this.post);
     post.comments.push(this._id);
