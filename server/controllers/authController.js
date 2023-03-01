@@ -1,3 +1,4 @@
+const fs = require("fs");
 const CustomError = require("../helpers/error/CustomError");
 const User = require("../models/User");
 const asyncErrorWrapper = require("express-async-handler");
@@ -62,6 +63,37 @@ const profileImageUpload = asyncErrorWrapper(async (req, res, next) => {
     user,
   });
 });
+
+//remove profile photo.
+const deleteProfilePhoto = asyncErrorWrapper(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    return next(new CustomError("User not found", 404));
+  }
+
+  if (user.profile_image !== "default.png") {
+    const filePath = `./public/uploads/${user.profile_image}`;
+
+    // Profil fotoğrafı silinir
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        return next(new CustomError("Something went wrong", 500));
+      }
+    });
+
+    // Kullanıcının profil fotoğrafı güncellenir
+    user.profile_image = "default.png";
+    await user.save();
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Profile photo deleted successfully",
+    user
+  });
+});
+
 //Forgot Password
 const forgotPassword = asyncErrorWrapper(async (req, res, next) => {
   const resetEmail = req.body.email;
@@ -124,4 +156,5 @@ module.exports = {
   profileImageUpload,
   forgotPassword,
   resetPassword,
+  deleteProfilePhoto,
 };

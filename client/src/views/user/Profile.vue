@@ -45,7 +45,7 @@ const closeEditModal = (e) => {
                         <div @click="openUploadPhotoModal"
                             class="rounded-full absolute left-5 top-12 md:left-5 md:top-20 md:w-40 border-4 bg-white border-white">
 
-                            <img class="hover:cursor-pointer rounded-full object-contain w-24 h-24 md:w-40 md:h-40"
+                            <img class="hover:cursor-pointer rounded-full object-center object-contain w-24 h-24 md:w-40 md:h-40"
                                 :src="`${BASE_URL}/uploads/${currentUser?.profile_image}`" alt="">
                             <div
                                 class="rounded-full  md:p-[px]  text-white bg-primary absolute top-14  md:top-28 right-2 border-2 border-white">

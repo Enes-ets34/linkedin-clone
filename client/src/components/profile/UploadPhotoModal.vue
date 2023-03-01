@@ -16,6 +16,10 @@ const setProfilePhoto = (e) => {
     store.dispatch('users/uploadProfilePhoto', e.target.files[0])
 
 }
+const removeProfilePhoto = (e) => {
+    store.dispatch('users/removeProfilePhoto')
+
+}
 const closePhotoModal = () => {
     emit('close-photo-modal', false)
 }
@@ -42,9 +46,8 @@ const closePhotoModal = () => {
                     <div class="  md:pt-5 pb-4 sm:p-6 sm:pb-4 ">
                         <div class="mt-3 px-2 sm:mt-0 sm:ml-4 ">
                             <div class="mt-2 flex justify-center items-center">
-                                <div class="w-full px-8 md:w-64">
-
-                                    <img class="rounded-full" :src="`${BASE_URL}/uploads/${currentUser.profile_image}`"
+                                <div class="w-full px-8 md:w-64 text-center">
+                                    <img class="rounded-full object-contain " :src="`${BASE_URL}/uploads/${currentUser.profile_image}`"
                                         alt="">
                                 </div>
                             </div>
@@ -87,7 +90,7 @@ const closePhotoModal = () => {
                                 <p>Kare</p>
                             </button>
                         </div>
-                        <button
+                        <button @click="removeProfilePhoto"
                             class="flex flex-col items-center active:bg-slate-500  hover:bg-slate-400 hover:bg-opacity-40 active:bg-opacity-40 rounded-md transition-all duration-300 p-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
                                 fill="currentColor" class="mercado-match" width="24" height="24" focusable="false">

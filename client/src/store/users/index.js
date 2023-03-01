@@ -20,17 +20,10 @@ export default {
       state.registerData = pUser;
     },
     logout(state) {
-      console.log("object :>> ");
       appAxios
-        .get(
-          "/auth/logout"
-          // {
-          //   headers: {
-          //     Authorization: `Bearer: ${JSON.stringify(localStorage?.access_token)}`,
-          //   },
-          // }
-        )
+        .get("/auth/logout")
         .then((res) => {
+          console.log("res.status :>> ", res.status);
           if (res?.status === 200) {
             localStorage.lastUserName = state?.user?.full_name;
             state.user = null;
@@ -42,6 +35,12 @@ export default {
         })
         .catch((err) => {
           console.error(err);
+          localStorage.lastUserName = state?.user?.full_name;
+          state.user = null;
+          state.access_token = null;
+          localStorage.removeItem("user");
+          localStorage.removeItem("access_token");
+          router.push("/signup");
         });
     },
   },
@@ -81,6 +80,19 @@ export default {
             "Content-Type": "multipart/form-data",
           },
         })
+        .then((res) => {
+          if (res?.status === 200) {
+            commit("setUser", res.data.user);
+            location.reload();
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    removeProfilePhoto({ commit }) {
+      appAxios
+        .delete("/auth/upload")
         .then((res) => {
           if (res?.status === 200) {
             commit("setUser", res.data.user);

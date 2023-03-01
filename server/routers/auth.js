@@ -7,7 +7,8 @@ const {
   logout,
   profileImageUpload,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  deleteProfilePhoto
 } = require("../controllers/authController");
 const { getAccessToRoute } = require("../middlewares/authorization/auth");
 const multer = require("../middlewares/libraries/multer");
@@ -22,6 +23,11 @@ router.post(
   "/upload",
   [getAccessToRoute, multer.single("profile_image")],
   profileImageUpload
+);
+router.delete(
+  "/upload",
+  [getAccessToRoute, multer.single("profile_image")],
+  deleteProfilePhoto
 );
 
 module.exports = router;
