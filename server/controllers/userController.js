@@ -3,9 +3,8 @@ const User = require("../models/User");
 const CustomError = require("../helpers/error/CustomError");
 const CryptoJS = require("crypto-js");
 
-
 const getSingleUserById = asyncErrorWrapper(async (req, res, next) => {
-  const user = await User.findOne({ _id: req.params.id }).populate("company")
+  const user = await User.findOne({ _id: req.params.id }).populate("company");
   return res.status(200).json({
     success: true,
     user,
@@ -13,7 +12,9 @@ const getSingleUserById = asyncErrorWrapper(async (req, res, next) => {
 });
 
 const getSingleUserBySlug = asyncErrorWrapper(async (req, res, next) => {
-  const user = await User.findOne({ slug: req.params.slug }).populate('company')
+  const user = await User.findOne({ slug: req.params.slug }).populate(
+    "company"
+  );
   return res.status(200).json({
     success: true,
     user,
@@ -35,12 +36,7 @@ const editUser = asyncErrorWrapper(async (req, res, next) => {
 });
 const updateUser = asyncErrorWrapper(async (req, res, next) => {
   const userData = req.body;
-  if (userData.password) {
-    userData.password = CryptoJS.HmacSHA1(
-      userData.password,
-      process.env._SALTKEY
-    ).toString();
-  }
+  delete userData.password;
   const user = await User.findByIdAndUpdate(
     req.user.id,
     {

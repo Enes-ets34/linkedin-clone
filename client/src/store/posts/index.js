@@ -1,5 +1,6 @@
 import router from "../../router";
 import appAxios from "../../utils/appAxios";
+import store from "../index";
 export default {
   namespaced: true,
   state: {
@@ -23,7 +24,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.error(err);
+          alert('ERROR:' + err.response.data.message)
         });
     },
     sendPost({ commit }, pPost) {
@@ -32,10 +33,14 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             commit("addPost", res.data.post);
+            store.dispatch("notifications/showMessage", {
+              message: 'Yazınız başarıyla paylaşıldı...',
+              type: "success",
+            });
           }
         })
         .catch((err) => {
-          console.error(err);
+          alert('ERROR:' + err.response.data.message)
         });
     },
   },

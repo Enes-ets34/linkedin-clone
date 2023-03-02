@@ -4,18 +4,17 @@ import posts from "./posts";
 
 import users from "./users";
 
+import notifications from "./notifications";
+
 export default createStore({
   namespaced: true,
-  state: {
-    loading: false,
-  },
+  state: {},
   mutations: {},
   actions: {},
-  getters: {
-    loading: (state) => state.loading,
-  },
+  getters: {},
   modules: {
     users,
     posts,
+    notifications,
   },
 });

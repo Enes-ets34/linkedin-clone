@@ -6,22 +6,23 @@ import { useRouter } from 'vue-router';
 const route = useRouter()
 const store = useStore()
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
-const hideChatBox = computed(() => {
-    
-    return route.currentRoute.value.fullPath.includes('signin') || route.currentRoute.value.fullPath.includes('signup')
+const hidePaths = ['/signin', '/signup', '/forgot-password']
+const hideChatbox = computed(() => {
+    return hidePaths.indexOf(route.currentRoute.value.fullPath) > -1
+})
+const profile_image = computed(() => {
+    return currentUser ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
 })
 </script>
 <template>
-    <div v-if="!hideChatBox"
+    <div v-if="!hideChatbox"
         class=" hidden md:flex h-12 group hover:h-[650px] duration-500 overflow-auto fixed bottom-0 right-0 max-w-xs flex-col   bg-white rounded-t-lg border">
         <div
             class="top-0  flex rounded-t-lg text-sm border-b py-2 px-3 z-10   drop-shadow-lg font-semibold hover:cursor-pointer  justify-between items-center space-x-12 hover:bg-gray-100">
 
             <div class="flex items-center space-x-2">
                 <div class="relative w-8 ">
-                    <img class="w-8 rounded-full"
-                    :src="`${BASE_URL}/uploads/${currentUser?.profile_image}`" 
-                        alt="">
+                    <img class="w-8 rounded-full" :src="profile_image" alt="">
                     <div
                         class="absolute right-0 bottom-0 rounded-full w-1 h-1 bg-green-700 p-1 border-[1.5px] border-white">
                     </div>
@@ -32,7 +33,8 @@ const hideChatBox = computed(() => {
                 <span
                     class="font-bold  inline-block align-top hover:bg-gray-200 transition-all duration-150 rounded-full pb-2 px-2">...</span>
                 <i class="fa-solid fa-pen-to-square    hover:bg-gray-200 transition-all duration-150 rounded-full p-2"></i>
-                <i class=" fa-solid fa-chevron-up group-hover:rotate-180  hover:bg-gray-200 transition-all duration-150 rounded-full p-2"></i>
+                <i
+                    class=" fa-solid fa-chevron-up group-hover:rotate-180  hover:bg-gray-200 transition-all duration-150 rounded-full p-2"></i>
             </div>
         </div>
         <div class=" transition-all duration-1000">

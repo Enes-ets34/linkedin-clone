@@ -1,5 +1,7 @@
+import store from "../index";
 import router from "../../router";
 import appAxios from "../../utils/appAxios";
+
 export default {
   namespaced: true,
   state: {
@@ -55,7 +57,9 @@ export default {
             router?.push("/signup");
           }
         })
-        .catch((err) => {});
+        .catch((err) => {
+          alert("ERROR:" + err.response.data.message);
+        });
     },
     signup({ commit }, pUser) {
       appAxios
@@ -68,7 +72,19 @@ export default {
             router?.push("/");
           }
         })
-        .catch((err) => {});
+        .catch((err) => {
+          if (err.response.status === 400) {
+            store.dispatch("notifications/showMessage", {
+              message: err.response.data.message,
+              type: "error",
+            });
+          } else {
+            store.dispatch("notifications/showMessage", {
+              message: "Please check your email...",
+              type: "error",
+            });
+          }
+        });
     },
     uploadProfilePhoto({ commit }, pUploadedPhoto) {
       const formData = new FormData();
@@ -87,7 +103,10 @@ export default {
           }
         })
         .catch((err) => {
-          console.error(err);
+          store.dispatch("notifications/showMessage", {
+            message:  err.response.data.message,
+            type: "error",
+          });
         });
     },
     removeProfilePhoto({ commit }) {
@@ -100,7 +119,10 @@ export default {
           }
         })
         .catch((err) => {
-          console.error(err);
+          store.dispatch("notifications/showMessage", {
+            message:  err.response.data.message,
+            type: "error",
+          });
         });
     },
     updateUser({ commit }, pUser) {
@@ -109,10 +131,17 @@ export default {
         .then((res) => {
           if (res?.status === 200) {
             commit("setUser", res.data.user);
+            store.dispatch("notifications/showMessage", {
+              message:  'Profiliniz başarıyla güncellendi...',
+              type: "success",
+            });
           }
         })
         .catch((err) => {
-          console.error(err);
+          store.dispatch("notifications/showMessage", {
+            message:  err.response.data.message,
+            type: "error",
+          });
         });
     },
   },

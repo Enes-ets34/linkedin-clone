@@ -1,12 +1,12 @@
 <script setup>
-import { computed,ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 const route = useRouter()
 const store = useStore()
 const togglePassword = ref(true)
-const showPassword = computed(()=>{
+const showPassword = computed(() => {
     return !togglePassword.value ? 'text' : 'password'
 })
 
@@ -18,17 +18,19 @@ const signup = () => {
 }
 </script>
 <template>
+    
     <div class="bg-white rounded-md w-screen h-screen">
         <div class="container px-3 pt-12 md:py-5">
             <div class=" mb-5 hidden md:flex  items-center text-primary text-4xl space-x-1">
                 <h3 class="font-bold ">Linked</h3><i class="fa-brands fa-linkedin"></i>
             </div>
 
-            <div class="flex-1 md:w-1/3 mx-auto rounded-md drop-shadow-xl bg-white py-6 px-6 ">
+            <div class="flex-1  md:w-1/2 lg:w-1/3 mx-auto rounded-md drop-shadow-xl bg-white py-6 px-6 ">
                 <div>
                     <h3 class="text-3xl font-semibold">{{ welcomeMessage }}</h3>
                     <small>Profesyonel dünyanızla ilgili güncel haberlere sahip olun</small>
                 </div>
+                
                 <div class="relative my-4">
                     <input type="text" id="email" v-model="userData.email"
                         class="block rounded-md px-2.5 pb-2.5 pt-5 w-full   border border-1 border-black appearance-none  focus:outline-primary  peer"
@@ -45,16 +47,15 @@ const signup = () => {
                     <label for="password"
                         class="absolute  hover:cursor-text duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5  peer-focus:dark:text-black text-muted peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">
                         Şifre</label>
-                    <button
-                    @click="togglePassword = !togglePassword"
+                    <button @click="togglePassword = !togglePassword"
                         class="absolute items-center top-4 right-2 text-primary hover:bg-[#d0e8ff] cursor-pointer rounded-full px-2 font-semibold border border-1 border-transparent active:border-primary">
-                    <p v-if="togglePassword">göster</p>
-                    <p v-else>gizle</p>
+                        <p v-if="togglePassword">göster</p>
+                        <p v-else>gizle</p>
                     </button>
                 </div>
-                <a
+                <router-link to="/forgot-password"
                     class=" hover:underline mt-6  py-2 text-primary hover:bg-[#d0e8ff] cursor-pointer rounded-full px-2 font-semibold border border-1 border-transparent active:border-primary">Şifrenizi
-                    mi unuttunuz?</a>
+                    mi unuttunuz?</router-link>
 
                 <button @click="signup()"
                     class="bg-primary my-4 w-full rounded-full py-4  text-white active:bg-[#09223b] hover:bg-[#004182] font-bold">
@@ -70,7 +71,7 @@ const signup = () => {
 
                 </div>
                 <button
-                    class="bg-white w-full rounded-full py-2 my-4 text-muted border border-muted font-bold space2 flex justify-center space-x-3 hover:bg-gray-200 hover:border-2 duration-150 hover:border-black items-center">
+                    class="bg-white w-full rounded-full py-2 my-4 text-muted border ring-muted  font-bold space2 flex justify-center space-x-3 hover:bg-gray-200 hover:ring-2 duration-150 hover:ring-black items-center">
                     <svg width="24" height="24" viewBox="0 2 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="24" height="24" fill="transparent"></rect>
                         <path

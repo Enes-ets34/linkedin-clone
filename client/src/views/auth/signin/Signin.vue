@@ -31,7 +31,7 @@ const setUserEmail = () => {
                 yararlanın
             </h3>
             <router-view></router-view>
-            <div v-if="showCard" class="flex-1 md:w-2/5 mx-auto rounded-md bg-white py-6 px-6 space-y-4">
+            <div v-if="showCard" class="flex-1 md:w-1/2 lg:w-2/5 mx-auto rounded-md bg-white py-6 px-6 space-y-4">
 
                 <div class="flex flex-col">
                     <label for="email" class="text-muted text-sm">E-posta</label>
@@ -63,7 +63,7 @@ const setUserEmail = () => {
                             Politikasını</a> kabul etmiş olursunuz.
                     </small>
                 </div>
-                <button @click="setUserEmail()"
+                <button  @click="setUserEmail()"
                     class= " bg-primary w-full rounded-full py-3  text-white active:bg-[#09223b] hover:bg-[#004182] font-bold">
                     Kabul Et ve Katıl
 
