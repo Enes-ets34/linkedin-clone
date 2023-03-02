@@ -4,7 +4,7 @@ const Post = require("../models/Post");
 
 const getAllPosts = asyncErrorWrapper(async (req, res, next) => {
   const posts = await Post.find()
-    .populate("comments")
+    .populate({ path: "comments", populate: "user" })
     .populate({
       path: "user",
       populate: "company",

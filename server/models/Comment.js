@@ -21,7 +21,7 @@ const commentSchema = new Schema({
   },
   created_at: {
     type: Date,
-    default: new Date(Date.now()),
+    default: new Date( Date.now()),
   },
   updated_at: {
     type: Date,

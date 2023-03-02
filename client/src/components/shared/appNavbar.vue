@@ -6,6 +6,7 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 const store = useStore()
 const route = useRouter()
+const currentUser = computed(() => store.getters['users/getCurrentUser'])
 
 console.log('route.currentRoute.value.fullPath :>> ', route.currentRoute.value.fullPath);
 const hidePaths = ['/signin', '/signup', '/forgot-password']
@@ -15,7 +16,6 @@ const hideNavbar = computed(() => {
 
 
 
-const currentUser = computed(() => store.getters['users/getCurrentUser'])
 const profile_image = computed(() => {
     return currentUser ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
 })

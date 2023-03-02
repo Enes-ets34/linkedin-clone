@@ -5,11 +5,13 @@ const Post = require("../models/Post");
 
 const addNewComment = asyncErrorWrapper(async (req, res, next) => {
   const userData = req.body;
-  const comment = await Comment.create({
-    ...userData,
-    post: req.params.post_id,
-    user: req.user.id,
-  });
+  const comment = await (
+    await Comment.create({
+      ...userData,
+      post: req.params.post_id,
+      user: req.user.id,
+    })
+  ).populate("user");
 
   return res.status(200).json({
     success: true,

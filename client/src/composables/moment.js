@@ -1,22 +1,22 @@
 import moment from "moment";
-moment.updateLocale("tr", {
+moment.updateLocale("en", {
   relativeTime: {
     future: "%s içinde",
-    past: "%s  önce",
+    past: "%s",
     s: "bir kaç saniye",
-    ss: "%d saniye",
+    ss: "%ds",
     m: "bir dakika",
-    mm: "%d dakika",
+    mm: "%dd",
     h: "bir saat",
-    hh: "%d saat",
+    hh: "%ds",
     d: "bir gün",
-    dd: "%d gün",
+    dd: "%dg",
     w: "bir hafta",
-    ww: "%d hafta",
-    M: "bir ay",
-    MM: "%d ay",
+    ww: "%dh",
+    M: "bira",
+    MM: "%da",
     y: "bir yıl",
-    yy: "%d yıl",
+    yy: "%dy",
   },
 });
 export default function (time) {

@@ -13,6 +13,9 @@ export default {
     addPost(state, pPost) {
       state.posts.unshift(pPost);
     },
+    filterPosts(state, ID) {
+      state.posts = state.posts.filter((p) => p._id !== ID);
+    },
   },
   actions: {
     fetchPosts({ commit }) {
@@ -24,7 +27,10 @@ export default {
           }
         })
         .catch((err) => {
-          alert('ERROR:' + err.response.data.message)
+          store.dispatch("notifications/showMessage", {
+            message: err.response.data.message,
+            type: "error",
+          });
         });
     },
     sendPost({ commit }, pPost) {
@@ -34,14 +40,38 @@ export default {
           if (res.status === 200) {
             commit("addPost", res.data.post);
             store.dispatch("notifications/showMessage", {
-              message: 'Yazınız başarıyla paylaşıldı...',
+              message: "Yazınız başarıyla paylaşıldı...",
               type: "success",
             });
           }
         })
         .catch((err) => {
-          alert('ERROR:' + err.response.data.message)
+          store.dispatch("notifications/showMessage", {
+            message: err.response.data.message,
+            type: "error",
+          });
         });
+    },
+    deletePost({ commit }, pPost) {
+      if (confirm("ARE YOU SURE?")) {
+        appAxios
+          .delete(`/post/delete/${pPost._id}`)
+          .then((res) => {
+            if (res.status === 200) {
+              commit("filterPosts", pPost._id);
+              store.dispatch("notifications/showMessage", {
+                message: "Gönderiniz başarıyla silindi...",
+                type: "info",
+              });
+            }
+          })
+          .catch((err) => {
+            store.dispatch("notifications/showMessage", {
+              message: err.response.data.message,
+              type: "error",
+            });
+          });
+      }
     },
   },
   modules: {},
