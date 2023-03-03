@@ -1,7 +1,7 @@
 <script setup>
 import SettingsCard from '../../components/SettingsCard.vue';
 import { BASE_URL } from '../../constants';
-import { computed } from 'vue';
+import { computed, onMounted,ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 const store = useStore()
@@ -13,8 +13,6 @@ const hidePaths = ['/signin', '/signup', '/forgot-password']
 const hideNavbar = computed(() => {
     return hidePaths.indexOf(route.currentRoute.value.fullPath) > -1
 })
-
-
 
 const profile_image = computed(() => {
     return currentUser ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
@@ -84,7 +82,7 @@ const profile_image = computed(() => {
                                 <small class="text-muted group-hover:text-black">Gönder</small>
                             </li>
                             <li
-                                class="flex flex-col justify-start items-center text-center hover:cursor-pointer group w-12 md:w-20 ">
+                                class="md:hidden flex flex-col justify-start items-center text-center hover:cursor-pointer group w-12 md:w-20 ">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
                                     fill="#666667" class="mercado-match group-hover:fill-black" width="24" height="24"
                                     focusable="false">
@@ -127,14 +125,14 @@ const profile_image = computed(() => {
                         </li>
                         <!-- Profile -->
 
-                        <li
+                        <li  
                             class=" flex group flex-col justify-between items-center text-center hover:cursor-pointer group  lg:w-20 lg:border-r-2  border-gray-300 ">
-                            <img :src="profile_image" alt="" class="rounded-full w-8 md:w-6">
-                            <div class="flex justify-between items-center space-x-1">
+                            <img :src="profile_image" alt="" class="rounded-full w-8 md:w-6"  >
+                            <div  class="flex justify-between items-center space-x-1">
                                 <small class="text-muted hidden lg:block group-hover:text-black">Ben</small><i
                                     class="fas fa-caret-down text-muted hidden lg:block group-hover:text-black"></i>
                             </div>
-                            <SettingsCard class="" />
+                            <SettingsCard  />
                         </li>
                         <!-- /Profile -->
                         <li

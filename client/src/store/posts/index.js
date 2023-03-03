@@ -13,8 +13,16 @@ export default {
     addPost(state, pPost) {
       state.posts.unshift(pPost);
     },
+    updatePost(state, { pPost, pUpdatedPost }) {
+      let post = state.posts.find((p) => p._id === pPost._id);
+      post.content = pUpdatedPost.content;
+    },
     filterPosts(state, ID) {
       state.posts = state.posts.filter((p) => p._id !== ID);
+    },
+    deleteComment(state, { pPostID, pCommentID }) {
+      const post = state?.posts?.find((p) => p._id === pPostID);
+      post.comments = post.comments.filter((c) => c._id !== pCommentID);
     },
   },
   actions: {
@@ -72,6 +80,58 @@ export default {
             });
           });
       }
+    },
+    updatePost({ commit }, pPost) {
+      appAxios
+        .put(`/post/update/${pPost._id}`, pPost)
+        .then((res) => {
+          if (res.status === 200) {
+            commit("updatePost", { pPost: pPost, pUpdatedPost: res?.data?.post });
+            store.dispatch("notifications/showMessage", {
+              message: "Gönderiniz başarıyla güncellendi...",
+              type: "success",
+            });
+          }
+        })
+        .catch((err) => {
+          store.dispatch("notifications/showMessage", {
+            message: err.response.data.message,
+            type: "error",
+          });
+        });
+    },
+    addComment({ commit }, { pUserData, pPost }) {
+      appAxios
+        .post(`/post/${pPost._id}/comments`, { content: pUserData })
+        .then((res) => {
+          if (res.status === 200) {
+            pPost?.comments.unshift(res?.data?.comment);
+          }
+        })
+        .catch((err) => {
+          store.dispatch("notifications/showMessage", {
+            message: err.response.data.message,
+            type: "error",
+          });
+        });
+    },
+    deleteComment({ commit }, pComment) {
+      appAxios
+        .delete(`/post/${pComment.post}/comments/${pComment._id}/delete`)
+        .then((res) => {
+          if (res.status === 200) {
+            commit("deleteComment", {
+              pCommentID: pComment._id,
+              pPostID: pComment.post,
+            });
+          }
+        })
+        .catch((err) => {
+          store.dispatch("notifications/showMessage", {
+            message: err.response.data.message,
+            type: "error",
+          });
+        });
     },
   },
   modules: {},

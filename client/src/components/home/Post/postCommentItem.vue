@@ -1,6 +1,7 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import moment from "../../../composables/moment";
 const store = useStore()
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
 const props = defineProps({
@@ -8,14 +9,33 @@ const props = defineProps({
         type: Object,
     }
 })
+const { created_at } = moment(props?.comment?.created_at);
+const commentMenu = ref(false)
+
+const toggleCommentMenu = () => {
+    commentMenu.value = !commentMenu.value
+}
+onMounted(() => {
+    document
+        .querySelector(":not(#commentDropdown)")
+        .addEventListener("click", evt => {
+            if (evt?.target?.id !== "commentDropdown") {
+                commentMenu.value = false;
+            }
+        });
+})
+const deleteComment = () => {
+    store.dispatch('posts/deleteComment', props?.comment)
+}
+
 </script>
 <template>
     <div class="flex flex-col">
-        <div class="flex justify-between items-start mb-[-6px] space-x-2 py-3 mt-2">
+        <div class="flex justify-between items-start mb-[-6px] space-x-2 py-2 mt-2">
             <img :src="`http://localhost:3000/uploads/${props?.comment?.user?.profile_image}`" alt=""
                 class="rounded-full w-10 " />
-            <div class="px-4 py-2 rounded-xl w-full rounded-tl-none flex flex-col bg-neutral-100">
-                <div class="flex justify-between items-start">
+            <div class="relative px-4 mt-[-5px] py-2 rounded-xl w-full rounded-tl-none flex flex-col bg-neutral-100">
+                <div class="flex  justify-between items-start">
                     <div class="flex flex-col items-start">
                         <a href="#" class="font-semibold hover:underline hover:text-primary">{{
                             props?.comment?.user?.full_name
@@ -24,14 +44,29 @@ const props = defineProps({
                     </div>
                     <small
                         class="flex justify-between items-end  text-muted tracking-widest hover:cursor-pointer  transition-all duration-300 align-start">
-                        4s
 
-                        <p v-if="props.comment.user._id === currentUser._id" @click="toggleCommentMenu"
+                        {{ created_at() }}
+                        <p id="commentDropdown" v-if="props.comment.user._id === currentUser._id" @click="toggleCommentMenu"
                             class="ml-2 text-lg font-bold ">
                             ...</p>
                     </small>
                 </div>
                 {{ props?.comment?.content }}
+                <div v-if="commentMenu"
+                    class="bg-white z-10 border w-1/3 text-xs rounded-md rounded-tr-none shadow-xl absolute top-8 right-2 font-semibold">
+                    <ul class="rounded-md ">
+                        <li @click="deleteComment()"
+                            class="flex  rounded-tl-md justify-between items-center p-4 hover:cursor-pointer hover:bg-neutral-200">
+                            <i class="fa-sharp fa-solid fa-trash"></i>
+                            Yorumu Sil
+                        </li>
+                        <li 
+                            class="flex  justify-between  rounded-md rounded-t-none items-center p-4 hover:cursor-pointer hover:bg-neutral-200">
+                            <i class="fa-sharp fa-solid fa-pen-to-square"></i>
+                            Yorumu Düzenle
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="px-14 pb-4 flex justify-start items-center text-xs text-muted font-semibold">
@@ -42,5 +77,6 @@ const props = defineProps({
             <p class="font-light mx-2">|</p> <span
                 class="py-px px-1 rounded-md cursor-pointer hover:bg-gray-200">Yanıtla</span>
         </div>
+
     </div>
 </template>

@@ -67,6 +67,7 @@ const closePhotoModal = () => {
                                 </svg>
                                 <p>Düzenle</p>
                             </button>
+                       
                             <label for="photoInput"
                                 class="flex flex-col items-center active:bg-slate-500  hover:bg-slate-400 hover:bg-opacity-40 active:bg-opacity-40 rounded-md hover:cursor-pointer transition-all duration-300 p-2">
                                 <input type="file" name="photoInput" @change="setProfilePhoto($event)" id="photoInput"

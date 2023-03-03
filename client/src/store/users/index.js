@@ -87,6 +87,7 @@ export default {
         });
     },
     uploadProfilePhoto({ commit }, pUploadedPhoto) {
+      
       const formData = new FormData();
       formData.append("profile_image", pUploadedPhoto);
 
