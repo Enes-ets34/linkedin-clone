@@ -12,9 +12,9 @@ const getSingleUserById = asyncErrorWrapper(async (req, res, next) => {
 });
 
 const getSingleUserBySlug = asyncErrorWrapper(async (req, res, next) => {
-  const user = await User.findOne({ slug: req.params.slug }).populate(
-    "company"
-  );
+  const user = await User.findOne({ slug: req.params.slug })
+    .populate("company")
+
   return res.status(200).json({
     success: true,
     user,

@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import LeftProfileCard from '../components/home/LeftProfileCard.vue';
 import LeftSide from '../components/home/LeftSide.vue';
@@ -13,12 +13,14 @@ const store = useStore()
 
 
 store.dispatch('posts/fetchPosts')
-
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
+const like = (e) => {
+    console.log('e :>> ', e);
+}
 </script>
 <template>
     <div class="container mt-16 sm:mt-20">
-  
+
         <div class="flex flex-col md:flex-row justify-between items-center md:items-start md:space-x-5 ">
             <div class=" flex-col sticky -top-[295px] flex-1 md:basis-1/4 space-y-2  ">
                 <!-- Profile Card -->
@@ -95,7 +97,7 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                     </div>
                 </div>
                 <!-- Post -->
-                <Post v-for="post in store.state.posts.posts" :key="post._id" :post="post" />
+                <Post v-for="post in store.state.posts.posts" :key="post._id" :post="post"  />
                 <!-- /Post -->
             </div>
             <!-- RightSide -->

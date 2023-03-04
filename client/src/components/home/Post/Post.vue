@@ -1,18 +1,23 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { BASE_URL } from '../../../constants';
 import moment from "../../../composables/moment";
 
 import PostComment from './PostCommentItem.vue';
 import EditPostModal from './EditPostModal.vue';
-import { ref } from 'vue';
+const emit = defineEmits()
+
+
 const store = useStore()
 const { created_at } = moment(props.post.created_at);
 
 const props = defineProps({
     post: {
         type: Object,
+    },
+    hasAlreadyLiked: {
+        type: Boolean,
     }
 })
 function formatContent(content) {
@@ -54,6 +59,7 @@ const addComment = () => {
     userData.value = null
 }
 const editModal = ref(false)
+
 onMounted(() => {
     document
         .querySelector(`:not(#postDropdown_${props.post._id})`)
@@ -64,12 +70,25 @@ onMounted(() => {
         });
 })
 
+const hasAlreadyLiked = computed(() => {
+    return Boolean(props?.post?.likes?.find(l => l === currentUser?.value?._id))
+})
+
+
+const likeActions = () => {
+    hasAlreadyLiked.value ? store.dispatch('posts/undolikePost', props.post) : store.dispatch('posts/likePost', props.post)
+
+
+}
+
+
 </script>
 <template>
     <!-- Post -->
     <EditPostModal v-if="editModal" :post="props.post" @close-edit-modal="editModal = $event" />
     <div class="border pt-3  pb-1 px-4  text-sm bg-white rounded-lg">
         <!-- Post Header -->
+
         <div class="flex relative justify-between items-start mb-2 ">
             <div class="flex space-x-2">
                 <img :src="`${BASE_URL}/uploads/${props.post.user.profile_image}`" alt=""
@@ -78,6 +97,7 @@ onMounted(() => {
                     <router-link :to="`/user/${props.post.user.slug}`"
                         class="font-bold text-sm hover:underline hover:text-primary">{{ props.post.user.full_name
                         }}</router-link>
+
                     <small class="text-xs text-muted">{{ props.post.user.title }} @{{ props.post.user.company.name
                     }}</small>
                     <small class="text-xs text-muted flex items-center space-x-1">{{ created_at(props.post.created_at) }}
@@ -119,7 +139,7 @@ onMounted(() => {
         <div class="flex justify-between items-center mt-2 text-muted  text-xs">
             <div class="flex space-x-1">
                 <img src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt" alt="">
-                <span v-if="props.post.likes.length > 0">Enes Taha Sarı ve diğer 56 kişi</span>
+                <span v-if="props.post.likes.length > 0">{{ props.post.likes.length }}</span>
                 <span v-else>Bunu ilk beğenen sen ol.</span>
             </div>
             <p v-if="props.post.comments.length > 0">{{ props.post.comments.length }} yorum</p>
@@ -130,9 +150,10 @@ onMounted(() => {
 
         <ul class="flex items-center justify-between mx-auto  font-semibold">
             <li class="group ">
-                <button
+                <button @click="likeActions()" :class="{ 'text-primary': hasAlreadyLiked }"
                     class="active:text-black flex-col md:flex-row flex items-center px-4 py-2 sm:px-8 rounded-md transition-all duration-300 hover:cursor-pointer active:bg-gray-300 hover:bg-gray-200 text-sm text-muted space-x-2">
-                    <svg role="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    <img v-if="hasAlreadyLiked" src="https://static.licdn.com/sc/h/5zhd32fqi5pxwzsz78iui643e" alt="like">
+                    <svg v-else role="none " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24" data-supported-dps="24x24" data-test-icon="thumbs-up-outline-medium">
                         <!---->
                         <use href="#thumbs-up-outline-medium" width="24" height="24"></use>
@@ -185,7 +206,8 @@ onMounted(() => {
                 <div class="relative transition-all duration-300 py-2 flex-1 px-2 rounded-full  border">
                     <textarea v-model="userData" rows="1" placeholder="Yorum ekle..." @input="incHeight($event)"
                         class="w-full  border-none outline-none resize-none  ring-muted focus:outline-none  placeholder:text-muted "></textarea>
-                    <div class="hidden sm:absolute right-12 top-1 hover:cursor-pointer rounded-full p-1 hover:bg-gray-300  ">
+                    <div
+                        class="hidden sm:absolute right-12 top-1 hover:cursor-pointer rounded-full p-1 hover:bg-gray-300  ">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" class=""
                             width="24" height="24" focusable="false" fill="#666666">
                             <path

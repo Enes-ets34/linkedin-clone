@@ -6,17 +6,18 @@ import { useRouter } from 'vue-router';
 const route = useRouter()
 const store = useStore()
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
-const hidePaths = ['/signin', '/signup', '/forgot-password']
+
 const hideChatbox = computed(() => {
-    return hidePaths.indexOf(route.currentRoute.value.fullPath) > -1
+    return !Boolean(route.currentRoute.value.fullPath.includes('/signin') || route.currentRoute.value.fullPath.includes('/signup') || route.currentRoute.value.fullPath.includes('/forgot-password'))
 })
+
 const profile_image = computed(() => {
     return currentUser ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
 })
 </script>
 <template>
-    <div v-if="!hideChatbox"
-        class=" hidden md:flex h-12 group hover:h-[650px] duration-500 overflow-auto fixed bottom-0 right-0 max-w-xs flex-col   bg-white rounded-t-lg border">
+    <div v-if="hideChatbox"
+        class=" hidden md:flex h-12 group hover:h-[650px] duration-500  fixed bottom-0 right-0 max-w-xs flex-col   bg-white rounded-t-lg border">
         <div
             class="top-0  flex rounded-t-lg text-sm border-b py-2 px-3 z-10   drop-shadow-lg font-semibold hover:cursor-pointer  justify-between items-center space-x-12 hover:bg-gray-100">
 
@@ -37,7 +38,7 @@ const profile_image = computed(() => {
                     class=" fa-solid fa-chevron-up group-hover:rotate-180  hover:bg-gray-200 transition-all duration-150 rounded-full p-2"></i>
             </div>
         </div>
-        <div class=" transition-all duration-1000">
+        <div class="overflow-auto transition-all duration-1000">
             <div class="px-3 py-2 mb-2 ">
                 <div
                     class=" flex justify-between items-center px-4 py-1 space-x-2 border border-transparent hover:border-black bg-slate-100 rounded-sm">

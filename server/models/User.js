@@ -60,7 +60,7 @@ const userSchema = new Schema({
     type: Array,
   },
   experience: {
-    type: Array,
+    type: Object,
   },
   skills: {
     type: Array,

@@ -8,7 +8,7 @@ const {
 } = require("../controllers/companyController.js");
 const { getAccessToRoute } = require("../middlewares/authorization/auth");
 
-router.get("/", getAccessToRoute, getAllCompanies);
+router.get("/", getAllCompanies);
 router.get("/:slug", getAccessToRoute, getSingleCompany);
 router.post("/", getAccessToRoute, addNewCompany);
 router.delete("/delete/:id", getAccessToRoute, deleteCompany);

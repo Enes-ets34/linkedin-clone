@@ -66,12 +66,12 @@ const signup = () => {
                     <div class="w-40 h-px bg-gray-400 mr-2">
                     </div>
                     veya
-                    <div class="w-40 h-px bg-gray-400 mr-2">
+                    <div class="w-40 h-px bg-gray-400 ml-2">
                     </div>
 
                 </div>
                 <button
-                    class="bg-white w-full rounded-full py-2 my-4 text-muted border ring-muted  font-bold space2 flex justify-center space-x-3 hover:bg-gray-200 hover:ring-2 duration-150 hover:ring-black items-center">
+                    class="bg-white w-full rounded-full py-2 my-4 text-muted border ring-muted  font-bold space2 flex justify-center space-x-3 hover:bg-gray-200 hover:ring-2 duration-150 hover:ring-muted items-center">
                     <svg width="24" height="24" viewBox="0 2 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="24" height="24" fill="transparent"></rect>
                         <path

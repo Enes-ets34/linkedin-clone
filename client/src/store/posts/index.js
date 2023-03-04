@@ -1,6 +1,7 @@
 import router from "../../router";
 import appAxios from "../../utils/appAxios";
 import store from "../index";
+
 export default {
   namespaced: true,
   state: {
@@ -19,6 +20,16 @@ export default {
     },
     filterPosts(state, ID) {
       state.posts = state.posts.filter((p) => p._id !== ID);
+    },
+    likePost(state, pPostID) {
+      const user = store.getters["users/getCurrentUser"]._id;
+      state.posts.find((p) => p._id === pPostID).likes.push(user);
+    },
+    undolikePost(state, pPostID) {
+      let post = state.posts.find((p) => p._id === pPostID);
+      post.likes = post.likes.filter(
+        (l) => l !== store.getters["users/getCurrentUser"]._id
+      );
     },
     deleteComment(state, { pPostID, pCommentID }) {
       const post = state?.posts?.find((p) => p._id === pPostID);
@@ -81,12 +92,16 @@ export default {
           });
       }
     },
+
     updatePost({ commit }, pPost) {
       appAxios
         .put(`/post/update/${pPost._id}`, pPost)
         .then((res) => {
           if (res.status === 200) {
-            commit("updatePost", { pPost: pPost, pUpdatedPost: res?.data?.post });
+            commit("updatePost", {
+              pPost: pPost,
+              pUpdatedPost: res?.data?.post,
+            });
             store.dispatch("notifications/showMessage", {
               message: "Gönderiniz başarıyla güncellendi...",
               type: "success",
@@ -99,6 +114,33 @@ export default {
             type: "error",
           });
         });
+    },
+    likePost({ commit }, pPost) {
+      appAxios
+        .get("/post/like/" + pPost._id)
+        .then((res) => {
+          commit("likePost", res?.data?.post?._id);
+        })
+        .catch((err) => {
+          store.dispatch("notifications/showMessage", {
+            message: err.response.data.message,
+            type: "error",
+          });
+        });
+    },
+    undolikePost({ commit }, pPost) {
+      appAxios
+      .get("/post/undo-like/" + pPost._id)
+      .then((res) => {
+        commit("undolikePost", res?.data?.post?._id);
+      })
+      .catch((err) => {
+        store.dispatch("notifications/showMessage", {
+          message: err.response.data.message,
+          type: "error",
+        });
+      });
+      
     },
     addComment({ commit }, { pUserData, pPost }) {
       appAxios

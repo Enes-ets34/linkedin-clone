@@ -1,7 +1,7 @@
 <script setup>
 import SettingsCard from '../../components/SettingsCard.vue';
 import { BASE_URL } from '../../constants';
-import { computed, onMounted,ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 const store = useStore()
@@ -9,9 +9,9 @@ const route = useRouter()
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
 
 console.log('route.currentRoute.value.fullPath :>> ', route.currentRoute.value.fullPath);
-const hidePaths = ['/signin', '/signup', '/forgot-password']
+
 const hideNavbar = computed(() => {
-    return hidePaths.indexOf(route.currentRoute.value.fullPath) > -1
+    return !Boolean(route.currentRoute.value.fullPath.includes('/signin') || route.currentRoute.value.fullPath.includes('/signup') || route.currentRoute.value.fullPath.includes('/forgot-password'))
 })
 
 const profile_image = computed(() => {
@@ -19,9 +19,10 @@ const profile_image = computed(() => {
 })
 </script>
 <template>
-    <header v-if="!hideNavbar"
+    <header v-if="hideNavbar"
         class="fixed z-[1] top-0 left-0 right-0 border-b-[1px] bg-white border-b-[rgba(0,0,0,0.2)] sm:mb-3 ">
         <nav class="">
+
             <div class="container w-full  py-3 px-4 md:py-2 md:px-0">
                 <div class="flex relative md:static justify-between items-center">
                     <div class="md:order-none md:static absolute left-12 flex justify-start items-center md:space-x-3">
@@ -61,6 +62,7 @@ const profile_image = computed(() => {
                                             d="M23 9v2h-2v7a3 3 0 01-3 3h-4v-6h-4v6H6a3 3 0 01-3-3v-7H1V9l11-7 5 3.18V2h3v5.09z">
                                         </path>
                                     </svg> <small class="">Anasayfa</small>
+
                                 </router-link>
                             </li>
                             <li
@@ -125,14 +127,14 @@ const profile_image = computed(() => {
                         </li>
                         <!-- Profile -->
 
-                        <li  
+                        <li
                             class=" flex group flex-col justify-between items-center text-center hover:cursor-pointer group  lg:w-20 lg:border-r-2  border-gray-300 ">
-                            <img :src="profile_image" alt="" class="rounded-full w-8 md:w-6"  >
-                            <div  class="flex justify-between items-center space-x-1">
+                            <img :src="profile_image" alt="" class="rounded-full w-8 md:w-6">
+                            <div class="flex justify-between items-center space-x-1">
                                 <small class="text-muted hidden lg:block group-hover:text-black">Ben</small><i
                                     class="fas fa-caret-down text-muted hidden lg:block group-hover:text-black"></i>
                             </div>
-                            <SettingsCard  />
+                            <SettingsCard />
                         </li>
                         <!-- /Profile -->
                         <li
