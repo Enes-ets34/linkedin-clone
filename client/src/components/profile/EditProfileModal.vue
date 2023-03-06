@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import { BASE_URL } from '../../constants';
+
 
 const store = useStore()
 const emit = defineEmits()
@@ -84,46 +84,7 @@ const addExperience = () => {
                                         class="mt-1 px-2 py-1 border border-1 border-muted hover:ring-black hover:ring-1 transition-all duration-300 focus:outline-primary active:ring-0 rounded-md"></textarea>
                                 </div>
                             </div>
-                            <div class="flex flex-col  space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <p class="sm:text-xl ">Deneyimler</p>
-                                    <button @click="addExperience"
-                                        class=" mt-2 rounded-md flex items-center space-x-2 border border-muted text-muted px-2 py-1 hover:bg-gray-200 hover:border-black active:text-black transition-bg duration-300 ">
-                                        <p> Ekle</p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"
-                                            data-supported-dps="16x16" fill="currentColor" class="mercado-match" width="16"
-                                            height="16" focusable="false">
-                                            <path d="M14 9H9v5H7V9H2V7h5V2h2v5h5z"></path>
-                                        </svg>
-
-                                    </button>
-                                </div>
-                                <div v-for="experience in props.currentUser.experience" :key="experience">
-                                    <div class="flex flex-col">
-                                        <label for="title" class="text-muted text-xs sm:text-sm">Başlık*</label>
-                                        <input placeholder="Örn: Yazılım Geliştirici" type="text" name="" id="title"
-                                            class="mt-1 px-2 py-1 border border-1 placeholder:text-sm  border-muted hover:ring-black hover:ring-1 transition-all duration-300 focus:outline-primary active:ring-0 rounded-md" />
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <label for="company_name" class="text-muted text-xs sm:text-sm">Şirket adı*</label>
-                                        <input placeholder="Örn: Microsoft" type="text" name="" id="company_name"
-                                            class="mt-1 px-2 py-1 border border-1 placeholder:text-sm  border-muted hover:ring-black hover:ring-1 transition-all duration-300 focus:outline-primary active:ring-0 rounded-md" />
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <label for="company_location" class="text-muted text-xs sm:text-sm">Konum*</label>
-                                        <input placeholder="Örn: İstanbul, Türkiye" type="text" name=""
-                                            id="company_location"
-                                            class="mt-1 px-2 py-1 border border-1 placeholder:text-sm  border-muted hover:ring-black hover:ring-1 transition-all duration-300 focus:outline-primary active:ring-0 rounded-md" />
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <label for="company_location" class="text-muted text-xs sm:text-sm">Başlangıç -
-                                            Bitiş
-                                            Tarihi*</label>
-                                        <input placeholder="Örn: Ocak 2023- Halen" type="text" name="" id="company_location"
-                                            class="mt-1 px-2 py-1 border border-1 placeholder:text-sm  border-muted hover:ring-black hover:ring-1 transition-all duration-300 focus:outline-primary active:ring-0 rounded-md" />
-                                    </div>
-                                </div>
-                            </div>
+                    
                         </div>
                     </div>
                     <div

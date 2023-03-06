@@ -11,12 +11,18 @@ const experienceSchema = new Schema({
     type: String,
     trim: true,
   },
-  media: {
+  title: {
+    type: String,
+  },
+  location: {
     type: String,
   },
   company: {
     type: mongoose.Schema.ObjectId,
     ref: "Company",
+  },
+  date: {
+    type: String,
   },
 });
 

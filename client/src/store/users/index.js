@@ -21,22 +21,32 @@ export default {
     setUserInfo(state, pUser) {
       state.registerData = pUser;
     },
+    addExperience(state, pExperience) {
+      state.user.experiences.push(pExperience);
+      const user = JSON.parse(localStorage.user);
+      user.experiences.push(pExperience);
+      localStorage.user = JSON.stringify(user);
+    },
+    deleteExperience(state, pExperience) {
+      state.user.experiences = state.user.experiences.filter(
+        (e) => e._id !== pExperience
+      );
+      const user = JSON.parse(localStorage.user);
+      user.experiences = state.user.experiences;
+      localStorage.user = JSON.stringify(user);
+    },
     logout(state) {
       appAxios
         .get("/auth/logout")
         .then((res) => {
-          console.log("res.status :>> ", res.status);
-          if (res?.status === 200) {
-            localStorage.lastUserName = state?.user?.full_name;
-            state.user = null;
-            state.access_token = null;
-            localStorage.removeItem("user");
-            localStorage.removeItem("access_token");
-            router.push("/signup");
-          }
+          localStorage.lastUserName = state?.user?.full_name;
+          state.user = null;
+          state.access_token = null;
+          localStorage.removeItem("user");
+          localStorage.removeItem("access_token");
+          router.push("/signup");
         })
         .catch((err) => {
-          console.error(err);
           localStorage.lastUserName = state?.user?.full_name;
           state.user = null;
           state.access_token = null;
@@ -58,7 +68,11 @@ export default {
           }
         })
         .catch((err) => {
-          alert("ERROR:" + err.response.data.message);
+          store.dispatch("notifications/showMessage", {
+            message: err.response.data.message,
+            type: "error",
+          });
+          router?.push("/signin");
         });
     },
     signup({ commit }, pUser) {
@@ -87,7 +101,6 @@ export default {
         });
     },
     uploadProfilePhoto({ commit }, pUploadedPhoto) {
-      
       const formData = new FormData();
       formData.append("profile_image", pUploadedPhoto);
 
@@ -105,7 +118,7 @@ export default {
         })
         .catch((err) => {
           store.dispatch("notifications/showMessage", {
-            message:  err.response.data.message,
+            message: err.response.data.message,
             type: "error",
           });
         });
@@ -121,7 +134,7 @@ export default {
         })
         .catch((err) => {
           store.dispatch("notifications/showMessage", {
-            message:  err.response.data.message,
+            message: err.response.data.message,
             type: "error",
           });
         });
@@ -133,14 +146,71 @@ export default {
           if (res?.status === 200) {
             commit("setUser", res.data.user);
             store.dispatch("notifications/showMessage", {
-              message:  'Profiliniz başarıyla güncellendi...',
+              message: "Profiliniz başarıyla güncellendi...",
               type: "success",
             });
           }
         })
         .catch((err) => {
           store.dispatch("notifications/showMessage", {
-            message:  err.response.data.message,
+            message: err.response.data.message,
+            type: "error",
+          });
+        });
+    },
+    addExperience({ commit }, pUserData) {
+      appAxios
+        .post("/users/experience", pUserData)
+        .then((res) => {
+          if (res?.status === 200) {
+            commit("addExperience", res?.data?.experience);
+            store.dispatch("notifications/showMessage", {
+              message: "Deneyim başarıyla eklendi...",
+              type: "success",
+            });
+          }
+        })
+        .catch((err) => {
+          store.dispatch("notifications/showMessage", {
+            message: err.response.data.message,
+            type: "error",
+          });
+        });
+    },
+    updateExperience({ commit }, pExperience) {
+      appAxios
+        .put("/experience/" + pExperience.company?._id, pExperience)
+        .then((res) => {
+          if (res?.status === 200) {
+            commit("setUser", res.data.user);
+            store.dispatch("notifications/showMessage", {
+              message: "Profiliniz başarıyla güncellendi...",
+              type: "success",
+            });
+          }
+        })
+        .catch((err) => {
+          store.dispatch("notifications/showMessage", {
+            message: err.response.data.message,
+            type: "error",
+          });
+        });
+    },
+    deleteExperience({ commit }, pExperience) {
+      appAxios
+        .delete("users/experience/" + pExperience)
+        .then((res) => {
+          if (res?.status === 200) {
+            commit("deleteExperience", pExperience);
+            store.dispatch("notifications/showMessage", {
+              message: "Profiliniz başarıyla güncellendi...",
+              type: "success",
+            });
+          }
+        })
+        .catch((err) => {
+          store.dispatch("notifications/showMessage", {
+            message: err.response.data.message,
             type: "error",
           });
         });

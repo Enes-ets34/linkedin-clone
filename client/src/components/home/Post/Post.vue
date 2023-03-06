@@ -6,8 +6,6 @@ import moment from "../../../composables/moment";
 
 import PostComment from './PostCommentItem.vue';
 import EditPostModal from './EditPostModal.vue';
-const emit = defineEmits()
-
 
 const store = useStore()
 const { created_at } = moment(props.post.created_at);
@@ -77,8 +75,6 @@ const hasAlreadyLiked = computed(() => {
 
 const likeActions = () => {
     hasAlreadyLiked.value ? store.dispatch('posts/undolikePost', props.post) : store.dispatch('posts/likePost', props.post)
-
-
 }
 
 

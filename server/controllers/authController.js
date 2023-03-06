@@ -21,6 +21,10 @@ const login = asyncErrorWrapper(async (req, res, next) => {
   }
   const user = await User.findOne({ email: userData.email })
     .populate("company")
+    .populate({
+      path: "experiences",
+      populate: "company",
+    })
     .select("+password");
   if (!(comparePassword(userData.password) === user.password)) {
     return next(new CustomError("Please Check Your Password", 400));
@@ -90,7 +94,7 @@ const deleteProfilePhoto = asyncErrorWrapper(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "Profile photo deleted successfully",
-    user
+    user,
   });
 });
 

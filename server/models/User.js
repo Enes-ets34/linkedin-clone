@@ -59,9 +59,13 @@ const userSchema = new Schema({
   education: {
     type: Array,
   },
-  experience: {
-    type: Object,
-  },
+
+  experiences: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Experience",
+    },
+  ],
   skills: {
     type: Array,
   },
