@@ -22,11 +22,8 @@ appAxios.get("/company")
         console.error(err);
     });
 
-const updateExperience = () => {
-    store.dispatch('users/updateExperience', updateState.value)
-}
 const closeEditExperienceModal = () => {
-    emit('close-editExperience-modal', false)
+    emit('close-editExperience-modal', null)
 }
 
 </script>
@@ -61,7 +58,7 @@ const closeEditExperienceModal = () => {
                                         <img :src="updateState.company.media" alt="" class="mr-2 object-contain w-12 h-12">
                                         <p class="sm:text-xl ">{{ updateState.company?.name }}</p>
                                     </div>
-                                    <button @click="$store.dispatch('users/deleteExperience', updateState._id)"
+                                    <button @click="emit('delete-experience', updateState._id)"
                                         class=" mt-2 rounded-md flex items-center space-x-2 border border-muted text-muted px-2 py-1 hover:bg-gray-200 hover:border-black active:text-black transition-bg duration-300 ">
                                         Sil
                                     </button>
@@ -102,7 +99,7 @@ const closeEditExperienceModal = () => {
                     </div>
                     <div
                         class="bg-white border-t border border-opacity-70 px-4 py-3 space-x-2 flex justify-end items-center sm:px-6">
-                        <button @click="updateExperience"
+                        <button @click="emit('update-experience', updateState)"
                             class="bg-primary  rounded-full py-1 px-3 text-white active:bg-[#09223b] hover:bg-[#004182] transition-all duration-300 font-bold">Kaydet</button>
                     </div>
 

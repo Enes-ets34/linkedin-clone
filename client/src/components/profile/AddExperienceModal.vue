@@ -31,7 +31,7 @@ const setCompany = (e) => {
     selectedCompany.value = companies.value.find(c => c._id === e.target.value);
 }
 const closeAddExperienceModal = () => {
-    emit('close-addExperience-modal', false)
+    emit('close-addExperience-modal', null)
 }
 const addExperience = () => {
     store.dispatch('users/addExperience', userData.value)

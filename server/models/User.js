@@ -59,7 +59,6 @@ const userSchema = new Schema({
   education: {
     type: Array,
   },
-
   experiences: [
     {
       type: mongoose.Schema.Types.ObjectId,

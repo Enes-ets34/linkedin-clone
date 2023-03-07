@@ -21,7 +21,7 @@ const removeProfilePhoto = (e) => {
 
 }
 const closePhotoModal = () => {
-    emit('close-photo-modal', false)
+    emit('close-photo-modal', null)
 }
 </script>
 <template>

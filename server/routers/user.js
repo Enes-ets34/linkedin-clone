@@ -19,7 +19,7 @@ router.get("/:slug", checkUserExist, getSingleUserBySlug);
 router.get("/edit/:id", getAccessToRoute, editUser);
 router.get("/", getAllUsers);
 router.put("/update", getAccessToRoute, updateUser);
-// /user/experience
+// /users/experience
 router.post("/experience", getAccessToRoute, addExperience);
 router.delete("/experience/:id", getAccessToRoute, deleteExperience);
 router.put("/experience/:id", getAccessToRoute, updateExperience);

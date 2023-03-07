@@ -80,16 +80,17 @@ const deleteExperience = asyncErrorWrapper(async (req, res, next) => {
 const updateExperience = asyncErrorWrapper(async (req, res, next) => {
   const experience = await Experience.findById(req.params.id);
   const user = await User.findById(req.user.id);
-  if (experience.user !== req.user.id) {
+  if (JSON.parse(JSON.stringify(experience.user)) !== req.user.id) {
     return next(
-      new CustomError("You Can Not Delete Experience For This Experience.", 400)
+      new CustomError("You Can Not Update Experience For This Experience.", 400)
     );
   }
-  user.experiences.pull(experience);
-  await user.save();
+  await experience.updateOne({ ...req.body });
+  await experience.save();
   return res.status(200).json({
     success: true,
     user,
+    experience
   });
 });
 

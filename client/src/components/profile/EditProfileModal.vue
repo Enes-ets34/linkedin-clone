@@ -16,11 +16,11 @@ const props = defineProps({
 const updateState = ref({ ...props.currentUser })
 const updateUser = () => {
     store.dispatch('users/updateUser', updateState.value)
-    emit('close-edit-modal', false)
+    emit('close-edit-modal', null)
 
 }
 const closeEditModal = () => {
-    emit('close-edit-modal', false)
+    emit('close-edit-modal', null)
 }
 const addExperience = () => {
     console.log('props.currentUser :>> ', props.currentUser);
