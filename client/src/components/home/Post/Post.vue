@@ -6,7 +6,7 @@ import moment from "../../../composables/moment";
 
 import PostComment from './PostCommentItem.vue';
 import EditPostModal from './EditPostModal.vue';
-
+console.log('props.post :>> ', props.post);
 const store = useStore()
 const { created_at } = moment(props.post.created_at);
 
@@ -19,10 +19,12 @@ const props = defineProps({
     }
 })
 function formatContent(content) {
-    return content.replace(
-        /#\w+/g,
-        '<span class="text-primary cursor-pointer font-semibold">$&</span>'
-    );
+    return content
+        .replace(/\n/g, "<br/>")
+        .replace(
+            /#\w+/g,
+            '<span class="text-primary cursor-pointer font-semibold">$&</span>'
+        );
 }
 const userData = ref(null)
 const openCommentMenu = ref(false)
@@ -71,11 +73,12 @@ onMounted(() => {
 const hasAlreadyLiked = computed(() => {
     return Boolean(props?.post?.likes?.find(l => l === currentUser?.value?._id))
 })
-
-
 const likeActions = () => {
     hasAlreadyLiked.value ? store.dispatch('posts/undolikePost', props.post) : store.dispatch('posts/likePost', props.post)
 }
+const postLikes = computed(() => {
+    return hasAlreadyLiked && (props.post.likes.length - 1) > 0 ? `siz ve ve diğer ${props.post.likes.length - 1} kişi` : props.post.likes.length
+})
 
 
 </script>
@@ -135,7 +138,7 @@ const likeActions = () => {
         <div class="flex justify-between items-center mt-2 text-muted  text-xs">
             <div class="flex space-x-1">
                 <img src="https://static.licdn.com/sc/h/8ekq8gho1ruaf8i7f86vd1ftt" alt="">
-                <span v-if="props.post.likes.length > 0">{{ props.post.likes.length }}</span>
+                <span v-if="props.post.likes.length > 0">{{ postLikes }}</span>
                 <span v-else>Bunu ilk beğenen sen ol.</span>
             </div>
             <p v-if="props.post.comments.length > 0">{{ props.post.comments.length }} yorum</p>

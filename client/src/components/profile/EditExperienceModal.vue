@@ -1,27 +1,13 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
-import appAxios from '../../utils/appAxios';
-const store = useStore()
 const emit = defineEmits()
 const props = defineProps({
-    editExperienceModal: {
-        type: Boolean,
-    },
     experience: {
         type: Object,
     },
-
 })
-const companies = ref(null)
-const updateState = ref({ ...props.experience })
-appAxios.get("/company")
-    .then((res) => {
-        companies.value = res?.data?.companies
-    }).catch((err) => {
-        console.error(err);
-    });
-
+const updateState = ref({...props.experience})
+console.log('updateState.value :>> ', updateState.value);
 const closeEditExperienceModal = () => {
     emit('close-editExperience-modal', null)
 }

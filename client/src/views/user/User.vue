@@ -1,17 +1,17 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import { BASE_URL } from '../../constants';
 import appAxios from "../../utils/appAxios";
-import { useRouter } from 'vue-router';
+import { BASE_URL } from '../../constants';
 import ProfileRightSide from '../../components/profile/ProfileRightSide.vue';
 import router from '../../router';
-const route = useRouter()
+const route = useRoute()
 const store = useStore()
+const slug = computed(() => route.params.slug)
 let currentUser = computed(() => store.getters['users/getCurrentUser'])
-const slug = route.currentRoute.value.params.slug
 let user = ref({})
-appAxios.get(`/users/${slug}`)
+appAxios.get(`/users/${slug.value}`)
     .then((res) => {
         if (res.status === 200) {
             user.value = res.data.user
@@ -71,10 +71,11 @@ appAxios.get(`/users/${slug}`)
                                 </button>
                             </div>
                         </div>
-                        <div class="flex justify-start items-center text-sm font-semibold  space-x-2">
+                        <router-link :to="`/company/${user?.company?.slug}`"
+                            class="flex justify-start items-center text-sm font-semibold  space-x-2">
                             <img :src="`${user?.company?.media}`" alt="" class="w-8">
                             <a href="#" class="hover:underline hover:text-primary">{{ user?.company?.name }}</a>
-                        </div>
+                        </router-link>
                     </div>
                 </div>
                 <div class="border flex flex-col space-y-2 bg-white rounded-lg">

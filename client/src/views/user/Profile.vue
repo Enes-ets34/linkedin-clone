@@ -68,6 +68,7 @@ const updateExperience = (pExperience) => {
             });
         });
 }
+console.log('currentUser.value.experiences :>> ', currentUser.value.experiences);
 </script>
 <template>
     <div class="container pb-20 mt-16 sm:mt-20">
@@ -131,18 +132,19 @@ const updateExperience = (pExperience) => {
                                 <button
                                     class=" py-px px-3 rounded-full border border-1 border-primary text-primary font-semibold bg-white transition-all duration-300 hover:bg-blue-100">
                                     Profil bölümü ekle
-                            </button>
+                                </button>
                             <button
                                 class="hidden mx:inline py-px px-3 rounded-full border border-1 border-muted text-muted font-semibold bg-white transition-all duration-300 hover:bg-gray-200">
                                 Daha fazla
                             </button>
                         </div>
-                    </div>
-                        <div class="flex justify-start items-center text-sm font-semibold  space-x-2">
-
-                            <img :src="`${currentUser?.company?.media}`" alt="" class="w-8">
-                            <a href="#" class="hover:underline hover:text-primary">{{ currentUser?.company?.name }}</a>
                         </div>
+
+                        <router-link :to="`company/${currentUser?.company?.slug}`"
+                            class="flex justify-start items-center text-sm font-semibold  space-x-2">
+                            <img :src="`${currentUser?.company?.media}`" alt="" class="w-8">
+                            <p class="hover:underline hover:text-primary">{{ currentUser?.company?.name }}</p>
+                        </router-link>
                     </div>
                 </div>
                 <div class="border flex flex-col space-y-2 bg-white rounded-lg">
@@ -183,7 +185,8 @@ const updateExperience = (pExperience) => {
 
                             <img :src="experience?.company?.media" alt="" class="w-12 object-contain ">
                             <div class="flex flex-col w-full">
-                                <p class="font-semibold flex justify-between items-center relative">{{ experience?.title }}
+                                <p class="font-semibold flex justify-between items-center relative">
+                                    {{ experience?.title }}
                                     <button @click="$store.dispatch('setModal', 'edit-experience-modal')"
                                         class="hover:bg-gray-200 rounded-full p-2 absolute top-0 right-4 cursor-pointer transition-all duration-300 active:bg-gray-300 ">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -202,13 +205,11 @@ const updateExperience = (pExperience) => {
                                     {{ experience?.description }}
                                 </p>
                                 <!-- <div class="text-sm ">
-                                                                                                                                                        <span class="font-semibold">
-                                                                                                                                                            Yetenekler:
-                                                                                                                                                        </span>
-                                                                                                                                                        Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
-                                                                                                                                                        Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
-
-                                                                                                                                                    </div> -->
+               Yetenekler:
+        </span>
+        Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
+    Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
+    </div> -->
                             </div>
                         </div>
 
