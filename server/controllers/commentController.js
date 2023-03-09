@@ -18,7 +18,6 @@ const addNewComment = asyncErrorWrapper(async (req, res, next) => {
     comment,
   });
 });
-
 const updateComment = asyncErrorWrapper(async (req, res, next) => {
   const userData = req.body;
   const comment = await Comment.findByIdAndUpdate(
@@ -39,7 +38,7 @@ const updateComment = asyncErrorWrapper(async (req, res, next) => {
 });
 const deleteComment = asyncErrorWrapper(async (req, res, next) => {
   console.log("buraya geldi");
-  const comment = await Comment.findByIdAndDelete(req.params.comment_id);
+  await Comment.findByIdAndDelete(req.params.comment_id);
   return res.status(200).json({
     success: true,
     message: "Comment deleted successfully..",
