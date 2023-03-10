@@ -53,6 +53,7 @@ npm run serve
 - CSS3
 - Tailwind CSS
 
+
 <div style="display: flex; flex-wrap: nowrap; justify-content: start; align-items: center;">
   <h2>Vue3 + Vite</h2>
   <a href="https://vitejs.dev/" target="_blank" rel="noreferrer">
