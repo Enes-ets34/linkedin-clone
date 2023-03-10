@@ -53,10 +53,12 @@ npm run serve
 - CSS3
 - Tailwind CSS
 
-<div style="display:flex">
+
+<div style="display:flex;justify-content:start;align-items:center">
 <h2>Vue3 + Vite</h2>
  <a href="https://vitejs.dev/" target="_blank" rel="noreferrer"> <img src="https://cdn.worldvectorlogo.com/logos/vitejs.svg" alt="Vitejs logo vector" width="40" height="40"/> </a>
 </div>
+<hr/>
 
 ```bash
   "dependencies": {
