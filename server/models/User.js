@@ -37,7 +37,7 @@ const userSchema = new Schema({
   reset_password_expire: {
     type: Date,
   },
-  full_name: {
+  name: {
     type: String,
     min: 3,
     max: 17,

@@ -22,13 +22,6 @@ const deleteCompany = asyncErrorWrapper(async (req, res, next) => {
 const getAllCompanies = asyncErrorWrapper(async (req, res, next) => {
   const query = Company.find()
 
-  if (req.query.search) {
-    const searchObject = {};
-    const regex = new RegExp(req.query.search.trim(), "i");
-    searchObject["name"] = regex;
-    query.where(searchObject)
-  }
-
   const companies = await query.populate({
     path: "employees",
     model: "User",
