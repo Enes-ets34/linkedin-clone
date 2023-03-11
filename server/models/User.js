@@ -88,6 +88,8 @@ userSchema.methods.generatejwtFromUser = function () {
   return token;
 };
 userSchema.methods.getResetPasswordTokenFromUser = function () {
+  const currentDate = new Date();
+  currentDate.setUTCHours(currentDate.getUTCHours() + 3); // GMT+3 için 3 saat ekleyin
   const { RESET_PASSWORD_EXPIRE } = process.env;
   const randomHexString = crypto.randomBytes(15).toString("hex");
   const resetPasswordToken = crypto
@@ -95,7 +97,8 @@ userSchema.methods.getResetPasswordTokenFromUser = function () {
     .update(randomHexString)
     .digest("hex");
   this.reset_password_token = resetPasswordToken;
-  this.reset_password_expire = Date.now() + parseInt(RESET_PASSWORD_EXPIRE);
+  this.reset_password_expire = currentDate;
+  parseInt(RESET_PASSWORD_EXPIRE);
   return this.reset_password_token;
 };
 
@@ -108,10 +111,12 @@ userSchema.pre("validate", function (next, err) {
   //Parola değişmemiş ise
   if (!this.isModified("password")) return next();
   const user = this;
-  user.slug = slugify(user.full_name, {
-    lower: true,
-    strict: true,
-  });
+  if (user.full_name) {
+    user.slug = slugify(user.full_name, {
+      lower: true,
+      strict: true,
+    });
+  }
   user.password = CryptoJS.HmacSHA1(user.password, _SALTKEY).toString();
   next();
 });

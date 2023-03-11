@@ -1,9 +1,31 @@
 <script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { BASE_URL } from '../../constants';
+import { useStore } from 'vuex';
+import appAxios from '../../utils/appAxios';
+const router = useRouter()
+const store = useStore()
 
-
-const route = useRouter()
-console.log('route.currentRoute.value.fullPath :>> ', route.currentRoute.value.fullPath);
+const userEmail = ref(null)
+const resetPasswordToken = () => {
+    appAxios.post(`${BASE_URL}/auth/forgotpassword`, {
+        email: userEmail.value
+    }).then((res) => {
+        console.log('res.response :>> ', res.data);
+        store.dispatch("notifications/showMessage", {
+            message: res.data.message,
+            type: "info",
+        });
+        router.push("/")
+    }).catch((err) => {
+        console.log('err.response :>> ', err.response);
+        store.dispatch("notifications/showMessage", {
+            message: err.data.message,
+            type: "error",
+        });
+    });
+}
 </script>
 <template>
     <div class="bg-white rounded-md w-screen h-screen">
@@ -12,7 +34,7 @@ console.log('route.currentRoute.value.fullPath :>> ', route.currentRoute.value.f
                 <h3 class="font-bold ">Linked</h3><i class="fa-brands fa-linkedin"></i>
             </div>
 
-            <div class="flex-1  md:w-1/2 lg:w-1/3 mx-auto rounded-md drop-shadow-xl bg-white py-6 px-6 ">
+            <div class="flex-1  md:w-1/2 lg:w-1/3 mt-44 mx-auto rounded-md drop-shadow-xl bg-white py-6 px-6 ">
                 <div>
                     <h3 class="text-3xl font-semibold">Şifrenizi mi unuttunuz?</h3>
                     <small>İki hızlı adım ile parolayı sıfırlayın</small>
@@ -20,7 +42,7 @@ console.log('route.currentRoute.value.fullPath :>> ', route.currentRoute.value.f
 
 
                 <div class="relative my-4">
-                    <input type="text" id="email"
+                    <input type="text" id="email" v-model="userEmail"
                         class="block rounded-md px-2.5 pb-2.5 pt-5 w-full   border border-1 border-black appearance-none  focus:outline-primary  peer"
                         placeholder=" " />
                     <label for="email"
@@ -29,7 +51,7 @@ console.log('route.currentRoute.value.fullPath :>> ', route.currentRoute.value.f
                     </label>
                 </div>
 
-                <button
+                <button @click="resetPasswordToken"
                     class="bg-primary my-4 w-full rounded-full py-4  text-white active:bg-[#09223b] hover:bg-[#004182] font-bold">
                     Şifreyi sıfırlayın
                 </button>

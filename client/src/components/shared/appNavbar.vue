@@ -11,7 +11,7 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
 console.log('route.currentRoute.value.fullPath :>> ', route.currentRoute.value.fullPath);
 
 const hideNavbar = computed(() => {
-    return !Boolean(route.currentRoute.value.fullPath.includes('/signin') || route.currentRoute.value.fullPath.includes('/signup') || route.currentRoute.value.fullPath.includes('/forgot-password'))
+    return !Boolean(route.currentRoute.value.fullPath.includes('/signin') || route.currentRoute.value.fullPath.includes('/signup') || route.currentRoute.value.fullPath.includes('/forgot-password')||route.currentRoute.value.fullPath.includes('/reset-password'))
 })
 
 const profile_image = computed(() => {

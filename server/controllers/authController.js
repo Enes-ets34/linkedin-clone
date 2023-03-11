@@ -106,7 +106,7 @@ const forgotPassword = asyncErrorWrapper(async (req, res, next) => {
     return next(new CustomError("There No User with that this email.", 400));
   }
   const resetPasswordToken = user.getResetPasswordTokenFromUser();
-  const resetPasswordUrl = `http://localhost:3000/auth/resetpassword?resetPasswordToken=${resetPasswordToken}`;
+  const resetPasswordUrl = `http://192.168.1.34:5173/#/reset-password?resetPasswordToken=${resetPasswordToken}`;
 
   const emailTemplate = `
   <h3>Reset Password</h3>
@@ -131,25 +131,28 @@ const forgotPassword = asyncErrorWrapper(async (req, res, next) => {
   await user.save();
 });
 const resetPassword = asyncErrorWrapper(async (req, res, next) => {
+  const currentDate = new Date();
+  currentDate.setUTCHours(currentDate.getUTCHours() + 3); // GMT+3 için 3 saat ekleyin
   const { resetPasswordToken } = req.query;
+  console.log("resetPasswordToken :>> ", resetPasswordToken);
   const userPassword = req.body.password;
   if (!resetPasswordToken) {
     return next(new CustomError("please provide a valid token.", 400));
   }
+  console.log("currentDate :>> ", currentDate);
   let user = await User.findOne({
     reset_password_token: resetPasswordToken,
-    reset_password_expire: {
-      $gt: Date.now(),
-    },
+    reset_password_expire: { $exists: true },
   });
+  console.log("user :>> ", user);
+  if (!user) {
+    return next(new CustomError("Invalid Token or Session Expired", 404));
+  }
   user.password = userPassword;
   user.reset_password_expire = undefined;
   user.reset_password_token = undefined;
   await user.save();
-  res.status(200).json({
-    success: true,
-    message: "OK",
-  });
+  sendJwtToClient(user, res, 200);
 });
 
 module.exports = {
