@@ -1,22 +1,29 @@
 <script setup>
 import SettingsCard from '../../components/SettingsCard.vue';
 import { BASE_URL } from '../../constants';
-import { computed, onMounted, ref } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 const store = useStore()
 const route = useRouter()
+const router = useRouter()
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
 
-console.log('route.currentRoute.value.fullPath :>> ', route.currentRoute.value.fullPath);
 
 const hideNavbar = computed(() => {
-    return !Boolean(route.currentRoute.value.fullPath.includes('/signin') || route.currentRoute.value.fullPath.includes('/signup') || route.currentRoute.value.fullPath.includes('/forgot-password')||route.currentRoute.value.fullPath.includes('/reset-password'))
+    return !Boolean(route.currentRoute.value.fullPath.includes('/signin') || route.currentRoute.value.fullPath.includes('/signup') || route.currentRoute.value.fullPath.includes('/forgot-password') || route.currentRoute.value.fullPath.includes('/reset-password'))
 })
 
 const profile_image = computed(() => {
     return currentUser ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
 })
+const search = (e) => {
+    router.push({
+        path: "/search",
+        query: { search: e.target.value }
+    })
+
+}
 </script>
 <template>
     <header v-if="hideNavbar"
@@ -40,7 +47,8 @@ const profile_image = computed(() => {
                                     d="M21.41 18.59l-5.27-5.28A6.83 6.83 0 0017 10a7 7 0 10-7 7 6.83 6.83 0 003.31-.86l5.28 5.27a2 2 0 002.82-2.82zM5 10a5 5 0 115 5 5 5 0 01-5-5z">
                                 </path>
                             </svg>
-                            <input class=" bg-slate-100 h-full ml-5 outline-0 placeholder:text-slate-600 "
+                            <input @keypress.enter="search($event)"
+                                class=" bg-slate-100 h-full ml-5 outline-0 placeholder:text-slate-600 "
                                 placeholder="Arama Yap" type="text">
                         </div>
                         <!-- /Search Area -->

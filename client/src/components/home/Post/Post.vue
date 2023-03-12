@@ -23,7 +23,7 @@ function formatContent(content) {
         .replace(/\n/g, "<br/>")
         .replace(
             /#\w+/g,
-            '<span class="text-primary cursor-pointer font-semibold">$&</span>'
+            '<span class="text-primary cursor-pointer hover:underline font-semibold">$&</span>'
         );
 }
 const userData = ref(null)
