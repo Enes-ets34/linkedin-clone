@@ -1,23 +1,46 @@
 <script setup>
+import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import RightSide from '../components/home/RightSide.vue';
+import { BASE_URL } from '../constants';
+import appAxios from '../utils/appAxios';
+
 const route = useRouter()
+const query = computed(() => { return route.currentRoute.value.query.search })
+const company = ref({})
+const users = ref([])
+
+console.log('route.currentRoute.value.query.search :>> ', route.currentRoute.value.query.search);
+const fetchResults = (value) => {
+    appAxios.get(`${BASE_URL}/search?search=${value}`)
+        .then((res) => {
+            if (res.status === 200) {
+                company.value = res?.data?.company
+                users.value = res?.data?.users
+                console.log('res :>> ', res);
+            }
+        }).catch((err) => {
+            console.error(err);
+        });
+}
+fetchResults(query.value)
+watch(() => query.value, (newValue, oldValue) => {
+    fetchResults(newValue)
+})
+
 
 </script>
 <template>
     <div class="container mt-16 px-0 sm:mt-20">
-
         <div class="flex flex-col md:flex-row justify-start items-center md:items-start md:space-x-5 ">
             <div class="flex flex-col w-full md:basis-1/2 ">
                 <div class=" flex flex-col space-y-2">
-                    <div class="border pt-3  py-4 px-4  text-sm bg-white rounded-lg">
-                        <div class="flex justify-start items-start space-x-2">
-                            <img src="https://yt3.googleusercontent.com/AAnXC4o1n8BKDsO5l6Uc71rf7WOJjm2-aUHzkvyp9vGYB5F4UtXWTecVzvPOBCFK0bNYsZlD7Hk=s900-c-k-c0x00ffffff-no-rj"
-                                alt="" class="object-contain  w-24 h-24 ">
+                    <div v-if="company" class="">
+                        <div
+                            class="border pt-3  py-4 px-4  text-sm bg-white rounded-lg flex justify-start items-start space-x-2">
+                            <img :src="company.media" alt="" class="object-contain  w-24 h-24 ">
                             <div class="flex flex-col">
-                                <a href="#" class="font-semibold text-2xl">META</a>
+                                <a href="#" class="font-semibold text-2xl">{{ company.name }}</a>
                                 <p>Teknoloji</p>
-                                <p class="text-muted">735 B takipçi</p>
                                 <p class="text-muted mb-2">California,ABD</p>
                                 <p class="font-semibold flex items-center text-muted mb-2"><svg
                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16"
@@ -33,7 +56,7 @@ const route = useRouter()
                                         class=" text-base bg-primary  rounded-full py-1 px-3 text-white active:bg-[#09223b] hover:bg-[#004182] transition-all duration-300 font-semibold">
                                         Takip et
                                     </button>
-                                    <router-link to=""
+                                    <router-link :to="`/company/${company.slug}`"
                                         class="py-1 px-3 text-base rounded-full border border-1 border-muted text-muted font-semibold bg-white transition-all duration-300 hover:bg-gray-200">
                                         Sayfayı görüntüle
                                     </router-link>
@@ -41,26 +64,49 @@ const route = useRouter()
 
                             </div>
                         </div>
+                        <div v-if="company.employees" class="border mt-2  py-2  text-sm bg-white rounded-lg">
+                            <p class="font-semibold text-xl mb-4  px-4">Kişiler</p>
+                            <div v-for="employee in company.employees" :key="employee._id"
+                                class="flex justify-start pl-4 py-2  items-start ">
+                                <img :src="`${BASE_URL}/uploads/${employee.profile_image}`" alt=""
+                                    class="object-contain   w-14 h-14 rounded-full ">
+                                <div class="flex justify-between px-4  border-b items-start  w-full space-x-2 ">
+                                    <div class="flex flex-col">
+                                        <a href="#" class="font-semibold  text-base">{{ employee.full_name }}</a>
+                                        <p>{{ employee.title }}</p>
+                                        <p class="text-muted ">{{ employee.location }}</p>
+                                        <small class="text-muted mb-2">Şu anda: <b>{{ company.name }}</b> şirketinde
+                                            {{ employee.title }}</small>
+                                    </div>
+
+                                    <button
+                                        class="px-4 py-1 text-base mt-2 rounded-full border border-1 border-primary text-primary font-semibold bg-white transition-all duration-300 hover:bg-blue-100">
+                                        <p> Bağlantı kur</p>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
-                    <div class="border   py-2  text-sm bg-white rounded-lg">
+                    <div v-if="users && users.length > 0" class="border   py-2  text-sm bg-white rounded-lg">
                         <p class="font-semibold text-xl mb-4  px-4">Kişiler</p>
-                        <div v-for="i in 5" class="flex justify-start pl-4 py-2  items-start ">
-                            <img src="https://media.licdn.com/dms/image/D4D03AQEBpJLboCb2KQ/profile-displayphoto-shrink_800_800/0/1677235747564?e=2147483647&v=beta&t=xDXFxbs-NYmGmUPvkqw_bghdwxV8maJz7julZwxP9oI"
-                                alt="" class="object-contain   w-14 h-14 rounded-full ">
+                        <div v-for="user in users" :key="user._id" class="flex justify-start pl-4 py-2  items-start ">
+                            <img :src="`${BASE_URL}/uploads/${user.profile_image}`" alt=""
+                                class="object-contain   w-14 h-14 rounded-full ">
                             <div class="flex justify-between px-4  border-b items-start  w-full space-x-2 ">
                                 <div class="flex flex-col">
-                                    <a href="#" class="font-semibold  text-base">Enes Taha SARI</a>
-                                    <p>Software Developer | Vue</p>
-                                    <p class="text-muted ">İstanbul,Turkey</p>
-                                    <small class="text-muted mb-2">Şu anda: <b>META</b> şirketinde Software
-                                        Developer</small>
+                                    <router-link :to='`/user/${user.slug}`' class="font-semibold  text-base">{{ user.full_name }}</router-link>
+                                    <p>{{ user.title }}</p>
+                                    <p class="text-muted ">{{ user.location }}</p>
+                                    <small class="text-muted mb-2">Şu anda: <b>{{ user?.company?.name }}</b> şirketinde
+                                        {{ user.title }}</small>
                                 </div>
-                                
+
                                 <button
-                                class="px-4 py-1 text-base mt-2 rounded-full border border-1 border-primary text-primary font-semibold bg-white transition-all duration-300 hover:bg-blue-100">
-                                <p> Bağlantı kur</p>
-                            </button>
-                        </div>
+                                    class="px-4 py-1 text-base mt-2 rounded-full border border-1 border-primary text-primary font-semibold bg-white transition-all duration-300 hover:bg-blue-100">
+                                    <p> Bağlantı kur</p>
+                                </button>
+                            </div>
 
                         </div>
                     </div>

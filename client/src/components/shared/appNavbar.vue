@@ -22,7 +22,7 @@ const search = (e) => {
         path: "/search",
         query: { search: e.target.value }
     })
-
+    e.target.value = ""
 }
 </script>
 <template>
@@ -39,7 +39,7 @@ const search = (e) => {
                         <!-- /Logo -->
                         <!-- Search Area -->
 
-                        <div class="relative bg-slate-100 px-4 py-1 flex items-center   w-[250px] rounded-md text-sm h-10 ">
+                        <div class="relative bg-slate-100 px-4 py-1 flex items-center  md:hover:w-[350px] w-[250px] rounded-md text-sm h-10 ">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
                                 fill="#666667" class="mercado-match absolute left-3 group-hover:fill-black " width="24"
                                 height="24" focusable="false">
@@ -48,7 +48,7 @@ const search = (e) => {
                                 </path>
                             </svg>
                             <input @keypress.enter="search($event)"
-                                class=" bg-slate-100 h-full ml-5 outline-0 placeholder:text-slate-600 "
+                                class=" bg-slate-100 h-full w-full ml-5 outline-0 placeholder:text-slate-600 "
                                 placeholder="Arama Yap" type="text">
                         </div>
                         <!-- /Search Area -->
@@ -136,13 +136,14 @@ const search = (e) => {
                         <!-- Profile -->
 
                         <li
-                            class=" flex group flex-col justify-between items-center text-center hover:cursor-pointer group  lg:w-20 lg:border-r-2  border-gray-300 ">
+
+                            class="flex group flex-col justify-between items-center text-center hover:cursor-pointer group  lg:w-20 lg:border-r-2  border-gray-300 ">
                             <img :src="profile_image" alt="" class="rounded-full w-8 md:w-6">
                             <div class="flex justify-between items-center space-x-1">
                                 <small class="text-muted hidden lg:block group-hover:text-black">Ben</small><i
                                     class="fas fa-caret-down text-muted hidden lg:block group-hover:text-black"></i>
                             </div>
-                            <SettingsCard />
+                            <SettingsCard g/>
                         </li>
                         <!-- /Profile -->
                         <li

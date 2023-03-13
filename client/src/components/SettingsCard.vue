@@ -14,7 +14,7 @@ const profile_image = computed(()=>{
 </script>
 <template>
     <div
-        class="opacity-0 group-hover:opacity-100 transition-all duration-300 pt-4 top-5 md:top-[50px] absolute z-[1]  md:w-1/3  lg:w-1/5 w-10/12 left-1 md:left-[550px] lg:left-[780px]  ">
+        class=" opacity-0 group-hover:opacity-100 transition-all duration-300 pt-4  top-9 md:top-[50px] absolute z-[1]  md:w-1/3  lg:w-1/5 w-10/12 left-1 md:left-[550px] lg:left-[780px]  ">
         <div class="py-3  hidden group-hover:flex flex-col rounded-md rounded-tr-none  bg-white shadow-xl  border">
             <div class="flex px-2 flex-col border-b space-y-2 pb-2">
                 <div class="flex justify-start items-center space-x-2"> 

@@ -19,6 +19,12 @@ const companySchema = new Schema({
   slug: {
     type: String,
   },
+  location: {
+    type: String,
+  },
+  category: {
+    type: String,
+  },
   employees: [
     {
       type: mongoose.Schema.ObjectId,

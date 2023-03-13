@@ -4,9 +4,9 @@ const Company = require("../models/Company");
 const User = require("../models/User");
 
 const search = asyncErrorWrapper(async (req, res, next) => {
-  let companies = [];
+  let company = {};
   let users = [];
-  const query = Company.find();
+  const query = Company.findOne();
   let searchObject = {};
 
   const regex = new RegExp(req.query.search.trim(), "i");
@@ -18,7 +18,7 @@ const search = asyncErrorWrapper(async (req, res, next) => {
       ],
     };
     query.where(searchObject);
-    companies = await query
+    company = await query
       .populate({
         path: "employees",
         model: "User",
@@ -32,7 +32,7 @@ const search = asyncErrorWrapper(async (req, res, next) => {
 
   return res.status(200).json({
     success: true,
-    companies,
+    company,
     users,
   });
 });

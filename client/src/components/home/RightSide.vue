@@ -104,7 +104,7 @@
                 <li class="flex justify-between items-center"><span class="text-primary font-bold">LinkedIn <i
                             class="fa-brands fa-linkedin"></i></span>
                     <a href="https://enes-ets34.github.io/info-ets/"
-                        class="text-black hover:text-indigo-300 transition-all duration-1000" target="_blank"><i
+                        class="text-black hover:text-indigo-700 transition-all duration-1000" target="_blank"><i
                             class="fa-brands fa-github text-indigo-600"></i>/enes-ets34 2023</a>
                 </li>
 
