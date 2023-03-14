@@ -2,20 +2,26 @@
 import { computed, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import useFormValidation from '../../../composables/validation';
 const togglePassword = ref(true)
 const route = useRouter()
 const router = useRouter()
 const store = useStore()
+const userData = reactive({})
 const showCard = computed(() => {
     return route?.currentRoute?.value.name === 'Signin'
 })
-const showPassword = computed(()=>{
+const showPassword = computed(() => {
     return !togglePassword.value ? 'text' : 'password'
 })
-const userData = reactive({})
+const { validateEmail, validatePassword, error } = useFormValidation(userData);
 const setUserEmail = () => {
-    store.commit('users/setUserInfo', userData)
-    router?.push("/signin/name_info")
+    validateEmail()
+    validatePassword()
+    if (!error.value.password && !error.value.email) { //  alanların doğruluğu kontrol edildi
+        store.commit('users/setUserInfo', userData)
+        router?.push("/signin/name_info")
+    }
 }
 </script>
 <template>
@@ -35,14 +41,16 @@ const setUserEmail = () => {
 
                 <div class="flex flex-col">
                     <label for="email" class="text-muted text-sm">E-posta</label>
-                    <input v-model="userData.email" type="email" id="email"
-                        class="mt-1 px-2 py-1 border border-1 border-muted focus:outline-black rounded-md" />
+                    <input v-model="userData.email" :class="{ 'ring-red-600 ring-2': error.email }" type="email" id="email"
+                        class="mt-1 px-2 py-1 ring-1 ring-muted focus:outline-black rounded-sm" />
+                    <small v-if="error.email" class="text-red-600 ">{{ error.email }}</small>
                 </div>
                 <div class="flex flex-col">
                     <label for="password" class="text-muted text-sm">Şifre (6 veya daha fazla karakter)</label>
                     <div class="relative flex justify-between items-center">
-                        <input v-model="userData.password" :type="showPassword" id="password"
-                            class="mt-1 px-2 py-1 border border-1 border-muted focus:outline-black w-full rounded-md" />
+                        <input v-model="userData.password" :class="{ 'ring-red-600 ring-2': error.password }"
+                            :type="showPassword" id="password"
+                            class="mt-1 px-2 py-1 ring-1 ring-muted focus:outline-black w-full rounded-sm" />
                         <small v-if="togglePassword" @click="togglePassword = false"
                             class="hover:cursor-pointer  absolute right-2 text-muted  hover:underline">
                             Göster
@@ -52,6 +60,7 @@ const setUserEmail = () => {
                             Gizle
                         </small>
                     </div>
+                    <small v-if="error.password" class="text-red-600">{{ error.password }}</small>
                 </div>
                 <div class="text-center">
                     <small class="text-center text-muted font-semibold align-middle leading-2">
@@ -63,8 +72,8 @@ const setUserEmail = () => {
                             Politikasını</a> kabul etmiş olursunuz.
                     </small>
                 </div>
-                <button  @click="setUserEmail()"
-                    class= " bg-primary w-full rounded-full py-3  text-white active:bg-[#09223b] hover:bg-[#004182] font-bold">
+                <button @click="setUserEmail()"
+                    class=" bg-primary w-full rounded-full py-3  text-white active:bg-[#09223b] hover:bg-[#004182] font-bold">
                     Kabul Et ve Katıl
 
                 </button>

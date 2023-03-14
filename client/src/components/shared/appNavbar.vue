@@ -139,15 +139,15 @@ const search = (e) => {
 
                             class="flex group flex-col justify-between items-center text-center hover:cursor-pointer group  lg:w-20 lg:border-r-2  border-gray-300 ">
                             <img :src="profile_image" alt="" class="rounded-full w-8 md:w-6">
-                            <div class="flex justify-between items-center space-x-1">
-                                <small class="text-muted hidden lg:block group-hover:text-black">Ben</small><i
-                                    class="fas fa-caret-down text-muted hidden lg:block group-hover:text-black"></i>
+                            <div class="md:flex hidden justify-between items-center space-x-1">
+                                <small class="text-muted  group-hover:text-black">Ben</small><i
+                                    class="fas fa-caret-down text-muted  group-hover:text-black"></i>
                             </div>
                             <SettingsCard g/>
                         </li>
                         <!-- /Profile -->
                         <li
-                            class=" flex-col hidden md:flex justify-start items-center text-center hover:cursor-pointer group w-12 md:w-20 ">
+                            class=" flex-col hidden lg:flex justify-start items-center text-center hover:cursor-pointer group w-12 md:w-20 ">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
                                 fill="#666667" class="mercado-match group-hover:fill-black" width="24" height="24"
                                 focusable="false">

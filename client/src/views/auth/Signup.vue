@@ -3,22 +3,32 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
+import useFormValidation from '../../composables/validation';
+
 const route = useRouter()
 const store = useStore()
+const userData = reactive({
+    email: null,
+    password: null,
+})
+
+const { validateEmail, validatePassword, error } = useFormValidation(userData);
 const togglePassword = ref(true)
 const showPassword = computed(() => {
     return !togglePassword.value ? 'text' : 'password'
 })
-
 const welcomeMessage = computed(() => !localStorage?.lastUserName ? 'Oturum Aç' : localStorage?.lastUserName + ', Tekrar Hoş Geldiniz')
-const userData = reactive({})
+
 
 const signup = () => {
-    store.dispatch('users/signup', userData)
+    validateEmail()
+    validatePassword()
+    if (!error.value.password && !error.value.email) { //  alanların doğruluğu kontrol edildi
+        store.dispatch('users/signup', userData)
+    }
 }
 </script>
 <template>
-    
     <div class="bg-white rounded-md w-screen h-screen">
         <div class="container px-3 pt-12 md:py-5">
             <div class=" mb-5 hidden md:flex  items-center text-primary text-4xl space-x-1">
@@ -30,21 +40,24 @@ const signup = () => {
                     <h3 class="text-3xl font-semibold">{{ welcomeMessage }}</h3>
                     <small>Profesyonel dünyanızla ilgili güncel haberlere sahip olun</small>
                 </div>
-                
+
                 <div class="relative my-4">
-                    <input type="text" id="email" v-model="userData.email"
-                        class="block rounded-md px-2.5 pb-2.5 pt-5 w-full   border border-1 border-black appearance-none  focus:outline-primary  peer"
+                    <input type="text" id="email" v-model="userData.email" :class="{ 'ring-red-600 ring-2': error.email }"
+                        class="block rounded-sm px-2.5 pb-2.5 pt-5 w-full  ring-1 ring-black appearance-none  focus:ring-primary  peer"
                         placeholder=" " />
-                    <label for="email"
+                    <label for="email" :class="{ 'text-red-600 ': error.email }"
                         class="absolute  hover:cursor-text  duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5  peer-focus:dark:text-black text-muted peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">E-posta
                         veya Telefon
                     </label>
+                    <small v-if="error.email" class="text-red-600 font-semibold">{{ error.email }}</small>
+
                 </div>
                 <div class=" relative my-4 items-center">
                     <input :type="showPassword" id="password" v-model="userData.password"
-                        class="block rounded-md px-2.5 pb-2.5 pt-5 w-full   border border-1 border-black appearance-none  focus:outline-primary  peer"
+                        :class="{ 'ring-red-600 ring-2': error.password }"
+                        class="block rounded-sm px-2.5 pb-2.5 pt-5 w-full   ring-1 ring-black appearance-none  focus:outline-primary  peer"
                         placeholder=" " />
-                    <label for="password"
+                    <label for="password" :class="{ 'text-red-600 ': error.password }"
                         class="absolute  hover:cursor-text duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5  peer-focus:dark:text-black text-muted peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3">
                         Şifre</label>
                     <button @click="togglePassword = !togglePassword"
@@ -52,6 +65,8 @@ const signup = () => {
                         <p v-if="togglePassword">göster</p>
                         <p v-else>gizle</p>
                     </button>
+                    
+                    <small v-if="error.password" class="text-red-600 font-semibold">{{ error.password }}</small>
                 </div>
                 <router-link to="/forgot-password"
                     class=" hover:underline mt-6  py-2 text-primary hover:bg-[#d0e8ff] cursor-pointer rounded-full px-2 font-semibold border border-1 border-transparent active:border-primary">Şifrenizi
