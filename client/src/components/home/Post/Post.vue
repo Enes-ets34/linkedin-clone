@@ -201,7 +201,7 @@ const postLikes = computed(() => {
         <!-- Comments -->
         <div v-if="openCommentMenu" class="flex flex-col">
             <div class="flex items-start space-x-2 py-3 mt-2">
-                <img :src="`http://localhost:3000/uploads/${currentUser?.profile_image}`" alt=""
+                <img :src="`${BASE_URL}/uploads/${currentUser?.profile_image}`" alt=""
                     class="rounded-full w-10 " />
                 <div class="relative transition-all duration-300 py-2 flex-1 px-2 rounded-full  border">
                     <textarea v-model="userData" rows="1" placeholder="Yorum ekle..." @input="incHeight($event)"
