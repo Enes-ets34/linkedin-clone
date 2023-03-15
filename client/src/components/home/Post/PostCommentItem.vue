@@ -2,6 +2,8 @@
 import { computed, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import moment from "../../../composables/moment";
+import { BASE_URL } from '../../../constants';
+
 const store = useStore()
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
 const props = defineProps({
@@ -32,7 +34,7 @@ const deleteComment = () => {
 <template>
     <div class="flex flex-col">
         <div class="flex justify-between items-start mb-[-6px] space-x-2 py-2 mt-2">
-            <img :src="`http://localhost:3000/uploads/${props?.comment?.user?.profile_image}`" alt=""
+            <img :src="`${BASE_URL}/uploads/${props?.comment?.user?.profile_image}`" alt=""
                 class="rounded-full w-10 " />
             <div class="relative px-4 mt-[-5px] py-2 rounded-xl w-full rounded-tl-none flex flex-col bg-neutral-100">
                 <div class="flex  justify-between items-start">

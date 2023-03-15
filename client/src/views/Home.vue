@@ -17,9 +17,9 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
 
 </script>
 <template>
-    <div class="container mt-16 sm:mt-20">
+    <div class="container mt-16  sm:mt-20">
 
-        <div class="flex flex-col md:flex-row justify-between items-center md:items-start md:space-x-5 ">
+        <div class="flex flex-col md:flex-row justify-between pb-52 items-center md:items-start md:space-x-5 ">
             <div class=" flex-col sticky -top-[295px] flex-1 md:basis-1/4 space-y-2  ">
                 <!-- Profile Card -->
                 <LeftProfileCard :currentUser="currentUser" />
