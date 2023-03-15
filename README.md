@@ -1,4 +1,4 @@
-# [Click for live]()
+# [Click for live](https://linkedin-ets.netlify.app/#/)
 
 # LinkedIn Clone
 
