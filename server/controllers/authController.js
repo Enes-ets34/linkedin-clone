@@ -116,7 +116,7 @@ const forgotPassword = asyncErrorWrapper(async (req, res, next) => {
     return next(new CustomError("There No User with that this email.", 400));
   }
   const resetPasswordToken = user.getResetPasswordTokenFromUser();
-  const resetPasswordUrl = `http://192.168.1.34:5173/#/reset-password?resetPasswordToken=${resetPasswordToken}`;
+  const resetPasswordUrl = `https://linkedin-ets.netlify.app/#/reset-password?resetPasswordToken=${resetPasswordToken}`;
 
   const emailTemplate = `
   <h3>Reset Password</h3>
