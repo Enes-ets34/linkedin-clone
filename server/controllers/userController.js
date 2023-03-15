@@ -4,9 +4,12 @@ const CustomError = require("../helpers/error/CustomError");
 const Experience = require("../models/Experience");
 
 const getSingleUserBySlug = asyncErrorWrapper(async (req, res, next) => {
-  const user = await User.findOne({ slug: req.params.slug }).populate(
-    "company"
-  );
+  const user = await User.findOne({ slug: req.params.slug })
+    .populate("company")
+    .populate({
+      path: "experiences",
+      populate: "company",
+    });
 
   return res.status(200).json({
     success: true,

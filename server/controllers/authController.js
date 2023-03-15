@@ -1,6 +1,7 @@
 const fs = require("fs");
 const CustomError = require("../helpers/error/CustomError");
 const User = require("../models/User");
+const Company = require("../models/Company");
 const asyncErrorWrapper = require("express-async-handler");
 const { sendJwtToClient } = require("../helpers/authorization/tokenHelpers");
 const { validateUserInput } = require("../helpers/input/inputHelpers");
@@ -9,8 +10,12 @@ const sendEmail = require("../helpers/libraries/sendEmail");
 
 const register = asyncErrorWrapper(async (req, res, next) => {
   const userData = req.body;
-  const user = await (await User.create(userData)).populate("company");
+  console.log("userData.company :>> ", userData.company);
 
+  const company = await Company.findById(userData.company);
+  const user = await (await User.create(userData)).populate("company");
+  company.employees.push(user._id);
+  await company.save();
   sendJwtToClient(user, res);
 });
 
@@ -60,8 +65,13 @@ const profileImageUpload = asyncErrorWrapper(async (req, res, next) => {
       profile_image: req.savedImage,
     },
     { new: true, runValidators: true }
-  );
-  res.json({
+  )
+  .populate({
+    path: "experiences",
+    populate: "company",
+  })
+  .populate({ path: "company", model: "Company" });
+ return res.json({
     success: true,
     message: "Image Uploaded Successfully",
     user,
