@@ -1,5 +1,5 @@
 <script setup>
-import { useRouter } from 'vue-router';
+
 import { useStore } from 'vuex';
 import { BASE_URL } from './constants';
 import appAxios from './utils/appAxios';
@@ -17,13 +17,16 @@ if (token) {
       store.commit("users/logout")
     });
 }
+store.dispatch('posts/fetchPosts')
 </script>
 <template class="relative">
   <appNavbar />
   <router-view>
   </router-view>
-  <appNotif class=" sm:bottom-2 top-0" v-if="$store.state['notifications'].message" />
+  <teleport to="body">
+    <appNotif class="sm:bottom-2 top-0" v-if="$store.state['notifications'].message" />
+  </teleport>
   <appChatBox />
 </template>
 
-<style scoped></style>
+<style ></style>

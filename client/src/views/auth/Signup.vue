@@ -5,6 +5,7 @@ import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import useFormValidation from '../../composables/validation';
 
+
 const route = useRouter()
 const store = useStore()
 const userData = reactive({
@@ -40,6 +41,7 @@ const signup = () => {
                     <h3 class="text-3xl font-semibold">{{ welcomeMessage }}</h3>
                     <small>Profesyonel dünyanızla ilgili güncel haberlere sahip olun</small>
                 </div>
+                
 
                 <div class="relative my-4">
                     <input type="text" id="email" v-model="userData.email" :class="{ 'ring-red-600 ring-2': error.email }"
@@ -65,7 +67,7 @@ const signup = () => {
                         <p v-if="togglePassword">göster</p>
                         <p v-else>gizle</p>
                     </button>
-                    
+                    <appLoader />
                     <small v-if="error.password" class="text-red-600 font-semibold">{{ error.password }}</small>
                 </div>
                 <router-link to="/forgot-password"

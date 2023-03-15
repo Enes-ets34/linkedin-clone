@@ -71,7 +71,7 @@ const updateExperience = (pExperience) => {
 console.log('currentUser.value.experiences :>> ', currentUser.value.experiences);
 </script>
 <template>
-    <div class="container pb-20 mt-16 sm:mt-20">
+    <div class="container pb-20 mt-16 md:mt-20">
         <!-- Upload Photo Modal -->
         <UploadPhotoModal v-if="$store.state.modal === 'upload-photo'"
             @close-photo-modal="$store.dispatch('setModal', null)" :currentUser="currentUser" />
@@ -92,9 +92,9 @@ console.log('currentUser.value.experiences :>> ', currentUser.value.experiences)
                             src="https://media.licdn.com/dms/image/D4D16AQFHK_sNYVFAOg/profile-displaybackgroundimage-shrink_350_1400/0/1676201844347?e=1681948800&v=beta&t=oOIDZleH7CwOJIS-dYm5WoWMJE-MHBCsD2XKtqoXop4"
                             alt="">
                         <div @click="$store.dispatch('setModal', 'upload-photo')"
-                            class="rounded-full absolute left-5 top-12 md:left-5 md:top-20 md:w-40 border-4 bg-white border-white">
+                            class="rounded-full absolute left-5 top-12 md:left-5 md:top-10 md:w-36 lg:w-40 border-4 bg-white border-white">
 
-                            <img class="hover:cursor-pointer rounded-full object-center object-contain w-24 h-24 md:w-40 md:h-40"
+                            <img class="hover:cursor-pointer rounded-full object-center object-contain w-24 h-24 md:w-36 md:h-36"
                                 :src="`${BASE_URL}/uploads/${currentUser?.profile_image}`" alt="">
                             <div
                                 class="rounded-full  md:p-[px]  text-white bg-primary absolute top-14  md:top-28 right-2 border-2 border-white">
@@ -105,7 +105,7 @@ console.log('currentUser.value.experiences :>> ', currentUser.value.experiences)
                             </div>
                         </div>
                     </div>
-                    <div class="flex relative justify-between pt-14  pb-7 pl-6 pr-5 md:pr-20 items-start">
+                    <div class="flex relative justify-between  pt-14  pb-7 pl-6 pr-5 md:pr-20 items-start">
                         <div @click="$store.dispatch('setModal', 'edit-profile-modal')"
                             class="absolute hover:bg-gray-200 rounded-full p-2 cursor-pointer transition-all duration-300 active:bg-gray-300 group top-4 right-4 ">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"

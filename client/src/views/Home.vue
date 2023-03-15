@@ -1,22 +1,20 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, Suspense } from 'vue';
 import { useStore } from 'vuex';
+
+import Post from '../components/home/Post/Post.vue'
 import LeftProfileCard from '../components/home/LeftProfileCard.vue';
 import LeftSide from '../components/home/LeftSide.vue';
 import RightSide from '../components/home/RightSide.vue';
-import Post from '../components/home/Post/Post.vue';
 import PostInput from '../components/home/Post/PostInput.vue';
-
-
 
 const store = useStore()
 
 
 store.dispatch('posts/fetchPosts')
+
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
-const like = (e) => {
-    console.log('e :>> ', e);
-}
+
 </script>
 <template>
     <div class="container mt-16 sm:mt-20">
@@ -94,10 +92,13 @@ const like = (e) => {
                     <div class="sm:ml-1 flex justify-between items-center font-bold">
                         En Önemli
                         <i class="fas fa-caret-down ml-1"></i>
+                        
                     </div>
                 </div>
+                <appLoader />
                 <!-- Post -->
-                <Post v-for="post in store.state.posts.posts" :key="post._id" :post="post"  />
+                <Post v-for="post in store.state.posts.posts" :key="post._id" :post="post" />
+
                 <!-- /Post -->
             </div>
             <!-- RightSide -->

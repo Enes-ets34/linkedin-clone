@@ -99,7 +99,8 @@ const postLikes = computed(() => {
 
                     <small class="text-xs text-muted">{{ props.post.user.title }} @{{ props.post.user.company.name
                     }}</small>
-                    <small class="text-xs text-muted flex items-center space-x-1">{{ created_at(props.post.created_at) }}
+                    <small class="text-xs text-muted flex items-center space-x-1">{{
+                        created_at(props.post.created_at) }}
                         •<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16"
                             fill="#666666" class="mercado-match" width="16" height="16" focusable="false">
                             <path
@@ -244,5 +245,7 @@ const postLikes = computed(() => {
         <!-- /Comments -->
 
     </div>
+
+
     <!-- /Post -->
 </template>

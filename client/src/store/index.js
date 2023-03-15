@@ -6,6 +6,8 @@ import users from "./users";
 
 import notifications from "./notifications";
 
+import loader from "./loader";
+
 export default createStore({
   namespaced: true,
   state: {
@@ -26,5 +28,6 @@ export default createStore({
     users,
     posts,
     notifications,
+    loader
   },
 });

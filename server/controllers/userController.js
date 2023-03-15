@@ -30,16 +30,20 @@ const editUser = asyncErrorWrapper(async (req, res, next) => {
 const updateUser = asyncErrorWrapper(async (req, res, next) => {
   const userData = req.body;
   delete userData.password;
-  const user = await User.findByIdAndUpdate(
-    req.user.id,
-    {
-      ...userData,
-    },
+  const user = await User.findOneAndUpdate(
+    { _id: req.user.id },
+    { ...userData },
     {
       new: true,
       runValidators: true,
     }
-  );
+  )
+    .populate({
+      path: "experiences",
+      populate: "company",
+    })
+    .populate({ path: "company", model: "Company" });
+
   return res.status(200).json({
     success: true,
     user,
@@ -90,7 +94,7 @@ const updateExperience = asyncErrorWrapper(async (req, res, next) => {
   return res.status(200).json({
     success: true,
     user,
-    experience
+    experience,
   });
 });
 

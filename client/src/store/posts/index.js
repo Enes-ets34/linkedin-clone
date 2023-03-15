@@ -1,4 +1,3 @@
-
 import appAxios from "../../utils/appAxios";
 import store from "../index";
 
@@ -38,11 +37,13 @@ export default {
   },
   actions: {
     fetchPosts({ commit }) {
+      store.dispatch("loader/setLoading", true);
       appAxios
         .get("/post")
         .then((res) => {
           if (res.status === 200) {
             commit("setPosts", res.data.posts);
+            store.dispatch("loader/setLoading", false);
           }
         })
         .catch((err) => {
@@ -130,17 +131,16 @@ export default {
     },
     undolikePost({ commit }, pPost) {
       appAxios
-      .get("/post/undo-like/" + pPost._id)
-      .then((res) => {
-        commit("undolikePost", res?.data?.post?._id);
-      })
-      .catch((err) => {
-        store.dispatch("notifications/showMessage", {
-          message: err.response.data.message,
-          type: "error",
+        .get("/post/undo-like/" + pPost._id)
+        .then((res) => {
+          commit("undolikePost", res?.data?.post?._id);
+        })
+        .catch((err) => {
+          store.dispatch("notifications/showMessage", {
+            message: err.response.data.message,
+            type: "error",
+          });
         });
-      });
-      
     },
     addComment({ commit }, { pUserData, pPost }) {
       appAxios

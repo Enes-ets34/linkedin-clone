@@ -3,10 +3,12 @@ import { useRoute } from 'vue-router';
 import { computed, ref } from 'vue';
 import appAxios from "../utils/appAxios";
 import ProfileRightSide from '../components/profile/ProfileRightSide.vue';
+
 const route = useRoute()
 const slug = computed(() => route.params.slug)
 let company = ref(null)
- appAxios.get(`/company/${slug.value}`)
+
+appAxios.get(`/company/${slug.value}`)
     .then((res) => {
         if (res.status === 200) {
             company.value = res?.data?.company
@@ -18,6 +20,7 @@ let company = ref(null)
 
 </script>
 <template>
+    
     <div class="container pb-20 mt-16 sm:mt-20">
         <div class="flex flex-col md:flex-row justify-between items-center md:items-start md:space-x-5  ">
             <div class=" flex-col flex-1 md:basis-8/12 space-y-2  ">

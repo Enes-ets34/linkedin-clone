@@ -18,8 +18,8 @@ const icon = computed(() => {
 })
 </script>
 <template >
-    <div
-        class="bg-white p-4 z-20 sm:left-2 sticky bottom-[600px] md:bottom-1 md:left-1  w-full sm:w-1/4 whitespace-nowrap  border text font-semibold flex justify-between items-center rounded-lg shadow-2xl">
+    <div id="body"
+        class=" bg-white w-full p-4 z-20 fixed md:sticky sm:left-2 top-0 md:bottom-0 lg:bottom-1 md:left-1 md:w-1/4 sm:w-1/2 whitespace-nowrap border text font-semibold flex justify-between items-center rounded-lg shadow-2xl">
 
         <i v-if="getNotif.type" :class="icon" class="text-2xl"></i>
         <span>{{ getNotif.message }} </span>
