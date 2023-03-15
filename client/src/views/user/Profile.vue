@@ -38,6 +38,14 @@ const deleteExperience = (ID) => {
             });
         });
 }
+function formatContent(content) {
+    return content
+        .replace(/\n/g, "<br/>")
+        .replace(
+            /#\w+/g,
+            '<span class="text-primary cursor-pointer hover:underline font-semibold">$&</span>'
+        );
+}
 const updateExperience = (pExperience) => {
     appAxios
         .put(`users/experience/${pExperience._id}`, pExperience)
@@ -92,14 +100,14 @@ console.log('currentUser.value.experiences :>> ', currentUser.value.experiences)
                             src="https://media.licdn.com/dms/image/D4D16AQFHK_sNYVFAOg/profile-displaybackgroundimage-shrink_350_1400/0/1676201844347?e=1681948800&v=beta&t=oOIDZleH7CwOJIS-dYm5WoWMJE-MHBCsD2XKtqoXop4"
                             alt="">
                         <div @click="$store.dispatch('setModal', 'upload-photo')"
-                            class="rounded-full absolute left-5 top-12 md:left-5 md:top-10 md:w-36 lg:w-40 border-4 bg-white border-white">
+                            class="rounded-full absolute left-5 top-12 md:left-5 md:top-12 lg:top-20 md:w-32 md:h-32 lg:w-40 lg:h-40 border-4 bg-white border-white">
 
-                            <img class="hover:cursor-pointer rounded-full object-center object-contain w-24 h-24 md:w-36 md:h-36"
+                            <img class="hover:cursor-pointer rounded-full object-center object-contain w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40"
                                 :src="`${BASE_URL}/uploads/${currentUser?.profile_image}`" alt="">
                             <div
-                                class="rounded-full  md:p-[px]  text-white bg-primary absolute top-14  md:top-28 right-2 border-2 border-white">
+                                class="rounded-full  md:p-[px]  text-white bg-primary absolute top-16  sm:top-3/4 right-2 border-2 border-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
-                                    fill="white" class="w-6" focusable="false">
+                                    fill="white" class="w-4 sm:w-6" focusable="false">
                                     <path d="M21 13h-8v8h-2v-8H3v-2h8V3h2v8h8z"></path>
                                 </svg>
                             </div>
@@ -125,19 +133,19 @@ console.log('currentUser.value.experiences :>> ', currentUser.value.experiences)
                             </div>
                             <a href="#" class="text-primary text-sm hover:underline font-semibold">500+ bağlantı</a>
                             <div class="flex justify-start space-x-2 items-center mt-2 ">
-                                <button
-                                    class="bg-primary  rounded-full py-px px-3 text-white active:bg-[#09223b] hover:bg-[#004182] transition-all duration-300 font-bold">
-                                    Açık
-                                </button>
-                                <button
+                            <button
+                                class="bg-primary  rounded-full py-px px-3 text-white active:bg-[#09223b] hover:bg-[#004182] transition-all duration-300 font-bold">
+                                Açık
+                            </button>
+                            <button
                                     class=" py-px px-3 rounded-full border border-1 border-primary text-primary font-semibold bg-white transition-all duration-300 hover:bg-blue-100">
                                     Profil bölümü ekle
                                 </button>
-                            <button
-                                class="hidden mx:inline py-px px-3 rounded-full border border-1 border-muted text-muted font-semibold bg-white transition-all duration-300 hover:bg-gray-200">
-                                Daha fazla
-                            </button>
-                        </div>
+                                <button
+                                    class="hidden mx:inline py-px px-3 rounded-full border border-1 border-muted text-muted font-semibold bg-white transition-all duration-300 hover:bg-gray-200">
+                                    Daha fazla
+                                </button>
+                            </div>
                         </div>
 
                         <router-link :to="`company/${currentUser?.company?.slug}`"
@@ -201,15 +209,15 @@ console.log('currentUser.value.experiences :>> ', currentUser.value.experiences)
                                 <p class="text-sm">{{ experience?.company?.name }}</p>
                                 <p class="text-sm text-muted">{{ experience?.date }}</p>
                                 <p class="text-sm text-muted">{{ experience?.location }}</p>
-                                <p class="text-sm my-2">
-                                    {{ experience?.description }}
+                                <p v-html="formatContent(experience?.description)" class="text-sm my-2">
+
                                 </p>
                                 <!-- <div class="text-sm ">
-               Yetenekler:
-        </span>
-        Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
-    Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
-    </div> -->
+                       Yetenekler:
+                </span>
+                Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
+            Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
+            </div> -->
                             </div>
                         </div>
 

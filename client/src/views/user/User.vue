@@ -23,7 +23,14 @@ appAxios.get(`/users/${slug.value}`)
         console.error(err);
     });
 
-
+function formatContent(content) {
+    return content
+        .replace(/\n/g, "<br/>")
+        .replace(
+            /#\w+/g,
+            '<span class="text-primary cursor-pointer hover:underline font-semibold">$&</span>'
+        );
+}
 </script>
 <template>
     <div class="container pb-20 mt-16 sm:mt-20">
@@ -35,12 +42,12 @@ appAxios.get(`/users/${slug.value}`)
                             src="https://media.licdn.com/dms/image/D4D16AQFHK_sNYVFAOg/profile-displaybackgroundimage-shrink_350_1400/0/1676201844347?e=1681948800&v=beta&t=oOIDZleH7CwOJIS-dYm5WoWMJE-MHBCsD2XKtqoXop4"
                             alt="">
                         <div
-                            class="rounded-full absolute left-5 top-12 md:left-5 md:top-20 md:w-40 border-4 bg-white border-white">
+                            class="rounded-full absolute left-5 top-12 md:left-5 md:top-12 lg:top-20 md:w-32 md:h-32 lg:w-40 lg:h-40 border-4 bg-white border-white">
 
-                            <img class="hover:cursor-pointer rounded-full object-contain w-24 h-24 md:w-40 md:h-40"
+                            <img class="hover:cursor-pointer rounded-full object-contain w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40"
                                 :src="`${BASE_URL}/uploads/${user?.profile_image}`" alt="">
                             <div
-                                class="rounded-full  p-[px]  bg-white  absolute top-14  md:top-28 right-2 border-[6px] w-6 h-6 border-green-700">
+                                class="rounded-full  p-[px]  bg-white  absolute  top-16  sm:top-3/4  right-2 border-[6px] w-6 h-6 border-green-700">
 
                             </div>
                         </div>
@@ -75,11 +82,11 @@ appAxios.get(`/users/${slug.value}`)
                             class="flex justify-start items-center text-sm font-semibold  space-x-2">
                             <img :src="`${user?.company?.media}`" alt="" class="w-8">
                             <a href="#" class="hover:underline hover:text-primary">{{ user?.company?.name }}</a>
-                        </router-link>
-                    </div>
+                    </router-link>
                 </div>
-                <div class="border flex flex-col space-y-2 bg-white rounded-lg">
-                    <div class=" relative py-6 pl-6 pr-14">
+            </div>
+            <div class="border flex flex-col space-y-2 bg-white rounded-lg">
+                <div class=" relative py-6 pl-6 pr-14">
 
                         <p class="font-semibold text-xl mb-3">Hakkında</p>
                         <p class="text-sm">{{ user?.about }}</p>
@@ -90,26 +97,30 @@ appAxios.get(`/users/${slug.value}`)
                     <div class="relative py-6 pl-6 pr-14">
 
                         <p class="font-semibold text-xl mb-3">Deneyim</p>
-                        <div class="flex justify-start items-start space-x-2">
-                            <img src="https://media.licdn.com/dms/image/C4D0BAQFmAQR2llZUBw/company-logo_100_100/0/1675688917366?e=1685577600&v=beta&t=Gln6qsMZTZqaB4a0sYvZWlk04moAxbQ2sSquJB9nf_M"
-                                alt="" class="w-12 object-contain ">
-                            <div class="flex flex-col">
-                                <p class="font-semibold">Information Technology Intern</p>
-                                <p class="text-sm">Borusan Otomotiv</p>
-                                <p class="text-sm text-muted">Eyl 2017 - Haz 2018 · 10 ay</p>
-                                <p class="text-sm text-muted">İstanbul, Turkey</p>
-                                <p class="text-sm my-2">
-                                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim possimus temporibus, at
-                                    totam illum perspiciatis.
-                                </p>
-                                <div class="text-sm ">
-                                    <span class="font-semibold">
-                                        Yetenekler:
-                                    </span>
-                                    Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
-                                    Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
+                        <div v-for="experience in user.experiences" :key="experience?._id"
+                            class="flex justify-start items-start space-x-2">
 
-                                </div>
+                            <img :src="experience?.company?.media" alt="" class="w-12 object-contain ">
+                            <div class="flex flex-col w-full">
+                                <p class="font-semibold flex justify-between items-center relative">
+                                    {{ experience?.title }}
+                                    <button @click="$store.dispatch('setModal', 'edit-experience-modal')"
+                                        class="hover:bg-gray-200 rounded-full p-2 absolute top-0 right-4 cursor-pointer transition-all duration-300 active:bg-gray-300 ">
+
+                                    </button>
+                                </p>
+                                <p class="text-sm">{{ experience?.company?.name }}</p>
+                                <p class="text-sm text-muted">{{ experience?.date }}</p>
+                                <p class="text-sm text-muted">{{ experience?.location }}</p>
+                                <p v-html="formatContent(experience?.description)" class="text-sm my-2">
+
+                                </p>
+                                <!-- <div class="text-sm ">
+                       Yetenekler:
+                </span>
+                Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
+            Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
+            </div> -->
                             </div>
                         </div>
 

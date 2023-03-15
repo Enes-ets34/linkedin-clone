@@ -6,7 +6,7 @@ import moment from "../../../composables/moment";
 
 import PostComment from './PostCommentItem.vue';
 import EditPostModal from './EditPostModal.vue';
-console.log('props.post :>> ', props.post);
+
 const store = useStore()
 const { created_at } = moment(props.post.created_at);
 
@@ -110,7 +110,7 @@ const postLikes = computed(() => {
                 </div>
             </div>
 
-            <div v-if="props.post.user._id == currentUser._id">
+            <div v-if="props.post.user._id == currentUser?._id">
                 <p @click="togglePostMenu" :id="`postDropdown_${post._id}`"
                     class="px-2 pb-2 text-muted text-lg font-bold tracking-widest hover:cursor-pointer hover:bg-gray-200 transition-all duration-300 rounded-full align-start">
                     ...</p>

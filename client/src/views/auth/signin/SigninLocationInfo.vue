@@ -38,7 +38,7 @@ const setUserLocation = () => {
          onlarla
          iletişim kurmaya başlayın.
       </p>
-{{ error }}
+
    </div>
    <div class="flex-1 md:w-2/5 mx-auto rounded-md bg-white py-6 px-6 space-y-4">
 

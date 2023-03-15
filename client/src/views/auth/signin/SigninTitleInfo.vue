@@ -49,7 +49,7 @@ const setUserTitle = () => {
             class="mt-1 px-2 py-1 ring-1 ring-muted focus:outline-black rounded-sm" />
          <small v-if="error.title" class="text-red-600 ">{{ error.title }}</small>
       </div>
-      {{ error }}
+
 
       <div class="flex flex-col">
          <label for="companies" class="text-muted text-sm">En son şirket <span

@@ -40,8 +40,8 @@ watch(() => query.value, (newValue, oldValue) => {
                             <img :src="company.media" alt="" class="object-contain  w-24 h-24 ">
                             <div class="flex flex-col">
                                 <a href="#" class="font-semibold text-2xl">{{ company.name }}</a>
-                                <p>Teknoloji</p>
-                                <p class="text-muted mb-2">California,ABD</p>
+                                <p>{{company.category}}</p>
+                                <p class="text-muted mb-2">{{company.location}}</p>
                                 <p class="font-semibold flex items-center text-muted mb-2"><svg
                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16"
                                         fill="currentColor" class="mr-2" width="16" height="16" focusable="false">
@@ -64,7 +64,8 @@ watch(() => query.value, (newValue, oldValue) => {
 
                             </div>
                         </div>
-                        <div v-if="company.employees" class="border mt-2  py-2  text-sm bg-white rounded-lg">
+                        <div v-if="company.employees && company.employees.length > 0"
+                            class="border mt-2  py-2  text-sm bg-white rounded-lg">
                             <p class="font-semibold text-xl mb-4  px-4">Kişiler</p>
                             <div v-for="employee in company.employees" :key="employee._id"
                                 class="flex justify-start pl-4 py-2  items-start ">
@@ -93,17 +94,18 @@ watch(() => query.value, (newValue, oldValue) => {
                         <div v-for="user in users" :key="user._id" class="flex justify-start pl-4 py-2  items-start ">
                             <img :src="`${BASE_URL}/uploads/${user.profile_image}`" alt=""
                                 class="object-contain   w-14 h-14 rounded-full ">
-                            <div class="flex justify-between px-4  border-b items-start  w-full space-x-2 ">
+                            <div
+                                class="flex flex-col sm:flex-row sm:justify-between px-4 pb-2 border-b items-start  w-full sm:space-x-2 ">
                                 <div class="flex flex-col">
-                                    <router-link :to='`/user/${user.slug}`' class="font-semibold  text-base">{{ user.full_name }}</router-link>
+                                    <router-link :to='`/user/${user.slug}`' class="font-semibold  text-base">{{
+                                        user.full_name }}</router-link>
                                     <p>{{ user.title }}</p>
                                     <p class="text-muted ">{{ user.location }}</p>
                                     <small class="text-muted mb-2">Şu anda: <b>{{ user?.company?.name }}</b> şirketinde
                                         {{ user.title }}</small>
                                 </div>
-
                                 <button
-                                    class="px-4 py-1 text-base mt-2 rounded-full border border-1 border-primary text-primary font-semibold bg-white transition-all duration-300 hover:bg-blue-100">
+                                    class="px-4 py-1 text-base mt-2 w-full sm:w-auto rounded-full border border-1 border-primary text-primary font-semibold bg-white transition-all duration-300 hover:bg-blue-100">
                                     <p> Bağlantı kur</p>
                                 </button>
                             </div>
@@ -146,5 +148,4 @@ watch(() => query.value, (newValue, oldValue) => {
             </div>
             <!-- /RightSide -->
         </div>
-    </div>
-</template>
+</div></template>

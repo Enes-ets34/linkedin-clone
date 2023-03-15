@@ -67,7 +67,7 @@ const signup = () => {
                         <p v-if="togglePassword">göster</p>
                         <p v-else>gizle</p>
                     </button>
-                    <appLoader />
+                    
                     <small v-if="error.password" class="text-red-600 font-semibold">{{ error.password }}</small>
                 </div>
                 <router-link to="/forgot-password"

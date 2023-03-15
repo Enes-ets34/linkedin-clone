@@ -21,6 +21,10 @@ export default {
     setUserInfo(state, pUser) {
       state.registerData = pUser;
     },
+    removeProfileImage(state) {
+      state.user.profile_image = "default.png";
+      localStorage.user = JSON.stringify(state.user);
+    },
     addExperience(state, pExperience) {
       state.user.experiences.push(pExperience);
       const user = JSON.parse(localStorage.user);
@@ -133,12 +137,13 @@ export default {
           });
         });
     },
-    removeProfilePhoto({ commit }) {
+    removeProfilePhoto({ commit, state }) {
       appAxios
         .delete("/auth/upload")
         .then((res) => {
           if (res?.status === 200) {
-            commit("setUser", res.data.user);
+             commit("removeProfileImage");
+            
             location.reload();
           }
         })
@@ -187,8 +192,6 @@ export default {
           });
         });
     },
-  
-    
   },
   modules: {},
   getters: {

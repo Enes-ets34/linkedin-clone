@@ -4,6 +4,13 @@
 
 This project is still being developed
 
+## Desktop
+ <img src="./assets/web.gif" alt="Vitejs logo vector" />
+ <hr/>
+
+ ## Mobile
+ <img src="./assets/mobile.gif" alt="Vitejs logo vector" />
+
 ## Compiles and hot-reloads for development
 
 ### Getting Started
@@ -41,9 +48,19 @@ $ cd client
 npm install
 npm run serve
 ```
+## Or you can use Docker.
+ - Set environment variables in `./server` under `Dockerfile`
+```bash
+$ docker-compose up
+```
+## Set your api url.
+ - Set BASE_URL in `./client/src/constants` under `index.js`
+```bash
+$ export const BASE_URL = "<YOUR_BASE_URL>";
+```
 
 ## DB Diagram
-<img src='./db-diagram.png'/>
+<img src='./assets/db-diagram.png'/>
 
 
 ### Technologies and Dependieces:

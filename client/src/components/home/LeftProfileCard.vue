@@ -1,4 +1,7 @@
 <script setup>
+import { BASE_URL } from '../../constants';
+
+
 import { defineProps } from 'vue';
 const props = defineProps({
     currentUser: {
@@ -15,7 +18,7 @@ console.log('props.currentUser :>> ', props);
             src="https://media.licdn.com/dms/image/D4D16AQFHK_sNYVFAOg/profile-displaybackgroundimage-shrink_350_1400/0/1676201844347?e=1681948800&v=beta&t=oOIDZleH7CwOJIS-dYm5WoWMJE-MHBCsD2XKtqoXop4"
             alt="">
         <img class="relative z-0 -mt-8 mb-4 mx-auto rounded-full items-center border-white border-4 w-20"
-            :src="`http://localhost:3000/uploads/${currentUser?.profile_image}`" alt="">
+            :src="`${BASE_URL}/uploads/${currentUser?.profile_image}`" alt="">
 
 
         <div class="text-center border-b-gray-300 border-b pb-3">

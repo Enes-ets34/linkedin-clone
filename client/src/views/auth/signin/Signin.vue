@@ -25,7 +25,7 @@ const setUserEmail = () => {
 }
 </script>
 <template>
-    {{ store.state.users.registerData }}
+    
     <div class="bg-[#f3f2ef] rounded-md w-screen h-screen">
         <div class="container pt-12 px-4 md:py-5">
 
