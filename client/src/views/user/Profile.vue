@@ -3,14 +3,15 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { BASE_URL } from '../../constants';
 import appAxios from "../../utils/appAxios"
+
 import ProfileRightSide from '../../components/profile/ProfileRightSide.vue';
 import UploadPhotoModal from '../../components/profile/UploadPhotoModal.vue';
 import EditProfileModal from '../../components/profile/EditProfileModal.vue';
 import EditExperienceModal from '../../components/profile/EditExperienceModal.vue';
 import AddExperienceModal from '../../components/profile/AddExperienceModal.vue';
 
-const store = useStore()
 let currentUser = computed(() => store.getters['users/getCurrentUser'])
+const store = useStore()
 
 
 const deleteExperience = (ID) => {
@@ -76,7 +77,9 @@ const updateExperience = (pExperience) => {
             });
         });
 }
-console.log('currentUser.value.experiences :>> ', currentUser.value.experiences);
+const profile_image = computed(() => {
+    return currentUser.profile_image ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
+})
 </script>
 <template>
     <div class="container pb-20 mt-16 md:mt-20">
@@ -96,14 +99,15 @@ console.log('currentUser.value.experiences :>> ', currentUser.value.experiences)
             <div class=" flex-col flex-1 md:basis-8/12 space-y-2  ">
                 <div class="border flex flex-col space-y-2 bg-white rounded-lg">
                     <div class="relative ">
+
                         <img class="rounded-t-lg"
                             src="https://media.licdn.com/dms/image/D4D16AQFHK_sNYVFAOg/profile-displaybackgroundimage-shrink_350_1400/0/1676201844347?e=1681948800&v=beta&t=oOIDZleH7CwOJIS-dYm5WoWMJE-MHBCsD2XKtqoXop4"
                             alt="">
                         <div @click="$store.dispatch('setModal', 'upload-photo')"
                             class="rounded-full absolute left-5 top-12 md:left-5 md:top-12 lg:top-20 md:w-32 md:h-32 lg:w-40 lg:h-40 border-4 bg-white border-white">
-
+                            
                             <img class="hover:cursor-pointer rounded-full object-center object-contain w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40"
-                                :src="`${BASE_URL}/uploads/${currentUser?.profile_image}`" alt="">
+                                :src="profile_image" alt="">
                             <div
                                 class="rounded-full  md:p-[px]  text-white bg-primary absolute top-16  sm:top-3/4 right-2 border-2 border-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
@@ -130,14 +134,14 @@ console.log('currentUser.value.experiences :>> ', currentUser.value.experiences)
                                 <span class="text-muted ">{{ currentUser?.location }}</span>
                                 <div class="mx-1">•</div>
                                 <a href="#" class="text-primary hover:underline font-semibold">iletişim bilgileri</a>
-                            </div>
-                            <a href="#" class="text-primary text-sm hover:underline font-semibold">500+ bağlantı</a>
-                            <div class="flex justify-start space-x-2 items-center mt-2 ">
+                        </div>
+                        <a href="#" class="text-primary text-sm hover:underline font-semibold">500+ bağlantı</a>
+                        <div class="flex justify-start space-x-2 items-center mt-2 ">
                             <button
                                 class="bg-primary  rounded-full py-px px-3 text-white active:bg-[#09223b] hover:bg-[#004182] transition-all duration-300 font-bold">
-                                Açık
-                            </button>
-                            <button
+                                    Açık
+                                </button>
+                                <button
                                     class=" py-px px-3 rounded-full border border-1 border-primary text-primary font-semibold bg-white transition-all duration-300 hover:bg-blue-100">
                                     Profil bölümü ekle
                                 </button>
@@ -213,11 +217,11 @@ console.log('currentUser.value.experiences :>> ', currentUser.value.experiences)
 
                                 </p>
                                 <!-- <div class="text-sm ">
-                       Yetenekler:
-                </span>
-                Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
-            Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
-            </div> -->
+                           Yetenekler:
+                    </span>
+                    Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
+                Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
+                </div> -->
                             </div>
                         </div>
 

@@ -1,7 +1,7 @@
 <script setup>
 import { useStore } from 'vuex';
 import { BASE_URL } from '../../constants';
-
+import useProfileImage from '../../composables/profile_image';
 const store = useStore()
 const emit = defineEmits()
 const props = defineProps({
@@ -12,6 +12,7 @@ const props = defineProps({
         type: Object,
     }
 })
+const profile_image = useProfileImage(props.currentUser.value)
 const setProfilePhoto = (e) => {
     store.dispatch('users/uploadProfilePhoto', e.target.files[0])
 
@@ -47,7 +48,7 @@ const closePhotoModal = () => {
                         <div class="mt-3 px-2 sm:mt-0 sm:ml-4 ">
                             <div class="mt-2 flex justify-center items-center">
                                 <div class="w-full px-8 md:w-64 text-center">
-                                    <img class="rounded-full object-contain " :src="`${BASE_URL}/uploads/${currentUser.profile_image}`"
+                                    <img class="rounded-full object-contain " :src="profile_image"
                                         alt="">
                                 </div>
                             </div>

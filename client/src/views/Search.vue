@@ -69,7 +69,7 @@ watch(() => query.value, (newValue, oldValue) => {
                             <p class="font-semibold text-xl mb-4  px-4">Kişiler</p>
                             <div v-for="employee in company.employees" :key="employee._id"
                                 class="flex justify-start pl-4 py-2  items-start ">
-                                <img :src="`${BASE_URL}/uploads/${employee.profile_image}`" alt=""
+                                <img :src="`${BASE_URL}/uploads/default.png`" alt=""
                                     class="object-contain   w-14 h-14 rounded-full ">
                                 <div class="flex justify-between px-4  border-b items-start  w-full space-x-2 ">
                                     <div class="flex flex-col">
@@ -92,7 +92,7 @@ watch(() => query.value, (newValue, oldValue) => {
                     <div v-if="users && users.length > 0" class="border   py-2  text-sm bg-white rounded-lg">
                         <p class="font-semibold text-xl mb-4  px-4">Kişiler</p>
                         <div v-for="user in users" :key="user._id" class="flex justify-start pl-4 py-2  items-start ">
-                            <img :src="`${BASE_URL}/uploads/${user.profile_image}`" alt=""
+                            <img :src="`${BASE_URL}/uploads/default.png`" alt=""
                                 class="object-contain   w-14 h-14 rounded-full ">
                             <div
                                 class="flex flex-col sm:flex-row sm:justify-between px-4 pb-2 border-b items-start  w-full sm:space-x-2 ">

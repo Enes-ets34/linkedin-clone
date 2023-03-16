@@ -6,7 +6,7 @@ import moment from "../../../composables/moment";
 
 import PostComment from './PostCommentItem.vue';
 import EditPostModal from './EditPostModal.vue';
-
+import useProfileImage from '../../../composables/profile_image';
 const store = useStore()
 const { created_at } = moment(props.post.created_at);
 
@@ -18,13 +18,12 @@ const props = defineProps({
         type: Boolean,
     }
 })
+
 function formatContent(content) {
-    return content
-        .replace(/\n/g, "<br/>")
-        .replace(
-            /#\w+/g,
-            '<span class="text-primary cursor-pointer hover:underline font-semibold">$&</span>'
-        );
+    return content?.replace(/\n/g, "<br/>")?.replace(
+        /#\w+/g,
+        '<span class="text-primary cursor-pointer hover:underline font-semibold">$&</span>'
+    );
 }
 const userData = ref(null)
 const openCommentMenu = ref(false)
@@ -35,6 +34,8 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
 const deletePost = () => {
     store.dispatch('posts/deletePost', props.post)
 }
+const post_profile_image = useProfileImage(props.post.user.post_profile_image)
+
 const postMenu = ref(false)
 const togglePostMenu = () => {
     postMenu.value = !postMenu.value
@@ -80,7 +81,6 @@ const postLikes = computed(() => {
     return hasAlreadyLiked && (props.post.likes.length - 1) > 0 ? `siz ve ve diğer ${props.post.likes.length - 1} kişi` : props.post.likes.length
 })
 
-
 </script>
 <template>
     <!-- Post -->
@@ -90,8 +90,7 @@ const postLikes = computed(() => {
 
         <div class="flex relative justify-between items-start mb-2 ">
             <div class="flex space-x-2">
-                <img :src="`${BASE_URL}/uploads/${props.post.user.profile_image}`" alt=""
-                    class="rounded-full h-14 object-contain  w-14">
+                <img :src="post_profile_image" alt="" class="rounded-full h-14 object-contain  w-14">
                 <div class="flex flex-col">
                     <router-link :to="`/user/${props.post.user.slug}`"
                         class="font-bold text-sm hover:underline hover:text-primary">{{ props.post.user.full_name
@@ -201,8 +200,7 @@ const postLikes = computed(() => {
         <!-- Comments -->
         <div v-if="openCommentMenu" class="flex flex-col">
             <div class="flex items-start space-x-2 py-3 mt-2">
-                <img :src="`${BASE_URL}/uploads/${currentUser?.profile_image}`" alt=""
-                    class="rounded-full w-10 " />
+                <img :src="`${BASE_URL}/uploads/default.png`" alt="" class="rounded-full w-10 " />
                 <div class="relative transition-all duration-300 py-2 flex-1 px-2 rounded-full  border">
                     <textarea v-model="userData" rows="1" placeholder="Yorum ekle..." @input="incHeight($event)"
                         class="w-full  border-none outline-none resize-none  ring-muted focus:outline-none  placeholder:text-muted "></textarea>

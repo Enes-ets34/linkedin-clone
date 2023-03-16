@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import appAxios from "../../utils/appAxios";
 import { BASE_URL } from '../../constants';
+import useProfileImage from '../../composables/profile_image'
 import ProfileRightSide from '../../components/profile/ProfileRightSide.vue';
 import router from '../../router';
 const route = useRoute()
@@ -12,16 +13,18 @@ const slug = computed(() => route.params.slug)
 let currentUser = computed(() => store.getters['users/getCurrentUser'])
 let user = ref({})
 appAxios.get(`/users/${slug.value}`)
-    .then((res) => {
-        if (res.status === 200) {
-            user.value = res.data.user
-            if (currentUser.value._id === user.value._id) {
-                router.push("/profile")
-            }
+.then((res) => {
+    if (res.status === 200) {
+        user.value = res.data.user
+        if (currentUser.value._id === user.value._id) {
+            router.push("/profile")
         }
-    }).catch((err) => {
-        console.error(err);
-    });
+    }
+}).catch((err) => {
+    console.error(err);
+});
+
+const  profile_image  = useProfileImage(user.value)
 
 function formatContent(content) {
     return content?.replace(/\n/g, "<br/>")?.replace(
@@ -29,9 +32,7 @@ function formatContent(content) {
         '<span class="text-primary cursor-pointer hover:underline font-semibold">$&</span>'
     );
 }
-const profile_image = computed(() => {
-    return currentUser.profile_image ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
-})
+
 </script>
 <template>
     <div class="container pb-20 mt-16 sm:mt-20">
@@ -39,6 +40,8 @@ const profile_image = computed(() => {
             <div class=" flex-col flex-1 md:basis-8/12 space-y-2  ">
                 <div class="border flex flex-col space-y-2 bg-white rounded-lg">
                     <div class="relative ">
+                        {{ profile_image }}
+                        
                         <img class="rounded-t-lg"
                             src="https://media.licdn.com/dms/image/D4D16AQFHK_sNYVFAOg/profile-displaybackgroundimage-shrink_350_1400/0/1676201844347?e=1681948800&v=beta&t=oOIDZleH7CwOJIS-dYm5WoWMJE-MHBCsD2XKtqoXop4"
                             alt="">
@@ -82,12 +85,12 @@ const profile_image = computed(() => {
                         <router-link :to="`/company/${user?.company?.slug}`"
                             class="flex justify-start items-center text-sm font-semibold  space-x-2">
                             <img :src="`${user?.company?.media}`" alt="" class="w-8">
-                        <a href="#" class="hover:underline hover:text-primary">{{ user?.company?.name }}</a>
+                            <a href="#" class="hover:underline hover:text-primary">{{ user?.company?.name }}</a>
                     </router-link>
                 </div>
             </div>
             <div class="border flex flex-col space-y-2 bg-white rounded-lg">
-                    <div class=" relative py-6 pl-6 pr-14">
+                <div class=" relative py-6 pl-6 pr-14">
 
                         <p class="font-semibold text-xl mb-3">Hakkında</p>
                         <p class="text-sm">{{ user?.about }}</p>
@@ -117,11 +120,11 @@ const profile_image = computed(() => {
 
                                 </p>
                                 <!-- <div class="text-sm ">
-                           Yetenekler:
-                    </span>
-                    Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
-                Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
-                </div> -->
+                                       Yetenekler:
+                                </span>
+                                Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
+                            Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
+                            </div> -->
                             </div>
                         </div>
 
