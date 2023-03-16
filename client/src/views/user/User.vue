@@ -24,13 +24,14 @@ appAxios.get(`/users/${slug.value}`)
     });
 
 function formatContent(content) {
-    return content
-        .replace(/\n/g, "<br/>")
-        .replace(
-            /#\w+/g,
-            '<span class="text-primary cursor-pointer hover:underline font-semibold">$&</span>'
-        );
+    return content?.replace(/\n/g, "<br/>")?.replace(
+        /#\w+/g,
+        '<span class="text-primary cursor-pointer hover:underline font-semibold">$&</span>'
+    );
 }
+const profile_image = computed(() => {
+    return currentUser.profile_image ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
+})
 </script>
 <template>
     <div class="container pb-20 mt-16 sm:mt-20">
@@ -45,7 +46,7 @@ function formatContent(content) {
                             class="rounded-full absolute left-5 top-12 md:left-5 md:top-12 lg:top-20 md:w-32 md:h-32 lg:w-40 lg:h-40 border-4 bg-white border-white">
 
                             <img class="hover:cursor-pointer rounded-full object-contain w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40"
-                                :src="`${BASE_URL}/uploads/${user?.profile_image}`" alt="">
+                                :src="profile_image" alt="">
                             <div
                                 class="rounded-full  p-[px]  bg-white  absolute  top-16  sm:top-3/4  right-2 border-[6px] w-6 h-6 border-green-700">
 
@@ -81,12 +82,12 @@ function formatContent(content) {
                         <router-link :to="`/company/${user?.company?.slug}`"
                             class="flex justify-start items-center text-sm font-semibold  space-x-2">
                             <img :src="`${user?.company?.media}`" alt="" class="w-8">
-                            <a href="#" class="hover:underline hover:text-primary">{{ user?.company?.name }}</a>
+                        <a href="#" class="hover:underline hover:text-primary">{{ user?.company?.name }}</a>
                     </router-link>
                 </div>
             </div>
             <div class="border flex flex-col space-y-2 bg-white rounded-lg">
-                <div class=" relative py-6 pl-6 pr-14">
+                    <div class=" relative py-6 pl-6 pr-14">
 
                         <p class="font-semibold text-xl mb-3">Hakkında</p>
                         <p class="text-sm">{{ user?.about }}</p>
@@ -116,11 +117,11 @@ function formatContent(content) {
 
                                 </p>
                                 <!-- <div class="text-sm ">
-                       Yetenekler:
-                </span>
-                Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
-            Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
-            </div> -->
+                           Yetenekler:
+                    </span>
+                    Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
+                Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
+                </div> -->
                             </div>
                         </div>
 
