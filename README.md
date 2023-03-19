@@ -2,67 +2,35 @@
 
 # LinkedIn Clone
 
-This project is still being developed
+This project is still being developed.This project utilizes a ***micro-frontend*** approach for the front-end and an ***MVC*** architecture for the back-end.
+### Features
+
+- Authorization
+- Validation
+- Routing
+- Reactivity
+- Alert Messages
+- Login/Register
+- Search By Searchkey
+- Relationship
+- Localstorage
+- Middlewares
+### Todos
+- [ ] **Job Posting** and **apply**
+- [ ] User **notifications**
+- [ ] User **messages**
+- [ ] **Filter** ***Posts*** by *Hashtag*.
 
 ## Desktop
- <img src="./assets/web.gif" alt="Vitejs logo vector" />
+ <img src="./assets/web.gif" alt="Desktop view" />
  <hr/>
 
  ## Mobile
- <img src="./assets/mobile.gif" alt="Vitejs logo vector" />
+ <img src="./assets/mobile.gif" alt="Mobile view" />
 
-## Compiles and hot-reloads for development
-
-### Getting Started
-
-- Clone this repo
-- Create MongoDb Cluster and Get Connection MongoDb URI
-- Set environment variables in `config.env` under `./server/config`
-
-  - Set `PORT = <PORT>`
-  - Set `MONGO_URI = <YOUR_MONGO_URI>`
-  - Set `JWT_SECRET_KEY = <YOUR_SECRET_KEY>`
-  - Set `JWT_EXPIRE = 60m`
-  - Set `JWT_COOKIE_EXPIRE = 60`
-
-  #### Saltkey for CryptoJS
-
-  - Set `_SALTKEY =  <YOUR_SALT_KEY>`
-
-  #### Reset Password
-
-  - Set `RESET_PASSWORD_EXPIRE = 36000000`
-
-  #### NodeMailer
-
-  - Set `SMTP_MAIL = <YOUR_GMAIL_EMAIL>`
-  - Set `SMTP_PASSWORD = <YOUR_GMAIL_PASSWORD>`
-  - Set `SMTP_PORT = 465`
-  - Set `SMTP_HOST = smtp.gmail.com`
-
-```bash
-$ cd server
-npm install
-npm run start
-$ cd client
-npm install
-npm run serve
-```
-## Or you can use Docker.
- - Set environment variables in `./server` under `Dockerfile`
-```bash
-$ docker-compose up
-```
-## Set your api url.
- - Set BASE_URL in `./client/src/constants` under `index.js`
-```bash
-$ export const BASE_URL = "<YOUR_BASE_URL>";
-```
 
 ## DB Diagram
 <img src='./assets/db-diagram.png'/>
-
-
 ### Technologies and Dependieces:
 
 - Javascript
@@ -118,18 +86,53 @@ $ export const BASE_URL = "<YOUR_BASE_URL>";
     "nodemon": "^2.0.20"
   }
 ```
+### Getting Started
 
-### Features
+- Clone this repo
+- Create MongoDb Cluster and Get Connection MongoDb URI
+- Set environment variables in `config.env` under `./server/config`
 
-- Authorization
-- Validation
-- Routing
-- Reactivity
-- Alert Messages
-- Login/Register
-- Search By Searchkey
-- Relationship
-- Localstorage
+  - Set `PORT = <PORT>`
+  - Set `MONGO_URI = <YOUR_MONGO_URI>`
+  - Set `JWT_SECRET_KEY = <YOUR_SECRET_KEY>`
+  - Set `JWT_EXPIRE = 60m`
+  - Set `JWT_COOKIE_EXPIRE = 60`
+
+  #### Saltkey for CryptoJS
+
+  - Set `_SALTKEY =  <YOUR_SALT_KEY>`
+
+  #### Reset Password
+
+  - Set `RESET_PASSWORD_EXPIRE = 36000000`
+
+  #### NodeMailer
+
+  - Set `SMTP_MAIL = <YOUR_GMAIL_EMAIL>`
+  - Set `SMTP_PASSWORD = <YOUR_GMAIL_PASSWORD>`
+  - Set `SMTP_PORT = 465`
+  - Set `SMTP_HOST = smtp.gmail.com`
+
+```bash
+$ cd server
+npm install
+npm run start
+$ cd client
+npm install
+npm run serve
+```
+## Or you can use Docker.
+ - Set environment variables in `./server` under `Dockerfile`
+```bash
+$ docker-compose up
+```
+## Set your api url.
+ - Set BASE_URL in `./client/src/constants` under `index.js`
+```bash
+$ export const BASE_URL = "<YOUR_BASE_URL>";
+```
+
+
 
 ### Customize configuration
 
