@@ -10,7 +10,7 @@ const errorHandler = require("./middlewares/errorHandler");
 
 //Environment Variables
 dotenv.config({
-  path: "./config/env/config.env",
+  path: "./config/config.env",
 });
 
 //MongoDB Connection
