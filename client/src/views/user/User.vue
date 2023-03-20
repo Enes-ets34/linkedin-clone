@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import appAxios from "../../utils/appAxios";
 import { BASE_URL } from '../../constants';
+import useProfileImage from '../../composables/profile_image'
 import ProfileRightSide from '../../components/profile/ProfileRightSide.vue';
 import router from '../../router';
 const route = useRoute()
@@ -12,25 +13,26 @@ const slug = computed(() => route.params.slug)
 let currentUser = computed(() => store.getters['users/getCurrentUser'])
 let user = ref({})
 appAxios.get(`/users/${slug.value}`)
-    .then((res) => {
-        if (res.status === 200) {
-            user.value = res.data.user
-            if (currentUser.value._id === user.value._id) {
-                router.push("/profile")
-            }
+.then((res) => {
+    if (res.status === 200) {
+        user.value = res.data.user
+        if (currentUser.value._id === user.value._id) {
+            router.push("/profile")
         }
-    }).catch((err) => {
-        console.error(err);
-    });
+    }
+}).catch((err) => {
+    console.error(err);
+});
+
+const  profile_image  = useProfileImage(user.value)
 
 function formatContent(content) {
-    return content
-        .replace(/\n/g, "<br/>")
-        .replace(
-            /#\w+/g,
-            '<span class="text-primary cursor-pointer hover:underline font-semibold">$&</span>'
-        );
+    return content?.replace(/\n/g, "<br/>")?.replace(
+        /#\w+/g,
+        '<span class="text-primary cursor-pointer hover:underline font-semibold">$&</span>'
+    );
 }
+
 </script>
 <template>
     <div class="container pb-20 mt-16 sm:mt-20">
@@ -38,6 +40,8 @@ function formatContent(content) {
             <div class=" flex-col flex-1 md:basis-8/12 space-y-2  ">
                 <div class="border flex flex-col space-y-2 bg-white rounded-lg">
                     <div class="relative ">
+                        {{ profile_image }}
+                        
                         <img class="rounded-t-lg"
                             src="https://media.licdn.com/dms/image/D4D16AQFHK_sNYVFAOg/profile-displaybackgroundimage-shrink_350_1400/0/1676201844347?e=1681948800&v=beta&t=oOIDZleH7CwOJIS-dYm5WoWMJE-MHBCsD2XKtqoXop4"
                             alt="">
@@ -45,7 +49,7 @@ function formatContent(content) {
                             class="rounded-full absolute left-5 top-12 md:left-5 md:top-12 lg:top-20 md:w-32 md:h-32 lg:w-40 lg:h-40 border-4 bg-white border-white">
 
                             <img class="hover:cursor-pointer rounded-full object-contain w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40"
-                                :src="`${BASE_URL}/uploads/${user?.profile_image}`" alt="">
+                                :src="profile_image" alt="">
                             <div
                                 class="rounded-full  p-[px]  bg-white  absolute  top-16  sm:top-3/4  right-2 border-[6px] w-6 h-6 border-green-700">
 
@@ -116,11 +120,11 @@ function formatContent(content) {
 
                                 </p>
                                 <!-- <div class="text-sm ">
-                       Yetenekler:
-                </span>
-                Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
-            Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
-            </div> -->
+                                       Yetenekler:
+                                </span>
+                                Teknik Destek · Bilgisayar Donanımı · Bilgisayar Donanımı Sorun Giderme · Bilgisayar
+                            Tamiri · Bilgisayar Ağları · İnsan Bilgisayar Etkileşimi
+                            </div> -->
                             </div>
                         </div>
 

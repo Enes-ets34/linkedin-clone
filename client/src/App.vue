@@ -1,5 +1,4 @@
 <script setup>
-
 import { useStore } from 'vuex';
 import { BASE_URL } from './constants';
 import appAxios from './utils/appAxios';

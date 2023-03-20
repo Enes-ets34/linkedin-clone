@@ -9,7 +9,7 @@ const logout = () => {
     store.commit('users/logout')
 }
 const profile_image = computed(()=>{
-    return currentUser ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
+    return currentUser.profile_image ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
 })
 </script>
 <template>

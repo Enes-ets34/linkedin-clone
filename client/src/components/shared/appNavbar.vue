@@ -1,5 +1,5 @@
 <script setup>
-import { computed,ref } from 'vue';
+import { computed, ref } from 'vue';
 import { BASE_URL } from '../../constants';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
@@ -15,7 +15,7 @@ const hideNavbar = computed(() => {
 })
 
 const profile_image = computed(() => {
-    return currentUser ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
+    return currentUser?.profile_image ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
 })
 const search = (e) => {
     router.push({
@@ -139,7 +139,7 @@ const showSettingsCard = ref(false)
 
                         <li @click="showSettingsCard = !showSettingsCard"
                             class="flex group flex-col justify-between items-center text-center hover:cursor-pointer group  lg:w-20 lg:border-r-2  border-gray-300 ">
-                            <img :src="profile_image" alt="" class="rounded-full w-8 md:w-6">
+                            <img :src="profile_image || 'default.png'" alt="" class="rounded-full w-8 md:w-6">
                             <div class="md:flex hidden justify-between items-center space-x-1">
                                 <small class="text-muted  group-hover:text-black">Ben</small><i
                                     class="fas fa-caret-down text-muted  group-hover:text-black"></i>

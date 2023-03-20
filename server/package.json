@@ -17,6 +17,7 @@
   "author": "Enes Taha SARI",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/storage": "^6.9.4",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "crypto-js": "^4.1.1",
