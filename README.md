@@ -3,6 +3,14 @@
 # LinkedIn Clone
 
 This project is still being developed.This project utilizes a ***micro-frontend*** approach for the front-end and an ***MVC*** architecture for the back-end.
+
+### Technologies and Dependieces:
+
+- Javascript
+- HTML5
+- CSS3
+- Tailwind CSS
+
 ### Features
 
 - Authorization
@@ -31,12 +39,7 @@ This project is still being developed.This project utilizes a ***micro-frontend*
 
 ## DB Diagram
 <img src='./assets/db-diagram.png'/>
-### Technologies and Dependieces:
 
-- Javascript
-- HTML5
-- CSS3
-- Tailwind CSS
 
 
 <div style="display: flex; flex-wrap: nowrap; justify-content: start; align-items: center;">
