@@ -2,6 +2,7 @@ const Post = require("../../models/Post");
 const Comment = require("../../models/Comment");
 const CustomError = require("../../helpers/error/CustomError");
 const jwt = require("jsonwebtoken");
+const Job = require("../../models/Job");
 
 const {
   isTokenIncluded,
@@ -37,6 +38,16 @@ const getPostOwnerAccessToRoute = asyncErrorWrapper(async (req, res, next) => {
   }
   next();
 });
+const getJobOwnerAccessToRoute = asyncErrorWrapper(async (req, res, next) => {
+  const userId = req.user.id;
+  const jobId = req.params.id;
+  const job = await Job.findById(jobId);
+  console.log("job :>> ", job);
+  if (job.user.toString() !== userId) {
+    return next(new CustomError("Only Job owner can do this.", 403));
+  }
+  next();
+});
 const getCommentOwnerAccessToRoute = asyncErrorWrapper(
   async (req, res, next) => {
     const userId = req.user.id;
@@ -44,7 +55,7 @@ const getCommentOwnerAccessToRoute = asyncErrorWrapper(
     const comment = await Comment.findById(commentId);
 
     if (comment.user.toString() !== userId) {
-      return next(new CustomError("Only Post owner can do this.", 403));
+      return next(new CustomError("Only Comment owner can do this.", 403));
     }
     next();
   }
@@ -54,4 +65,5 @@ module.exports = {
   getAccessToRoute,
   getPostOwnerAccessToRoute,
   getCommentOwnerAccessToRoute,
+  getJobOwnerAccessToRoute,
 };

@@ -34,8 +34,7 @@ const deleteComment = () => {
 <template>
     <div class="flex flex-col">
         <div class="flex justify-between items-start mb-[-6px] space-x-2 py-2 mt-2">
-            <img :src="`${BASE_URL}/uploads/${props?.comment?.user?.profile_image}`" alt=""
-                class="rounded-full w-10 " />
+            <img :src="`${BASE_URL}/uploads/${props?.comment?.user?.profile_image}`" alt="" class="rounded-full w-10 " />
             <div class="relative px-4 mt-[-5px] py-2 rounded-xl w-full rounded-tl-none flex flex-col bg-neutral-100">
                 <div class="flex  justify-between items-start">
                     <div class="flex flex-col items-start">
@@ -62,8 +61,8 @@ const deleteComment = () => {
                             <i class="fa-sharp fa-solid fa-trash"></i>
                             Yorumu Sil
                         </li>
-                        <li 
-                            class="flex  justify-between  rounded-md rounded-t-none items-center p-4 hover:cursor-pointer hover:bg-neutral-200">
+                        <li
+                            class="flex justify-between  rounded-md rounded-t-none items-center p-4 hover:cursor-pointer hover:bg-neutral-200">
                             <i class="fa-sharp fa-solid fa-pen-to-square"></i>
                             Yorumu Düzenle
                         </li>
