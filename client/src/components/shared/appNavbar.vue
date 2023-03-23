@@ -35,9 +35,9 @@ const showSettingsCard = ref(false)
         class="fixed z-[1] top-0 left-0 right-0 border-b-[1px] bg-white border-b-[rgba(0,0,0,0.2)] sm:mb-3 ">
         <nav class="">
 
-            <div class="container w-full  py-3 px-4 md:py-2 md:px-0">
+            <div class="container w-full  py-3 px-4 md:py-0 md:px-0">
                 <div class="flex relative md:static justify-between items-center">
-                    <div class="md:order-none md:static absolute left-12 flex justify-start items-center md:space-x-3">
+                    <div class="md:order-none md:py-1 md:static absolute left-12 flex justify-start items-center md:space-x-3">
                         <!-- Logo -->
                         <router-link to="/" tag="i"
                             class="fa-brands hidden md:block fa-linkedin text-3xl md:text-5xl text-primary"></router-link>
@@ -64,7 +64,7 @@ const showSettingsCard = ref(false)
                     <ul class="flex justify-between items-center ">
 
                         <div
-                            class="p-2 sm:p-0 md:static flex justify-between items-center fixed z-[1] bottom-0 left-0 right-0 border-t-[1px] bg-white sm:border-none border-t-[rgba(0,0,0,0.2)]">
+                            class="px-2 md:p-0 md:static flex justify-between items-center fixed z-[1] bottom-0 left-0 right-0 border-t-[1px] bg-white sm:border-none border-t-[rgba(0,0,0,0.2)]">
                             <li class="text-muted">
                                 <router-link tag="li"
                                     class="flex flex-col hover:text-black justify-start items-center text-center hover:cursor-pointer group border-0  w-12 md:w-20"
@@ -77,8 +77,9 @@ const showSettingsCard = ref(false)
                                             d="M23 9v2h-2v7a3 3 0 01-3 3h-4v-6h-4v6H6a3 3 0 01-3-3v-7H1V9l11-7 5 3.18V2h3v5.09z">
                                         </path>
                                     </svg>
-                                    <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
-                                        fill="currentColor" class="mercado-match" width="24" height="24" focusable="false">
+                                    <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        data-supported-dps="24x24" fill="currentColor" class="mercado-match" width="24"
+                                        height="24" focusable="false">
                                         <path d="M23 9v2h-2v7a3 3 0 01-3 3h-4v-6h-4v6H6a3 3 0 01-3-3v-7H1V9l11-7z"></path>
                                     </svg><small class="">Anasayfa</small>
                                 </router-link>
@@ -113,11 +114,11 @@ const showSettingsCard = ref(false)
                             </li>
                             <li class="text-muted">
                                 <router-link tag="li"
-                                    class="flex flex-col hover:text-black justify-start items-center text-center hover:cursor-pointer group border-0  w-12 md:w-20"
-                                    active-class="lg:border-b-2 border-t md:border-t-0 md:border-b text-black border-black"
+                                    class="flex no-wrap flex-col hover:text-black justify-start items-center text-center hover:cursor-pointer group border-0  w-12 md:w-20"
+                                    :class="{ 'lg:border-b-2 border-t md:border-t-0 md:border-b text-black border-black': currentRoute.includes('/job') }"
                                     to="/jobs">
 
-                                    <svg v-if="currentRoute === '/jobs'" xmlns="http://www.w3.org/2000/svg"
+                                    <svg v-if="currentRoute.includes('/job')" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor"
                                         class="mercado-match" width="24" height="24" focusable="false">
                                         <path
@@ -131,10 +132,9 @@ const showSettingsCard = ref(false)
                                             d="M17 6V5a3 3 0 00-3-3h-4a3 3 0 00-3 3v1H2v4a3 3 0 003 3h14a3 3 0 003-3V6zM9 5a1 1 0 011-1h4a1 1 0 011 1v1H9zm10 9a4 4 0 003-1.38V17a3 3 0 01-3 3H5a3 3 0 01-3-3v-4.38A4 4 0 005 14z">
                                         </path>
 
-                                    </svg><small class="">İş İlanları</small>
+                                    </svg><small class="whitespace-nowrap">İş İlanları</small>
 
                                 </router-link>
-                                {{ route.currentRoute.path }}
                             </li>
                         </div>
 

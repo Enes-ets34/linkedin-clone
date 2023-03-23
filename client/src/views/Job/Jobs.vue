@@ -1,8 +1,19 @@
 <script setup>
-import { computed } from 'vue';
+import { BASE_URL } from '../../constants';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import AddJobModal from '../../components/job/AddJobModal.vue'
+import appAxios from '../../utils/appAxios';
+import moment from '../../composables/moment';
+const { created_at } = moment()
 const store = useStore()
+const jobs = ref([])
+appAxios.get(`${BASE_URL}/job`)
+    .then((res) => {
+        jobs.value = res.data.jobs
+    }).catch((err) => {
+        console.error(err);
+    });
 
 
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
@@ -10,8 +21,7 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
 </script>
 <template>
     <div class="container mt-16  sm:mt-20">
-        <AddJobModal v-if="$store.state.modal === 'add-job-modal'"
-            @close-job-modal="$store.dispatch('setModal', null)" />
+        <AddJobModal v-if="$store.state.modal === 'add-job-modal'" @close-job-modal="$store.dispatch('setModal', null)" />
         <div class="flex flex-col md:flex-row  justify-between pb-52 items-center md:items-start md:space-x-5 ">
             <div class="flex flex-col md:sticky top-px flex-1 md:basis-1/4 space-y-2  ">
                 <div class=" border bg-white rounded-lg">
@@ -121,17 +131,15 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                     <p class="text-muted">Profiliniz ve arama geçmişinize göre</p>
 
                     <ul class="mt-4 md:mt-8">
-                        <li v-for="i in 15" class="font-semibold my-1">
+                        <li v-for="job in jobs" :key="job._id" class="font-semibold my-1">
                             <div class="flex justify-between items-start border-b py-2">
                                 <div class="flex  sm:justify-between  items-start  sm:space-x-4 space-x-4 ">
-                                    <img src="https://media.licdn.com/dms/image/C560BAQGAjVTnzEmlYQ/company-logo_100_100/0/1625476544834?e=1687392000&v=beta&t=aSHj05U84HusJ9cs_cpS_8_RuDmQGPyCZk0_RktlDSA"
-                                        alt="" class="object-contain  w-14 h-14 rounded-full ">
+                                    <img :src="job.company.media" alt="" class="object-contain  w-14 h-14 rounded-full ">
                                     <div class="flex flex-col text-sm">
-                                        <router-link to='search'
-                                            class="font-semibold text-primary cursor-pointer hover:underline text-base">General
-                                            Application</router-link>
-                                        <p>Vodofone</p>
-                                        <p class="text-muted font-light">İstanbul,Turkey</p>
+                                        <router-link :to='`/job/${job._id}`'
+                                            class="font-semibold text-primary cursor-pointer hover:underline text-base">{{ job.title }}</router-link>
+                                        <p>{{ job.company.name }}</p>
+                                        <p class="text-muted font-light">{{ job.company.location }}</p>
                                         <small class="text-muted font-light text-xs mb-2 flex justify-start items-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                                 data-supported-dps="24x24" fill="currentColor "
@@ -144,7 +152,8 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                                             Aktif olarak işe alım yapıyor
                                         </small>
                                         <small class="text-muted font-light text-xs mb-2 ">
-                                            1 hafta önce
+                                            {{ created_at('2023-02-17T14:21:25.183+00:00') }}
+
                                         </small>
                                     </div>
                                 </div>
