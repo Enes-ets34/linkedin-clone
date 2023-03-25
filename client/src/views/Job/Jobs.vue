@@ -1,41 +1,91 @@
 <script setup>
 import { BASE_URL } from '../../constants';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
-import AddJobModal from '../../components/job/AddJobModal.vue'
+import AddJobModal from '../../components/Job/AddJobModal.vue'
 import appAxios from '../../utils/appAxios';
-import moment from '../../composables/moment';
-const { created_at } = moment()
+import Job from '../../components/Job/Job.vue';
+
 const store = useStore()
 const jobs = ref([])
+const work_types = ref([
+    {
+        type: "remote",
+        isSelect: false
+    },
+    {
+        type: "office",
+        isSelect: false
+    },
+    {
+        type: "hybrid",
+        isSelect: false
+    }
+])
 appAxios.get(`${BASE_URL}/job`)
     .then((res) => {
         jobs.value = res.data.jobs
+
     }).catch((err) => {
         console.error(err);
     });
+const addJob = (e) => {
+    appAxios.post(`${BASE_URL}/job`, e)
+        .then((res) => {
+            jobs.value.unshift(res.data.job)
+            store.dispatch("notifications/showMessage", {
+                message: "İş ilanı başarıyla yayınlandı",
+                type: "success",
+            });
+        }).catch((err) => {
+            store.dispatch("notifications/showMessage", {
+                message: err.response.data.message,
+                type: "error",
+            });
+        });
+}
 
+watch(
+    () => work_types.value,
+    (newValue, oldValue) => {
+        if (newValue) {
+            let url = `${BASE_URL}/job/filter?`
+            const selected = newValue
+                .filter(t => t.isSelect)
+                .map(t => `type=${t.type}`)
+                .join("&");
+            url = `${url}&${selected}`;
 
-const currentUser = computed(() => store.getters['users/getCurrentUser'])
+            appAxios.get(url)
+                .then((res) => {
+                    jobs.value = res.data.jobs
 
+                }).catch((err) => {
+                    console.error(err);
+                });
+        }
+    },
+    { deep: true }
+)
 </script>
 <template>
     <div class="container mt-16  sm:mt-20">
-        <AddJobModal v-if="$store.state.modal === 'add-job-modal'" @close-job-modal="$store.dispatch('setModal', null)" />
+        <AddJobModal @add-job="addJob($event)" v-if="$store.state.modal === 'add-job-modal'"
+            @close-job-modal="$store.dispatch('setModal', null)" />
         <div class="flex flex-col md:flex-row  justify-between pb-52 items-center md:items-start md:space-x-5 ">
-            <div class="flex flex-col md:sticky top-px flex-1 md:basis-1/4 space-y-2  ">
+            <div class="flex flex-col md:sticky top-px w-full px-2 md:px-0 md:basis-1/4 space-y-2  ">
                 <div class=" border bg-white rounded-lg">
-                    <div>
-                        <div
-                            class=" group font-semibold transition-all duration-150 hover:bg-gray-300 hover:cursor-pointer">
-                            <div class="flex justify-start p-4    items-center space-x-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
-                                    fill="currentColor" class="text-muted" width="24" height="24" focusable="false">
-                                    <path d="M19 5a3 3 0 00-3-3H5v20l7-6.29L19 22z"></path>
-                                </svg>
-                                <span class=" text-sm group-hover:text-black">İş ilanlarım</span>
-                            </div>
-                        </div>
+
+                    <div class=" group font-semibold transition-all duration-150 hover:bg-gray-300 hover:cursor-pointer">
+                        <router-link to="/saved-jobs" class="flex justify-start p-4    items-center space-x-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
+                                fill="currentColor" class="text-muted" width="24" height="24" focusable="false">
+                                <path d="M19 5a3 3 0 00-3-3H5v20l7-6.29L19 22z"></path>
+                            </svg>
+                            <span class=" text-sm group-hover:text-black">İş ilanlarım</span>
+                        </router-link>
+                    </div>
+                    <div class="hidden sm:block">
                         <div
                             class=" group font-semibold transition-all duration-150 hover:bg-gray-300 hover:cursor-pointer">
                             <div class="flex justify-start p-4    items-center space-x-2">
@@ -85,6 +135,7 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <button @click="$store.dispatch('setModal', 'add-job-modal')"
                     class="rounded-full flex justify-center items-center border border-1 ring-1 hover:ring-2 transition-all duration-300 ring-primary text-primary bg-transparent py-2 w-full hover:bg-blue-100">
@@ -111,64 +162,28 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                         </span>
                     </div>
                     <ul class="flex flex-wrap">
-                        <li v-for="i in 15" class="font-semibold m-1">
-                            <button
-                                class="rounded-full  text-xs flex justify-center items-center border border-1 ring-1 hover:ring-2 transition-all duration-300 ring-primary text-primary bg-transparent px-2 py-px hover:bg-blue-100">
+                        <li v-for="work_type in work_types" :key="work_type" class="font-semibold m-1">
+                            <button @click="work_type.isSelect = !work_type.isSelect"
+                                class="rounded-full  text-xs flex justify-center items-center border border-1 ring-1 hover:ring-2 transition-all duration-300 ring-primary text-primary bg-white px-2 py-px hover:bg-blue-100"
+                                :class="{ 'bg-[#0b66c2] active:bg-[#09223b] hover:bg-[#004183] ring-1 outline-none text-white': work_type.isSelect }">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16"
                                     fill="currentColor" class="mercado-match mr-1" width="16" height="16" focusable="false">
                                     <path
                                         d="M14.56 12.44L11.3 9.18a5.51 5.51 0 10-2.12 2.12l3.26 3.26a1.5 1.5 0 102.12-2.12zM3 6.5A3.5 3.5 0 116.5 10 3.5 3.5 0 013 6.5z">
                                     </path>
                                 </svg>
-                                remote
+                                {{ work_type.type }}
                             </button>
                         </li>
                     </ul>
                 </div>
-                <div class="border bg-white p-4 rounded-lg">
+                <div class="border bg-white pt-4  rounded-lg">
 
-                    <p class="text-xl font-semibold">Sizin için önerilen</p>
-                    <p class="text-muted">Profiliniz ve arama geçmişinize göre</p>
+                    <p class="text-xl font-semibold px-4">Sizin için önerilen</p>
+                    <p class="text-muted px-4">Profiliniz ve arama geçmişinize göre</p>
 
-                    <ul class="mt-4 md:mt-8">
-                        <li v-for="job in jobs" :key="job._id" class="font-semibold my-1">
-                            <div class="flex justify-between items-start border-b py-2">
-                                <div class="flex  sm:justify-between  items-start  sm:space-x-4 space-x-4 ">
-                                    <img :src="job.company.media" alt="" class="object-contain  w-14 h-14 rounded-full ">
-                                    <div class="flex flex-col text-sm">
-                                        <router-link :to='`/job/${job._id}`'
-                                            class="font-semibold text-primary cursor-pointer hover:underline text-base">{{ job.title }}</router-link>
-                                        <p>{{ job.company.name }}</p>
-                                        <p class="text-muted font-light">{{ job.company.location }}</p>
-                                        <small class="text-muted font-light text-xs mb-2 flex justify-start items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                data-supported-dps="24x24" fill="currentColor "
-                                                class="text-green-700 mr-1 mercado-match" width="24" height="24"
-                                                focusable="false">
-                                                <path
-                                                    d="M12 20a8 8 0 010-16 7.91 7.91 0 014.9 1.69l-1.43 1.42a6 6 0 101.42 1.42l3.82-3.82a1 1 0 000-1.41A1 1 0 0020 3a1 1 0 00-.7.29l-1 1A10 10 0 1022 12h-2a8 8 0 01-8 8zm5-8a5 5 0 11-5-5 4.93 4.93 0 012.76.82l-2.24 2.24A2.24 2.24 0 0012 10a2 2 0 102 2 2.24 2.24 0 00-.07-.51l2.24-2.24A5 5 0 0117 12z">
-                                                </path>
-                                            </svg>
-                                            Aktif olarak işe alım yapıyor
-                                        </small>
-                                        <small class="text-muted font-light text-xs mb-2 ">
-                                            {{ created_at('2023-02-17T14:21:25.183+00:00') }}
-
-                                        </small>
-                                    </div>
-                                </div>
-                                <span class="p-2 rounded-full hover:bg-gray-200 cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
-                                        fill="currentColor" class="fill-muted mercado-match" width="24" height="24"
-                                        focusable="false">
-                                        <path
-                                            d="M19 5a3 3 0 00-3-3H5v20l7-6.29L19 22zm-3-1a1 1 0 011 1v12.51L12 13l-5 4.51V4z">
-                                        </path>
-                                    </svg>
-                                </span>
-
-                            </div>
-                        </li>
+                    <ul class="">
+                        <Job v-for="job in jobs" :key="job._id" :job="job" />
                     </ul>
                 </div>
             </div>

@@ -71,6 +71,11 @@ const routes = [
     name: "Job",
     component: () => import("../views/Job/JobDetail.vue"),
   },
+  {
+    path: "/saved-jobs",
+    name: "SavedJobs",
+    component: () => import("../views/Job/SavedJobs.vue"),
+  },
 ];
 
 const router = createRouter({

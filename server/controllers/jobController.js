@@ -5,7 +5,10 @@ const Job = require("../models/Job");
 const User = require("../models/User");
 
 const getAllJobs = asyncErrorWrapper(async (req, res, next) => {
-  const jobs = await Job.find().populate("company").populate("user");
+  const jobs = await Job.find()
+    .populate("company")
+    .populate("user")
+    .sort("-created_at");
   // .populate("applicants");
   return res.status(200).send({
     success: true,
@@ -23,7 +26,9 @@ const getSingleJob = asyncErrorWrapper(async (req, res, next) => {
 });
 const newJob = asyncErrorWrapper(async (req, res, next) => {
   const userData = req.body;
-  const job = await Job.create({ ...userData, user: req.user.id });
+  const job = await (
+    await Job.create({ ...userData, user: req.user.id })
+  ).populate("company");
   return res.status(200).send({
     success: true,
     job,
@@ -58,12 +63,24 @@ const updateJob = asyncErrorWrapper(async (req, res, next) => {
     job,
   });
 });
+const myAppliedJobs = asyncErrorWrapper(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+  const jobs = await Job.find({ applicants: user.id }).populate("company");
+  try {
+    res.json({
+      success: true,
+      jobs,
+    });
+  } catch (error) {
+    return next(new CustomError(error, 500));
+  }
+});
 const applyToJob = asyncErrorWrapper(async (req, res, next) => {
   const user = await User.findById(req.user.id);
   const job = await Job.findById(req.params.id).populate("user");
   const emailTemplate = `
   <h3>Job Apply</h3>
-  <p>User:${user.full_name} was applied to your job.</p>
+  <p>User:<a href='https://linkedin-ets.netlify.app/#/user/${user.slug}'></a> ${user.full_name} was applied to your job.</p>
   `;
   try {
     if (job.applicants.includes(user.id)) {
@@ -85,6 +102,26 @@ const applyToJob = asyncErrorWrapper(async (req, res, next) => {
     return next(new CustomError(error, 500));
   }
 });
+const filterJobsByType = asyncErrorWrapper(async (req, res, next) => {
+  const types = req.query.type;
+  let jobs = await Job.find({ work_type: { $in: types } })
+    .populate("company")
+    .sort("-created_at");
+  try {
+    if (!jobs) {
+      return next(new CustomError("There is no job with that query", 400));
+    }
+    if (!types) {
+      jobs = await Job.find().populate("company").sort("-created_at");
+    }
+    res.json({
+      success: true,
+      jobs,
+    });
+  } catch (error) {
+    return next(new CustomError(error, 500));
+  }
+});
 module.exports = {
   getAllJobs,
   newJob,
@@ -92,4 +129,6 @@ module.exports = {
   deleteJob,
   updateJob,
   getSingleJob,
+  myAppliedJobs,
+  filterJobsByType,
 };

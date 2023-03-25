@@ -1,11 +1,68 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
+import { BASE_URL } from '../../constants';
+import appAxios from '../../utils/appAxios';
+import { useRouter } from 'vue-router';
+import moment from '../../composables/moment';
+
+
+const router = useRouter()
 const store = useStore()
+const job = ref({})
+const jobId = computed(() => router.currentRoute.value.params.id)
+appAxios.get(`job/${jobId.value}`)
+    .then((res) => {
+        job.value = res.data.job
+        console.log('job.value :>> ', job.value);
+    }).catch((err) => {
 
-
+    });
+const { created_at } = moment(job.value.created_at);
+const applyJob = () => {
+    appAxios.get(`job/apply/${jobId.value}`)
+        .then((res) => {
+            if (res.status === 200) {
+                job.value.applicants.push(res.data.job.user._id)
+                store.dispatch("notifications/showMessage", {
+                    message: "İş ilanına başvuru başarılı",
+                    type: "success",
+                });
+            }
+        }).catch((err) => {
+            store.dispatch("notifications/showMessage", {
+                message: err.response.data.message,
+                type: "error",
+            });
+        });
+}
+const deleteJob = () => {
+    if (confirm('ARE YOU SURE?')) {
+        appAxios.delete(`job/${jobId.value}`)
+            .then((res) => {
+                if (res.status === 200) {
+                    router.push("/jobs")
+                    store.dispatch("notifications/showMessage", {
+                        message: res?.data?.message,
+                        type: "success",
+                    });
+                }
+            }).catch((err) => {
+                store.dispatch("notifications/showMessage", {
+                    message: err.response.data.message,
+                    type: "error",
+                });
+            });
+    }
+}
+const hasAlreadyApplied = computed(() => {
+    return Boolean(job?.value?.applicants?.find(u => u === currentUser?.value?._id))
+})
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
-
+const jobSettings = ref(false)
+const openJobMenu = () => {
+    jobSettings.value = !jobSettings.value
+}
 </script>
 <template>
     <div class="container mt-16  sm:mt-20">
@@ -13,9 +70,10 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
             <div class="w-full mt-4 md:mt-0 md:basis-3/4 px-4 flex flex-col space-y-2">
                 <div class="border bg-white p-6 rounded-lg">
                     <div class="flex justify-between items-start">
-                        <img src="https://media.licdn.com/dms/image/C510BAQEtZ01_ey5nIA/company-logo_100_100/0/1586016478298?e=1687392000&v=beta&t=ci-trB4Ens2syrjSlwPTy7cVvSrGa8kO5cnJvhdb7NI"
-                            class="object-contain w-14" alt="">
-                        <div class="flex space-x-2 items-center">
+                        <router-link :to="`/company/${job?.company?.slug}`"> <img :src="job?.company?.media"
+                                class="object-contain w-14" alt=""></router-link>
+
+                        <div class="flex space-x-2 items-center relative">
                             <span class="p-2  hover:bg-gray-200 cursor-pointer rounded-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
                                     fill="currentColor" class="fill-muted mercado-match" width="24" height="24"
@@ -25,7 +83,8 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                                     </path>
                                 </svg>
                             </span>
-                            <span class="p-2  hover:bg-gray-200 cursor-pointer rounded-full">
+                            <span v-if="currentUser._id === job?.user?._id" @click="openJobMenu()"
+                                class="p-2  hover:bg-gray-200 cursor-pointer rounded-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
                                     fill="currentColor" class="mercado-match fill-muted" width="24" height="24"
                                     focusable="false">
@@ -34,15 +93,32 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                                     </path>
                                 </svg>
                             </span>
+                            <div v-if="jobSettings"
+                                class="bg-white z-10 border w-36 text-xs rounded-md rounded-tr-none shadow-xl absolute top-8 right-2 font-semibold">
+                                <ul class="rounded-md ">
+                                    <li @click="deleteJob()"
+                                        class="flex  rounded-tl-md justify-between items-center p-4 hover:cursor-pointer hover:bg-neutral-200">
+                                        <i class="fa-sharp fa-solid fa-trash"></i>
+                                        İlanı Sil
+                                    </li>
+                                    <li
+                                        class="flex justify-between  rounded-md rounded-t-none items-center p-4 hover:cursor-pointer hover:bg-neutral-200">
+                                        <i class="fa-sharp fa-solid fa-pen-to-square"></i>
+                                        İlanı Düzenle
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="flex flex-col mt-2">
-                        <h2 class="text-2xl font-semibold">Fresh Graduate General Application</h2>
+                        <h2 class="text-2xl font-semibold">{{ job.title }}</h2>
                         <div class="flex flex-wrap text-sm justify-start items-center space-x-2 md:mt-2">
-                            <a class=" text-primary hover:underline cursor-pointer">Huawei •</a>
-                            <p>İstanbul, Turkey</p>
-                            <p class="text-muted">1 gün önce •</p>
-                            <p class="text-muted">200'ün üzerinde başvuran</p>
+                            <router-link class=" text-primary hover:underline cursor-pointer" tag="a"
+                                :to="`/company/${job?.company?.slug}`"> {{ job?.company?.name }} •</router-link>
+                            <p>{{ job.location }}</p>
+                            <p class="text-muted">{{ created_at(job.created_at) }} •</p>
+
+                            <p class="text-muted">{{ job.applicants?.length }} başvuran</p>
                         </div>
                         <ul class="text-sm my-6 space-y-3">
                             <li class="flex justify-start items-center space-x-2">
@@ -61,7 +137,7 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                                         d="M4 2v20h16V2zm14 18h-4v-2h-4v2H6V4h12zm-7-8H8v-2h3zm0 4H8v-2h3zm5-4h-3v-2h3zm-5-4H8V6h3zm5 0h-3V6h3zm0 8h-3v-2h3z">
                                     </path>
                                 </svg>
-                                <p>10.001+ çalışan · Telekomünikasyon</p>
+                                <p>{{ job?.company?.employees?.length }} çalışan · {{ job?.company?.category }}</p>
                             </li>
                             <li class="flex justify-start items-center space-x-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
@@ -80,7 +156,7 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                                         d="M10 20h4v.1a1.9 1.9 0 01-1.9 1.9h-.2a1.9 1.9 0 01-1.9-1.9zm4.68-14.47A1 1 0 0016 5l.76-1.85a1 1 0 00-.54-1.3 1 1 0 00-1.31.54l-.76 1.85a1 1 0 00.53 1.29zm5.09 4.33l1.85-.76a1 1 0 00.54-1.31 1 1 0 00-1.3-.54L19 8a1 1 0 00-.54 1.31 1 1 0 001.3.55zM4.23 14.14l-1.85.76a1 1 0 00-.54 1.31 1 1 0 001.3.54L5 16a1 1 0 00.54-1.31 1 1 0 00-1.3-.55zm17.39.76l-1.85-.76A1 1 0 0019 16l1.85.76a1 1 0 00.78-1.86zM5 8l-1.86-.75a1 1 0 00-1.3.54 1 1 0 00.54 1.31l1.85.76A1 1 0 005 8zm3-3a1 1 0 001.31.54 1 1 0 00.54-1.3L9.1 2.38a1 1 0 00-1.31-.54 1 1 0 00-.54 1.3zm9 6.91V12a5.48 5.48 0 01-1.61 3.88l-.07.08a3.94 3.94 0 00-1.08 1.94L14 19h-4l-.24-1.08A4 4 0 008.68 16l-.07-.07A5.51 5.51 0 017 12v-.1A4.9 4.9 0 0111.9 7h.2a4.9 4.9 0 014.9 4.9zm-2 0A2.9 2.9 0 0012.11 9h-.21A2.9 2.9 0 009 11.9v.1a3.47 3.47 0 001 2.47l.08.08a5.92 5.92 0 011.5 2.45h.84a6 6 0 011.48-2.44l.08-.07A3.48 3.48 0 0015 12z">
                                     </path>
                                 </svg>
-                                <p>452 başvuran ile nasıl karşılaştırıldığınızı görün.
+                                <p>{{ job.applicants?.length }} başvuran ile nasıl karşılaştırıldığınızı görün.
                                 <p class="cursor-pointer underline">Premium’u ücretsiz deneyin</p>
                                 </p>
                             </li>
@@ -95,8 +171,8 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                                 <p>Yetenekler: İngilizce, Yazılım Geliştirme, +8 daha</p>
                             </li>
                         </ul>
-                        <div class="flex justfiy-start items-center space-x-2">
-                            <button
+                        <div v-if="!hasAlreadyApplied" class="flex justfiy-start items-center space-x-2">
+                            <button @click="applyJob"
                                 class="bg-primary my-4 rounded-full py-2 px-4  text-white active:bg-[#09223b] hover:bg-[#004182] font-bold">
                                 <i class="fa-brands fa-linkedin"></i> Kolay başvuru
                             </button>
@@ -104,26 +180,51 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                                 class="font-semibold rounded-full border border-1 ring-1 hover:ring-2 transition-all duration-300 ring-primary text-primary bg-transparent py-2 px-4 hover:bg-blue-100">
                                 Kaydet
                             </button>
+
+                        </div>
+                        <div v-else>
+                            <h2 class="text-xl mb-2 font-semibold">İş ilanı faaliyeti</h2>
+                            <div class="flex justify-between items-center  text-sm">
+                                <span class="flex justify-start items-center space-x-2">
+                                    <div class="rounded-full p-1  bg-gray-300 align-middle"></div>
+                                    <p>Başvuru gönderildi</p>
+                                </span>
+                                <span class="text-muted">şimdi</span>
+                            </div>
                         </div>
                     </div>
-                    <hr class="my-6">
-                    <h2 class="text-xl mb-2 font-semibold">İş ilanı faaliyeti</h2>
-                    <div class="flex justify-between items-center  text-sm">
-                        <span class="flex justify-start items-center space-x-2">
-                            <div class="rounded-full p-1  bg-gray-300 align-middle"></div>
-                            <p>Başvuru gönderildi</p>
-                        </span>
-                        <span class="text-muted">şimdi</span>
+                </div>
+                <div class="border bg-white p-4 rounded-lg">
+                    <p class="text-xl font-semibold mb-4">İşe alım takımı ile tanışın</p>
+                    <div class="flex justify-start pl-4 py-2  items-start ">
+                        <router-link class="font-semibold  text-base cursor-pointer" tag="img"
+                            :to="`/user/${job?.user?.slug}`"> <img
+                                src="https://media.licdn.com/dms/image/D4D03AQEBpJLboCb2KQ/profile-displayphoto-shrink_800_800/0/1677235747564?e=2147483647&v=beta&t=xDXFxbs-NYmGmUPvkqw_bghdwxV8maJz7julZwxP9oI"
+                                alt="" class="object-contain  w-14 h-14 rounded-full "></router-link>
+                        <div
+                            class="flex flex-col sm:flex-row sm:justify-between px-4 pb-2 border-b items-start  w-full sm:space-x-2 ">
+                            <div class="flex flex-col">
+                                <router-link class="font-semibold  text-base cursor-pointer" tag="a"
+                                    :to="`/user/${job?.user?.slug}`"> {{ job?.user?.full_name }}</router-link>
+                                <p>{{ job?.user?.title }}</p>
+                                <small class="text-muted mb-2">
+                                    İş ilanını yayınlayan · 2017 tarihinden beri LinkedIn üyesi
+                                </small>
+                                <small class="text-muted mb-2">
+                                    15 ortak bağlantı</small>
+                            </div>
+
+                            <button
+                                class=" mt-2 rounded-full flex items-center space-x-2 ring-1 font-semibold ring-muted text-muted px-4 py-1 hover:bg-gray-200 hover:ring-muted hover:ring active:text-black transition-bg duration-300 ">
+                                mesaj
+                            </button>
+                        </div>
+
                     </div>
                 </div>
                 <div class="border bg-white p-4 rounded-lg">
                     <p class="text-xl font-semibold mb-4">İş ilanı hakkında</p>
-                    <p class="text-sm">This is a general application for Fresh Graduate Engineers who would like to be a
-                        part of Türkiye R&D Center.
-                        Our vision and mission are to bring digital to every person, home, and organization for a fully
-                        connected, intelligent world. To this end, we will drive ubiquitous connectivity and promote equal
-                        access to networks; build digital platforms to help all industries and organizations become more
-                        agile, efficient, and dynamic; redefine user experience!</p>
+                    <p class="text-sm">{{ job.description }}</p>
                 </div>
             </div>
 

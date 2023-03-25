@@ -39,7 +39,7 @@ watch(() => query.value, (newValue, oldValue) => {
                             class="border pt-3  py-4 px-4  text-sm bg-white rounded-lg flex justify-start items-start space-x-2">
                             <img :src="company.media" alt="" class="object-contain  w-24 h-24 ">
                             <div class="flex flex-col">
-                                <a href="#" class="font-semibold text-2xl">{{ company.name }}</a>
+                                <router-link :to="`/company/${company.slug}`" class="hover:underline font-semibold text-2xl">{{ company.name }}</router-link>
                                 <p>{{ company.category }}</p>
                                 <p class="text-muted mb-2">{{ company.location }}</p>
                                 <p class="font-semibold flex items-center text-muted mb-2"><svg
@@ -51,9 +51,9 @@ watch(() => query.value, (newValue, oldValue) => {
                                     </svg>248B Takipçi
                                 </p>
 
-                                <div class="flex items-center space-x-2">
+                                <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-x-2">
                                     <button
-                                        class=" text-base bg-primary  rounded-full py-1 px-3 text-white active:bg-[#09223b] hover:bg-[#004182] transition-all duration-300 font-semibold">
+                                        class=" text-base w-full sm:w-auto bg-primary  rounded-full py-1 px-3 text-white active:bg-[#09223b] hover:bg-[#004182] transition-all duration-300 font-semibold">
                                         Takip et
                                     </button>
                                     <router-link :to="`/company/${company.slug}`"

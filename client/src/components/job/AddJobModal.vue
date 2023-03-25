@@ -15,7 +15,7 @@ const userData = ref({
     company: null,
     location: null,
     description: null,
-    date: null
+    work_type: null
 })
 appAxios.get("/company")
     .then((res) => {
@@ -34,7 +34,7 @@ const closeAddJobModal = () => {
     emit('close-job-modal', null)
 }
 const addJob = () => {
-
+    emit('add-job', userData.value)
     closeAddJobModal()
 }
 
@@ -72,6 +72,17 @@ const addJob = () => {
                                         <input v-model="userData.title" placeholder="işe alım yaptığınız unvanı ekleyin"
                                             type="text" name="" id="title"
                                             class="mt-1 px-2 py-1 border border-1 placeholder:text-sm placeholder:text-muted border-muted hover:ring-black hover:ring-1 transition-all duration-300 focus:outline-primary active:ring-0 rounded-md" />
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <label for="work_type" class="text-muted text-xs sm:text-sm">Çalışma şekli</label>
+                                        <div class="flex justify-between items-center">
+                                            <select v-model="userData.work_type" name="work_type" id="work_type"
+                                                class="mt-1 w-full px-2 py-1 border border-1 placeholder:text-sm  border-muted hover:ring-black hover:ring-1 transition-all duration-300 focus:outline-primary active:ring-0 rounded-md">
+                                                <option value="office" selected>Ofiste</option>
+                                                <option value="remote">Remote</option>
+                                                <option value="hybrid">Hybrid</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="flex flex-col">
                                         <label for="company_name" class="text-muted text-xs sm:text-sm">Şirket</label>

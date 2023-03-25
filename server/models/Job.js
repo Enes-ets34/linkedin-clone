@@ -22,8 +22,11 @@ const jobSchema = new Schema({
     ref: "Company",
   },
   created_at: {
-    type: String,
+    type: Date,
     default: new Date(Date.now()),
+  },
+  work_type: {
+    type: String,
   },
   applicants: [
     {

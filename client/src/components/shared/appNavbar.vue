@@ -115,10 +115,10 @@ const showSettingsCard = ref(false)
                             <li class="text-muted">
                                 <router-link tag="li"
                                     class="flex no-wrap flex-col hover:text-black justify-start items-center text-center hover:cursor-pointer group border-0  w-12 md:w-20"
-                                    :class="{ 'lg:border-b-2 border-t md:border-t-0 md:border-b text-black border-black': currentRoute.includes('/job') }"
+                                    :class="{ 'lg:border-b-2 border-t md:border-t-0 md:border-b text-black border-black': currentRoute.includes('job') }"
                                     to="/jobs">
 
-                                    <svg v-if="currentRoute.includes('/job')" xmlns="http://www.w3.org/2000/svg"
+                                    <svg v-if="currentRoute.includes('job')" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor"
                                         class="mercado-match" width="24" height="24" focusable="false">
                                         <path

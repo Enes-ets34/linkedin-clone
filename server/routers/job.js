@@ -6,6 +6,8 @@ const {
   deleteJob,
   updateJob,
   getSingleJob,
+  myAppliedJobs,
+  filterJobsByType
 } = require("../controllers/jobController");
 const {
   getAccessToRoute,
@@ -14,6 +16,8 @@ const {
 
 const router = express.Router();
 
+router.get("/filter", getAccessToRoute, filterJobsByType);
+router.get("/applied", getAccessToRoute, myAppliedJobs);
 router.get("/", getAllJobs);
 router.get("/:id", getSingleJob);
 router.post("/", getAccessToRoute, newJob);
