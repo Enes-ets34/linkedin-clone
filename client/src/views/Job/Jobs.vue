@@ -3,6 +3,7 @@ import { BASE_URL } from '../../constants';
 import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import AddJobModal from '../../components/Job/AddJobModal.vue'
+
 import appAxios from '../../utils/appAxios';
 import Job from '../../components/Job/Job.vue';
 
