@@ -166,7 +166,7 @@ watch(
                         <li v-for="work_type in work_types" :key="work_type" class="font-semibold m-1">
                             <button @click="work_type.isSelect = !work_type.isSelect"
                                 class="rounded-full  text-xs flex justify-center items-center border border-1 ring-1 hover:ring-2 transition-all duration-300 ring-primary text-primary bg-white px-2 py-px hover:bg-blue-100"
-                                :class="{ 'bg-[#0b66c2] active:bg-[#09223b] hover:bg-[#004183] ring-1 outline-none text-white': work_type.isSelect }">
+                                :class="{ 'bg-blue-600 active:bg-blue-700 hover:bg-blue-500 ring-1 outline-none text-white': work_type.isSelect }">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16"
                                     fill="currentColor" class="mercado-match mr-1" width="16" height="16" focusable="false">
                                     <path
