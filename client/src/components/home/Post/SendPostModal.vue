@@ -37,8 +37,8 @@ const sendPost = () => {
                     <div class="md:pt-2 pb-4 px-3 sm:py-6 ">
                         <div class="mt-3 pr-3 sm:mt-0 sm:ml-4 flex flex-col space-y-4  ">
                             <div class="flex justify-start items-start space-x-2">
-                                <img :src="`${BASE_URL}/uploads/${currentUser.profile_image}`" alt=""
-                                    class="rounded-full object-contain w-14 h-14 ">
+                                <!-- <img :src="`${BASE_URL}/uploads/${currentUser.profile_image}`" alt="" class="rounded-full object-contain w-14 h-14 "> -->
+                                <img :src="`${BASE_URL}/uploads/default.png`" alt="" class="rounded-full object-contain w-14 h-14 ">
                                 <div class="flex flex-col">
                                     <a href="#" class="font-semibold text-sm">{{ currentUser.full_name }}</a>
                                     <div class="flex items-center ">

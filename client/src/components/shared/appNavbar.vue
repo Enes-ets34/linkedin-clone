@@ -10,10 +10,6 @@ const router = useRouter()
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
 
 
-const hideNavbar = computed(() => {
-    return !Boolean(route.currentRoute.value.fullPath.includes('/signin') || route.currentRoute.value.fullPath.includes('/signup') || route.currentRoute.value.fullPath.includes('/forgot-password') || route.currentRoute.value.fullPath.includes('/reset-password'))
-})
-
 const profile_image = computed(() => {
     return currentUser?.profile_image ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
 })
@@ -24,6 +20,14 @@ const search = (e) => {
     })
     e.target.value = ""
 }
+const currentRoute = computed(() => {
+    return route.currentRoute.value.fullPath
+})
+
+
+const hideNavbar = computed(() => {
+    return !Boolean(currentRoute.value === '/signin' || currentRoute.value === '/signup' || currentRoute.value === '/forgot-password' || currentRoute.value === '/reset-password')
+})
 const showSettingsCard = ref(false)
 </script>
 <template>
@@ -31,17 +35,17 @@ const showSettingsCard = ref(false)
         class="fixed z-[1] top-0 left-0 right-0 border-b-[1px] bg-white border-b-[rgba(0,0,0,0.2)] sm:mb-3 ">
         <nav class="">
 
-            <div class="container w-full  py-3 px-4 md:py-2 md:px-0">
+            <div class="container w-full  py-3 px-4 md:py-0 md:px-0">
                 <div class="flex relative md:static justify-between items-center">
-                    <div class="md:order-none md:static absolute left-12 flex justify-start items-center md:space-x-3">
+                    <div class="md:order-none md:py-1 md:static absolute left-12 flex justify-start items-center md:space-x-3">
                         <!-- Logo -->
                         <router-link to="/" tag="i"
                             class="fa-brands hidden md:block fa-linkedin text-3xl md:text-5xl text-primary"></router-link>
                         <!-- /Logo -->
                         <!-- Search Area -->
-
                         <div
                             class="relative bg-slate-100 px-4 py-1 flex items-center  md:hover:w-[350px] w-[250px] rounded-md text-sm h-10 ">
+
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
                                 fill="#666667" class="mercado-match absolute left-3 group-hover:fill-black " width="24"
                                 height="24" focusable="false">
@@ -56,23 +60,28 @@ const showSettingsCard = ref(false)
                         <!-- /Search Area -->
                     </div>
                     <!-- Nav Items -->
+
                     <ul class="flex justify-between items-center ">
 
                         <div
-                            class="p-2 sm:p-0 md:static flex justify-between items-center fixed z-[1] bottom-0 left-0 right-0 border-t-[1px] bg-white sm:border-none border-t-[rgba(0,0,0,0.2)]">
+                            class="px-2 md:p-0 md:static flex justify-between items-center fixed z-[1] bottom-0 left-0 right-0 border-t-[1px] bg-white sm:border-none border-t-[rgba(0,0,0,0.2)]">
                             <li class="text-muted">
                                 <router-link tag="li"
-                                    class="flex flex-col justify-start items-center text-center hover:cursor-pointer group border-0  w-12 md:w-20"
+                                    class="flex flex-col hover:text-black justify-start items-center text-center hover:cursor-pointer group border-0  w-12 md:w-20"
                                     active-class="lg:border-b-2 border-t md:border-t-0 md:border-b text-black border-black"
                                     to="/">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
-                                        fill="currentColor" class="mercado-match group-hover:fill-black " width="24"
+                                    <svg v-if="currentRoute === '/'" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        data-supported-dps="24x24" fill="currentColor" class="mercado-match" width="24"
                                         height="24" focusable="false">
                                         <path
                                             d="M23 9v2h-2v7a3 3 0 01-3 3h-4v-6h-4v6H6a3 3 0 01-3-3v-7H1V9l11-7 5 3.18V2h3v5.09z">
                                         </path>
-                                    </svg> <small class="">Anasayfa</small>
-
+                                    </svg>
+                                    <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        data-supported-dps="24x24" fill="currentColor" class="mercado-match" width="24"
+                                        height="24" focusable="false">
+                                        <path d="M23 9v2h-2v7a3 3 0 01-3 3h-4v-6h-4v6H6a3 3 0 01-3-3v-7H1V9l11-7z"></path>
+                                    </svg><small class="">Anasayfa</small>
                                 </router-link>
                             </li>
                             <li
@@ -103,17 +112,32 @@ const showSettingsCard = ref(false)
                                     </path>
                                 </svg><small class="text-muted  group-hover:text-black">Bildirimler</small>
                             </li>
-                            <li
-                                class="flex flex-col justify-start items-center text-center hover:cursor-pointer group  w-12 md:w-20">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
-                                    fill="#666667" class="mercado-match group-hover:fill-black" width="24" height="24"
-                                    focusable="false">
-                                    <path
-                                        d="M17 6V5a3 3 0 00-3-3h-4a3 3 0 00-3 3v1H2v4a3 3 0 003 3h14a3 3 0 003-3V6zM9 5a1 1 0 011-1h4a1 1 0 011 1v1H9zm10 9a4 4 0 003-1.38V17a3 3 0 01-3 3H5a3 3 0 01-3-3v-4.38A4 4 0 005 14z">
-                                    </path>
-                                </svg><small class="text-muted whitespace-nowrap group-hover:text-black">İş İlanları</small>
+                            <li class="text-muted">
+                                <router-link tag="li"
+                                    class="flex no-wrap flex-col hover:text-black justify-start items-center text-center hover:cursor-pointer group border-0  w-12 md:w-20"
+                                    :class="{ 'lg:border-b-2 border-t md:border-t-0 md:border-b text-black border-black': currentRoute.includes('job') }"
+                                    to="/jobs">
+
+                                    <svg v-if="currentRoute.includes('job')" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor"
+                                        class="mercado-match" width="24" height="24" focusable="false">
+                                        <path
+                                            d="M22.84 10.22L21 6h-3.95V5a3 3 0 00-3-3h-4a3 3 0 00-3 3v1H2l2.22 5.18A3 3 0 007 13h14a2 2 0 001.84-2.78zM15.05 6h-6V5a1 1 0 011-1h4a1 1 0 011 1zM7 14h15v3a3 3 0 01-3 3H5a3 3 0 01-3-3V8.54l1.3 3A4 4 0 007 14z">
+                                        </path>
+                                    </svg>
+                                    <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                        data-supported-dps="24x24" fill="currentColor" class="mercado-match " width="24"
+                                        height="24" focusable="false">
+                                        <path
+                                            d="M17 6V5a3 3 0 00-3-3h-4a3 3 0 00-3 3v1H2v4a3 3 0 003 3h14a3 3 0 003-3V6zM9 5a1 1 0 011-1h4a1 1 0 011 1v1H9zm10 9a4 4 0 003-1.38V17a3 3 0 01-3 3H5a3 3 0 01-3-3v-4.38A4 4 0 005 14z">
+                                        </path>
+
+                                    </svg><small class="whitespace-nowrap">İş İlanları</small>
+
+                                </router-link>
                             </li>
                         </div>
+
 
                         <li
                             class="absolute right-px md:static flex flex-col justify-start items-center text-center hover:cursor-pointer group  w-12 md:w-20">

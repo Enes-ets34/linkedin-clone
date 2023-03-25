@@ -3,7 +3,6 @@ import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { BASE_URL } from '../../../constants';
 import moment from "../../../composables/moment";
-
 import PostComment from './PostCommentItem.vue';
 import EditPostModal from './EditPostModal.vue';
 import useProfileImage from '../../../composables/profile_image';
@@ -114,15 +113,15 @@ const postLikes = computed(() => {
                     class="px-2 pb-2 text-muted text-lg font-bold tracking-widest hover:cursor-pointer hover:bg-gray-200 transition-all duration-300 rounded-full align-start">
                     ...</p>
                 <div v-if="postMenu"
-                    class="bg-white border w-1/2 rounded-md rounded-tr-none shadow-xl absolute top-8 right-2 font-semibold">
-                    <ul class="rounded-md ">
+                    class="bg-white border w-1/2 rounded-lg rounded-tr-none shadow-xl absolute top-8 right-2 font-semibold">
+                    <ul class="rounded-lg ">
                         <li @click="deletePost()"
                             class="flex  rounded-tl-md justify-between items-center p-4 hover:cursor-pointer hover:bg-neutral-200">
                             <i class="fa-sharp fa-solid fa-trash"></i>
                             Gönderiyi Sil
                         </li>
                         <li @click="editModal = true"
-                            class="flex  justify-between  rounded-md rounded-t-none items-center p-4 hover:cursor-pointer hover:bg-neutral-200">
+                            class="flex  justify-between  rounded-lg rounded-t-none items-center p-4 hover:cursor-pointer hover:bg-neutral-200">
                             <i class="fa-sharp fa-solid fa-pen-to-square"></i>
                             Gönderiyi Düzenle
                         </li>
@@ -162,7 +161,7 @@ const postLikes = computed(() => {
             </li>
             <li class="group">
                 <button @click="toggleComment"
-                    class="active:text-black flex-col md:flex-row flex items-center sm:px-2 px-4 py-2 rounded-md transition-all duration-300 hover:cursor-pointer active:bg-gray-300 hover:bg-gray-200 text-sm text-muted space-x-2">
+                    class="active:text-black flex-col md:flex-row flex items-center sm:px-2 px-4 py-2 rounded-lg transition-all duration-300 hover:cursor-pointer active:bg-gray-300 hover:bg-gray-200 text-sm text-muted space-x-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
                         fill="currentColor" class="mercado-match " width="24" height="24" focusable="false">
                         <path

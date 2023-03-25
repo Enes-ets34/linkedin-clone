@@ -31,17 +31,17 @@ watch(() => query.value, (newValue, oldValue) => {
 </script>
 <template>
     <div class="container mt-16 px-0 sm:mt-20">
-        <div class="flex flex-col md:flex-row justify-start items-center md:items-start md:space-x-5 ">
-            <div class="flex flex-col w-full md:basis-1/2 ">
+        <div class="flex flex-col md:flex-row flex-1 justify-start items-center md:items-start md:space-x-5 ">
+            <div class="flex flex-col w-full lg ne oluyor:basis-1/2   ">
                 <div class=" flex flex-col space-y-2">
                     <div v-if="company" class="">
                         <div
                             class="border pt-3  py-4 px-4  text-sm bg-white rounded-lg flex justify-start items-start space-x-2">
                             <img :src="company.media" alt="" class="object-contain  w-24 h-24 ">
                             <div class="flex flex-col">
-                                <a href="#" class="font-semibold text-2xl">{{ company.name }}</a>
-                                <p>{{company.category}}</p>
-                                <p class="text-muted mb-2">{{company.location}}</p>
+                                <router-link :to="`/company/${company.slug}`" class="hover:underline font-semibold text-2xl">{{ company.name }}</router-link>
+                                <p>{{ company.category }}</p>
+                                <p class="text-muted mb-2">{{ company.location }}</p>
                                 <p class="font-semibold flex items-center text-muted mb-2"><svg
                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" data-supported-dps="16x16"
                                         fill="currentColor" class="mr-2" width="16" height="16" focusable="false">
@@ -51,9 +51,9 @@ watch(() => query.value, (newValue, oldValue) => {
                                     </svg>248B Takipçi
                                 </p>
 
-                                <div class="flex items-center space-x-2">
+                                <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-x-2">
                                     <button
-                                        class=" text-base bg-primary  rounded-full py-1 px-3 text-white active:bg-[#09223b] hover:bg-[#004182] transition-all duration-300 font-semibold">
+                                        class=" text-base w-full sm:w-auto bg-primary  rounded-full py-1 px-3 text-white active:bg-[#09223b] hover:bg-[#004182] transition-all duration-300 font-semibold">
                                         Takip et
                                     </button>
                                     <router-link :to="`/company/${company.slug}`"
@@ -71,7 +71,8 @@ watch(() => query.value, (newValue, oldValue) => {
                                 class="flex justify-start pl-4 py-2  items-start ">
                                 <img :src="`${BASE_URL}/uploads/default.png`" alt=""
                                     class="object-contain   w-14 h-14 rounded-full ">
-                                <div class="flex justify-between px-4  border-b items-start  w-full space-x-2 ">
+                                <div
+                                    class="flex flex-col sm:flex-row sm:justify-between px-4 pb-2 border-b items-start  w-full sm:space-x-2 ">
                                     <div class="flex flex-col">
                                         <a href="#" class="font-semibold  text-base">{{ employee.full_name }}</a>
                                         <p>{{ employee.title }}</p>
@@ -81,7 +82,7 @@ watch(() => query.value, (newValue, oldValue) => {
                                     </div>
 
                                     <button
-                                        class="px-4 py-1 text-base mt-2 rounded-full border border-1 border-primary text-primary font-semibold bg-white transition-all duration-300 hover:bg-blue-100">
+                                        class="px-4 py-1 text-base mt-2 w-full sm:w-auto rounded-full border border-1 border-primary text-primary font-semibold bg-white transition-all duration-300 hover:bg-blue-100">
                                         <p> Bağlantı kur</p>
                                     </button>
                                 </div>
@@ -148,4 +149,5 @@ watch(() => query.value, (newValue, oldValue) => {
             </div>
             <!-- /RightSide -->
         </div>
-</div></template>
+    </div>
+</template>

@@ -24,10 +24,11 @@ This project is still being developed.This project utilizes a ***micro-frontend*
 - Localstorage
 - Middlewares
 ### Todos
-- [ ] **Job Posting** and **apply**
+- [x] **Job Posting** and **apply**
 - [ ] User **notifications**
 - [ ] User **messages**
 - [ ] **Filter** ***Posts*** by *Hashtag*.
+- [ ] **User** follow.
 
 ## Desktop
  <img src="./assets/web.gif" alt="Desktop view" />

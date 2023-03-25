@@ -40,7 +40,7 @@ function formatContent(content) {
             <div class=" flex-col flex-1 md:basis-8/12 space-y-2  ">
                 <div class="border flex flex-col space-y-2 bg-white rounded-lg">
                     <div class="relative ">
-                        {{ profile_image }}
+                        
                         
                         <img class="rounded-t-lg"
                             src="https://media.licdn.com/dms/image/D4D16AQFHK_sNYVFAOg/profile-displaybackgroundimage-shrink_350_1400/0/1676201844347?e=1681948800&v=beta&t=oOIDZleH7CwOJIS-dYm5WoWMJE-MHBCsD2XKtqoXop4"
