@@ -72,7 +72,6 @@ const openJobMenu = () => {
                     <div class="flex justify-between items-start">
                         <router-link :to="`/company/${job?.company?.slug}`"> <img :src="job?.company?.media"
                                 class="object-contain w-14" alt=""></router-link>
-
                         <div class="flex space-x-2 items-center relative">
                             <span class="p-2  hover:bg-gray-200 cursor-pointer rounded-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
@@ -199,7 +198,7 @@ const openJobMenu = () => {
                     <div class="flex justify-start pl-4 py-2  items-start ">
                         <router-link class="font-semibold  text-base cursor-pointer" tag="img"
                             :to="`/user/${job?.user?.slug}`"> <img
-                                src="https://media.licdn.com/dms/image/D4D03AQEBpJLboCb2KQ/profile-displayphoto-shrink_800_800/0/1677235747564?e=2147483647&v=beta&t=xDXFxbs-NYmGmUPvkqw_bghdwxV8maJz7julZwxP9oI"
+                                :src="`${BASE_URL}/uploads/default.png`"
                                 alt="" class="object-contain  w-14 h-14 rounded-full "></router-link>
                         <div
                             class="flex flex-col sm:flex-row sm:justify-between px-4 pb-2 border-b items-start  w-full sm:space-x-2 ">
@@ -213,7 +212,6 @@ const openJobMenu = () => {
                                 <small class="text-muted mb-2">
                                     15 ortak bağlantı</small>
                             </div>
-
                             <button
                                 class=" mt-2 rounded-full flex items-center space-x-2 ring-1 font-semibold ring-muted text-muted px-4 py-1 hover:bg-gray-200 hover:ring-muted hover:ring active:text-black transition-bg duration-300 ">
                                 mesaj

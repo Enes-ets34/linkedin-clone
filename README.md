@@ -25,9 +25,9 @@ This project is still being developed.This project utilizes a ***micro-frontend*
 - Middlewares
 ### Todos
 - [x] **Job Posting** and **apply**
+- [x] **Filter** ***Posts*** by *Hashtag*.
 - [ ] User **notifications**
 - [ ] User **messages**
-- [ ] **Filter** ***Posts*** by *Hashtag*.
 - [ ] **User** follow.
 
 ## Desktop
@@ -123,7 +123,7 @@ npm install
 npm run start
 $ cd client
 npm install
-npm run serve
+npm run dev
 ```
 ## Or you can use Docker.
  - Set environment variables in `./server` under `Dockerfile`

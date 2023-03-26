@@ -1,11 +1,13 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { BASE_URL } from '../../../constants';
 import moment from "../../../composables/moment";
 import PostComment from './PostCommentItem.vue';
 import EditPostModal from './EditPostModal.vue';
+import { useRouter } from 'vue-router';
 import useProfileImage from '../../../composables/profile_image';
+const router = useRouter()
 const store = useStore()
 const { created_at } = moment(props.post.created_at);
 
@@ -18,12 +20,17 @@ const props = defineProps({
     }
 })
 
-function formatContent(content) {
-    return content?.replace(/\n/g, "<br/>")?.replace(
-        /#\w+/g,
-        '<span class="text-primary cursor-pointer hover:underline font-semibold">$&</span>'
-    );
-}
+const formatContent = computed(() => {
+    return props?.post?.content?.replace(/\n/g, "<br/>")?.replace(/#\w+/g, (match) => {
+        return `<a
+            href="/#/?keywords=${match.slice(1,match.length)}"
+            class='text-primary cursor-pointer hover:underline font-semibold'
+            >
+            ${match}
+            </a>`;
+    })
+})
+
 const userData = ref(null)
 const openCommentMenu = ref(false)
 const toggleComment = () => {
@@ -68,6 +75,7 @@ onMounted(() => {
                 postMenu.value = false;
             }
         });
+
 })
 
 const hasAlreadyLiked = computed(() => {
@@ -131,7 +139,7 @@ const postLikes = computed(() => {
         </div>
         <!-- /Post Header -->
         <!-- Post Body -->
-        <p v-html="formatContent(props.post.content)"></p>
+        <p v-html="formatContent"></p>
         <!-- /Post Body -->
         <!-- Currently Likes -->
         <div class="flex justify-between items-center mt-2 text-muted  text-xs">

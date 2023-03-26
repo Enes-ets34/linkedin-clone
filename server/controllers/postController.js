@@ -15,6 +15,26 @@ const getAllPosts = asyncErrorWrapper(async (req, res, next) => {
     posts,
   });
 });
+const filterPosts = asyncErrorWrapper(async (req, res, next) => {
+  const keywords = req.query.keywords;
+
+  const posts = await Post.find({
+    $or: [
+      { title: { $regex: keywords, $options: "i" } },
+      { content: { $regex: keywords, $options: "i" } },
+    ],
+  })
+    .populate({ path: "comments", populate: "user" })
+    .populate({
+      path: "user",
+      populate: "company",
+    })
+    .sort("-created_at");
+  res.send({
+    success: true,
+    posts,
+  });
+});
 const getSinglePost = asyncErrorWrapper(async (req, res, next) => {
   const post = await Post.findById(req.params.id).populate("user");
   res.send({
@@ -90,4 +110,5 @@ module.exports = {
   updatePost,
   likePost,
   undoLikePost,
+  filterPosts,
 };
