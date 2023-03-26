@@ -53,6 +53,23 @@ export default {
           });
         });
     },
+    filterPosts({ commit }, pKeywords) {
+      store.dispatch("loader/setLoading", true);
+      appAxios
+        .get(`/post/filter?keywords=${pKeywords}`)
+        .then((res) => {
+          if (res.status === 200) {
+            commit("setPosts", res.data.posts);
+            store.dispatch("loader/setLoading", false);
+          }
+        })
+        .catch((err) => {
+          store.dispatch("notifications/showMessage", {
+            message: err.response.data.message,
+            type: "error",
+          });
+        });
+    },
     sendPost({ commit }, pPost) {
       appAxios
         .post("/post/new", { content: pPost })

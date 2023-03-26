@@ -13,7 +13,7 @@ moment.updateLocale("en", {
     dd: "%dg",
     w: "bir hafta",
     ww: "%dh",
-    M: "bira",
+    M: "1a",
     MM: "%da",
     y: "bir yıl",
     yy: "%dy",

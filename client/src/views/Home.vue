@@ -1,5 +1,5 @@
 <script setup>
-import { computed, Suspense } from 'vue';
+import { computed, watch } from 'vue';
 import { useStore } from 'vuex';
 
 import Post from '../components/home/Post/Post.vue'
@@ -7,11 +7,31 @@ import LeftProfileCard from '../components/home/LeftProfileCard.vue';
 import LeftSide from '../components/home/LeftSide.vue';
 import RightSide from '../components/home/RightSide.vue';
 import PostInput from '../components/home/Post/PostInput.vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute()
 const store = useStore()
 
+const keywords = computed(() => route.query.keywords)
 
-store.dispatch('posts/fetchPosts')
+if (keywords.value) {
+    store.dispatch('posts/filterPosts', keywords.value)
+} else {
+    store.dispatch('posts/fetchPosts')
+}
+
+watch(
+    () => keywords.value,
+    (newValue, oldValue) => {
+        if (newValue) {
+            store.dispatch('posts/filterPosts', newValue)
+        }
+        else {
+            store.dispatch('posts/fetchPosts')
+        }
+    },
+    { deep: true }
+)
 
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
 
@@ -28,7 +48,33 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                 <LeftSide />
                 <!-- /Left Side -->
             </div>
-            <div class="w-full md:basis-2/3  flex flex-col space-y-2">
+            <div class="w-full md:basis-2/3 flex flex-col space-y-2">
+                <div v-if="keywords" class="flex relative justify-between mt-2 md:mt-0 items-start border-b bg-white rounded-lg p-4">
+                    <div class="flex  sm:justify-between  items-center  sm:space-x-2 space-x-1 ">
+                        <img src="../../public/hashtag.png" alt="" class="object-contain  w-28 h-28 rounded-full ">
+                        <div class="flex items-start flex-col text-sm">
+                            <a class="font-semibold text-xl">
+                                #{{keywords}}</a>
+                            <p class="text-muted  text-sm mb-2 ">
+                                8.746 takipçi
+                            </p>
+                            <button
+                                class="w-auto text-base  sm:w-auto bg-primary  rounded-full py-1 px-4 text-white active:bg-[#09223b] hover:bg-[#004182] transition-all duration-300 font-semibold">
+                                Takip Et
+                            </button>
+                        </div>
+                    </div>
+                    <span class="p-1 rounded-full hover:bg-gray-200 cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24"
+                            fill="currentColor" class="mercado-match" width="24" height="24" focusable="false">
+                            <path
+                                d="M14 12a2 2 0 11-2-2 2 2 0 012 2zM4 10a2 2 0 102 2 2 2 0 00-2-2zm16 0a2 2 0 102 2 2 2 0 00-2-2z">
+                            </path>
+                        </svg>
+                    </span>
+
+
+                </div>
                 <!-- Post Input -->
                 <div class="border p-3 space-y-2 bg-white rounded-lg">
                     <PostInput :currentUser="currentUser" />
@@ -92,7 +138,7 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                     <div class="sm:ml-1 flex justify-between items-center font-bold">
                         En Önemli
                         <i class="fas fa-caret-down ml-1"></i>
-                        
+
                     </div>
                 </div>
                 <appLoader />

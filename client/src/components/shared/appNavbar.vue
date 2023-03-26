@@ -8,8 +8,6 @@ const store = useStore()
 const route = useRouter()
 const router = useRouter()
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
-
-
 const profile_image = computed(() => {
     return currentUser?.profile_image ? `${BASE_URL}/uploads/${currentUser?.value?.profile_image}` : `${BASE_URL}/uploads/default.png`
 })

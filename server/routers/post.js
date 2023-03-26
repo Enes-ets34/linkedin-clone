@@ -13,8 +13,10 @@ const {
   updatePost,
   likePost,
   undoLikePost,
+  filterPosts,
 } = require("../controllers/postController");
 
+router.get("/filter", getAccessToRoute,filterPosts);
 router.get("/", getAllPosts);
 router.post("/new", getAccessToRoute, newPost);
 router.get("/like/:id", getAccessToRoute, likePost);

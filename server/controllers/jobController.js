@@ -80,7 +80,7 @@ const applyToJob = asyncErrorWrapper(async (req, res, next) => {
   const job = await Job.findById(req.params.id).populate("user");
   const emailTemplate = `
   <h3>Job Apply</h3>
-  <p>User:<a href='https://linkedin-ets.netlify.app/#/user/${user.slug}'></a> ${user.full_name} was applied to your job.</p>
+  <p>User: <a target='_blank' href='https://linkedin-ets.netlify.app/#/user/${user.slug}'>${user.full_name}</a>  was applied to your job.</p>
   `;
   try {
     if (job.applicants.includes(user.id)) {
