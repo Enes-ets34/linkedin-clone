@@ -80,7 +80,7 @@ userSchema.methods.generatejwtFromUser = function () {
 
   const payload = {
     id: this.id,
-    name: this.name,
+    full_name: this.full_name,
   };
   const token = jwt.sign(payload, JWT_SECRET_KEY, {
     expiresIn: JWT_EXPIRE,

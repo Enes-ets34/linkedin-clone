@@ -1,7 +1,7 @@
 const asyncErrorWrapper = require("express-async-handler");
 const CustomError = require("../helpers/error/CustomError");
 const Post = require("../models/Post");
-
+const { sendNotification } = require("../helpers/libraries/sendNotification");
 const getAllPosts = asyncErrorWrapper(async (req, res, next) => {
   const posts = await Post.find()
     .populate({ path: "comments", populate: "user" })
@@ -67,6 +67,14 @@ const likePost = asyncErrorWrapper(async (req, res, next) => {
   }
   post.likes.push(req.user.id);
   await post.save();
+
+  if (req.user.id !== post.user._id.toString()) {
+    await sendNotification({
+      message: `gönderinizi beğendi.`,
+      sender: req.user.id,
+      receiver: post.user._id,
+    });
+  }
   return res.status(200).json({
     success: true,
     post,

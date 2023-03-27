@@ -15,7 +15,7 @@ const {
 } = require("../middlewares/database/databaseErrorHelpers");
 const { getAccessToRoute } = require("../middlewares/authorization/auth");
 
-router.get("/:slug", checkUserExist, getSingleUserBySlug);
+router.get("/:slug", [checkUserExist,getAccessToRoute], getSingleUserBySlug);
 router.get("/edit/:id", getAccessToRoute, editUser);
 router.get("/", getAllUsers);
 router.put("/update", getAccessToRoute, updateUser);

@@ -2,6 +2,7 @@ const asyncErrorWrapper = require("express-async-handler");
 const User = require("../models/User");
 const CustomError = require("../helpers/error/CustomError");
 const Experience = require("../models/Experience");
+const { sendNotification } = require("../helpers/libraries/sendNotification");
 
 const getSingleUserBySlug = asyncErrorWrapper(async (req, res, next) => {
   const user = await User.findOne({ slug: req.params.slug })
@@ -10,7 +11,14 @@ const getSingleUserBySlug = asyncErrorWrapper(async (req, res, next) => {
       path: "experiences",
       populate: "company",
     });
-
+  // Send notification to user
+  if (user._id !== req.user.id) {
+    await sendNotification({
+      message: `profilinizi görüntüledi..`,
+      sender: req.user.id,
+      receiver: user._id,
+    });
+  }
   return res.status(200).json({
     success: true,
     user,
