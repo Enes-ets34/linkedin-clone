@@ -76,6 +76,16 @@ const routes = [
     name: "SavedJobs",
     component: () => import("../views/Job/SavedJobs.vue"),
   },
+  {
+    path: "/notifications",
+    name: "Notifications",
+    component: () => import("../views/Notifications.vue"),
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: () => import('../views/NotFound.vue')
+  }
 ];
 
 const router = createRouter({

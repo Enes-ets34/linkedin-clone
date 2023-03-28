@@ -8,6 +8,8 @@ import notifications from "./notifications";
 
 import loader from "./loader";
 
+import userNotifications from "./userNotifications";
+
 export default createStore({
   namespaced: true,
   state: {
@@ -26,8 +28,9 @@ export default createStore({
   getters: {},
   modules: {
     users,
+    userNotifications,
     posts,
     notifications,
-    loader
+    loader,
   },
 });

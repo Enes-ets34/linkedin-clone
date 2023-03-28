@@ -197,6 +197,6 @@ export default {
   getters: {
     getCurrentUser: (state) => state?.user,
     isAuth: (state) => state.user !== null && state.access_token !== null,
-    getAccessToken: (state) => state.tokens?.access_token,
+    getAccessToken: (state) => state?.access_token,
   },
 };

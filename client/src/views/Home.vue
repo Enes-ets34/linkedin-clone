@@ -19,7 +19,6 @@ if (keywords.value) {
 } else {
     store.dispatch('posts/fetchPosts')
 }
-
 watch(
     () => keywords.value,
     (newValue, oldValue) => {
@@ -34,11 +33,10 @@ watch(
 )
 
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
-
+store.dispatch('userNotifications/fetchUserNotifications')
 </script>
 <template>
     <div class="container mt-16  sm:mt-20">
-
         <div class="flex flex-col md:flex-row justify-between pb-52 items-center md:items-start md:space-x-5 ">
             <div class=" flex-col sticky -top-[295px] flex-1 md:basis-1/4 space-y-2  ">
                 <!-- Profile Card -->
@@ -49,12 +47,13 @@ const currentUser = computed(() => store.getters['users/getCurrentUser'])
                 <!-- /Left Side -->
             </div>
             <div class="w-full md:basis-2/3 flex flex-col space-y-2">
-                <div v-if="keywords" class="flex relative justify-between mt-2 md:mt-0 items-start border-b bg-white rounded-lg p-4">
+                <div v-if="keywords"
+                    class="flex relative justify-between mt-2 md:mt-0 items-start border-b bg-white rounded-lg p-4">
                     <div class="flex  sm:justify-between  items-center  sm:space-x-2 space-x-1 ">
                         <img src="../../public/hashtag.png" alt="" class="object-contain  w-28 h-28 rounded-full ">
                         <div class="flex items-start flex-col text-sm">
                             <a class="font-semibold text-xl">
-                                #{{keywords}}</a>
+                                #{{ keywords }}</a>
                             <p class="text-muted  text-sm mb-2 ">
                                 8.746 takipçi
                             </p>

@@ -85,7 +85,7 @@ const likeActions = () => {
     hasAlreadyLiked.value ? store.dispatch('posts/undolikePost', props.post) : store.dispatch('posts/likePost', props.post)
 }
 const postLikes = computed(() => {
-    return hasAlreadyLiked && (props.post.likes.length - 1) > 0 ? `siz ve ve diğer ${props.post.likes.length - 1} kişi` : props.post.likes.length
+    return hasAlreadyLiked.value && ((props.post.likes.length - 1) > 0) ? `siz ve diğer ${props.post.likes.length - 1} kişi` : props.post.likes.length
 })
 
 </script>

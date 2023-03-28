@@ -3,6 +3,7 @@ const Comment = require("../../models/Comment");
 const CustomError = require("../../helpers/error/CustomError");
 const jwt = require("jsonwebtoken");
 const Job = require("../../models/Job");
+const Notification = require("../../models/Notification");
 
 const {
   isTokenIncluded,
@@ -22,7 +23,7 @@ const getAccessToRoute = asyncErrorWrapper(async (req, res, next) => {
     } else {
       req.user = {
         id: decoded.id,
-        name: decoded.name,
+        full_name: decoded.full_name,
       };
     }
     next();
@@ -60,10 +61,23 @@ const getCommentOwnerAccessToRoute = asyncErrorWrapper(
     next();
   }
 );
+const getNotificationOwnerAccessToRoute = asyncErrorWrapper(
+  async (req, res, next) => {
+    const userId = req.user.id;
+    const notificationId = req.params.id;
+    const notification = await Notification.findById(notificationId);
+
+    if (notification.receiver.toString() !== userId) {
+      return next(new CustomError("Only Notification receiver can do this.", 403));
+    }
+    next();
+  }
+);
 
 module.exports = {
   getAccessToRoute,
   getPostOwnerAccessToRoute,
   getCommentOwnerAccessToRoute,
   getJobOwnerAccessToRoute,
+  getNotificationOwnerAccessToRoute
 };

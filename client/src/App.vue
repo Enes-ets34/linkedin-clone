@@ -7,7 +7,9 @@ const token = localStorage.access_token
 if (token) {
   appAxios.get(`${BASE_URL}/auth/profile`)
     .then((res) => {
-      console.log('res :>> ', res);
+      if (res.status === 200) {
+        store.dispatch('userNotifications/fetchUserNotifications')
+      }
     }).catch((err) => {
       store.dispatch("notifications/showMessage", {
         message: 'Please login again.',
@@ -17,6 +19,7 @@ if (token) {
     });
 }
 store.dispatch('posts/fetchPosts')
+
 </script>
 <template class="relative">
   <appNavbar />
