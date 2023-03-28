@@ -6,9 +6,12 @@ import { useRouter } from 'vue-router';
 const route = useRouter()
 const store = useStore()
 const currentUser = computed(() => store.getters['users/getCurrentUser'])
+const currentRoute = computed(() => {
+    return route.currentRoute.value.fullPath
+})
 
 const hideChatbox = computed(() => {
-    return !Boolean(route.currentRoute.value.fullPath.includes('/signin') || route.currentRoute.value.fullPath.includes('/signup') || route.currentRoute.value.fullPath.includes('/forgot-password')||route.currentRoute.value.fullPath.includes('/reset-password'))
+    return !Boolean(currentRoute.value === '/signin' || currentRoute.value === '/signup' || currentRoute.value === '/forgot-password' || currentRoute.value === '/reset-password' ||route.currentRoute.value.name === 'NotFound')
 })
 
 const profile_image = computed(() => {
@@ -22,7 +25,7 @@ const profile_image = computed(() => {
             class="top-0  flex rounded-t-lg text-sm border-b py-2 px-3 z-10   drop-shadow-lg font-semibold hover:cursor-pointer  justify-between items-center space-x-12 hover:bg-gray-100">
             <div class="flex items-center space-x-2">
                 <div class="relative w-8 ">
-                    <img class="w-8 rounded-full" :src="profile_image|| 'default.png'" alt="">
+                    <img class="w-8 rounded-full" :src="profile_image || 'default.png'" alt="">
                     <div
                         class="absolute right-0 bottom-0 rounded-full w-1 h-1 bg-green-700 p-1 border-[1.5px] border-white">
                     </div>

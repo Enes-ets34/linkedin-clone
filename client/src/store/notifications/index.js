@@ -1,4 +1,5 @@
-export default {
+import { createStore } from "vuex";
+export default createStore({
   namespaced: true,
   state: {
     message: null,
@@ -8,11 +9,11 @@ export default {
   mutations: {
     showMessage(state, payload) {
       state.message = payload.message;
-      state.type = payload.type
+      state.type = payload.type;
     },
     hideMessage(state) {
       state.message = null;
-     state.type = null
+      state.type = null;
     },
   },
   actions: {
@@ -24,6 +25,5 @@ export default {
     },
   },
   modules: {},
-  getters: {
-  },
-};
+  getters: {},
+});
