@@ -34,12 +34,25 @@ watch(() => query.value, (newValue, oldValue) => {
         <div class="flex flex-col md:flex-row flex-1 justify-start items-center md:items-start md:space-x-5 ">
             <div class="flex flex-col w-full lg ne oluyor:basis-1/2   ">
                 <div class=" flex flex-col space-y-2">
-                    <div v-if="company" class="">
+                    <div v-if="!company.length > 0 && !users.length > 0"
+                        class=" border rounded-lg bg-white pt-2 pb-24 w-full sm:w-4/5 mx-auto">
+                        <div class="w-full sm:w-1/2 flex flex-col justify-center items-center mx-auto text-center">
+                            <img src="/noResult.png" alt="" class="w-64 object-containt">
+                            <h2 class="text-2xl">Hiçbir sonuç bulunamadı</h2>
+                            <p>Arama kelimenizi kısaltmayı veya değiştirmeyi düşünün.</p>
+                            <button
+                                class=" mt-2 rounded-full flex items-center space-x-2 border ring-1 ring-black text-muted px-4 py-1 hover:bg-gray-200 hover:ring-2 font-semibold active:text-black transition-bg duration-300 ">
+                                Aramayı düzenle
+                            </button>
+                        </div>
+                    </div>
+                    <div v-if="company.length > 0" class="">
                         <div
                             class="border pt-3  py-4 px-4  text-sm bg-white rounded-lg flex justify-start items-start space-x-2">
                             <img :src="company.media" alt="" class="object-contain  w-24 h-24 ">
                             <div class="flex flex-col">
-                                <router-link :to="`/company/${company.slug}`" class="hover:underline font-semibold text-2xl">{{ company.name }}</router-link>
+                                <router-link :to="`/company/${company.slug}`"
+                                    class="hover:underline font-semibold text-2xl">{{ company.name }}</router-link>
                                 <p>{{ company.category }}</p>
                                 <p class="text-muted mb-2">{{ company.location }}</p>
                                 <p class="font-semibold flex items-center text-muted mb-2"><svg
