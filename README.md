@@ -23,10 +23,12 @@ This project is still being developed.This project utilizes a ***micro-frontend*
 - Relationship
 - Localstorage
 - Middlewares
+- Filter Posts by hashtags
+- User Notifications
 ### Todos
 - [x] **Job Posting** and **apply**
 - [x] **Filter** ***Posts*** by *Hashtag*.
-- [ ] User **notifications**
+- [x] User **notifications**
 - [ ] User **messages**
 - [ ] **User** follow.
 
