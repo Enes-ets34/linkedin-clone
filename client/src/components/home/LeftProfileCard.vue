@@ -16,7 +16,7 @@ const profile_image = useProfileImage(props.currentUser.value)
     <div class="border bg-white rounded-lg">
 
         <img class="rounded-t-lg"
-            src="https://media.licdn.com/dms/image/D4D16AQFHK_sNYVFAOg/profile-displaybackgroundimage-shrink_350_1400/0/1676201844347?e=1681948800&v=beta&t=oOIDZleH7CwOJIS-dYm5WoWMJE-MHBCsD2XKtqoXop4"
+           src="../../../public/cover_photo.jpeg"
             alt="">
         <img class="relative z-0 -mt-8 mb-4 mx-auto rounded-full items-center border-white border-4 w-20"
             :src="profile_image" alt="">
