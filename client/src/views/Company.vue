@@ -27,7 +27,7 @@ appAxios.get(`/company/${slug.value}`)
                 <div class="border flex flex-col space-y-2 bg-white rounded-lg">
                     <div class="relative ">
                         <img class="rounded-t-lg md:h-32 h-20  w-full object-fill"
-                            src="https://media.licdn.com/dms/image/D4D16AQFHK_sNYVFAOg/profile-displaybackgroundimage-shrink_350_1400/0/1676201844347?e=1681948800&v=beta&t=oOIDZleH7CwOJIS-dYm5WoWMJE-MHBCsD2XKtqoXop4"
+                        src="../../public/cover_photo.jpeg"
                             alt="">
                         <div class=" absolute left-5 top-12 md:top-20 md:left-5  border-4 bg-white  border-white">
 
