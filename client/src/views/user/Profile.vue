@@ -101,7 +101,7 @@ const profile_image = computed(() => {
                     <div class="relative ">
 
                         <img class="rounded-t-lg"
-                            src="https://media.licdn.com/dms/image/D4D16AQFHK_sNYVFAOg/profile-displaybackgroundimage-shrink_350_1400/0/1676201844347?e=1681948800&v=beta&t=oOIDZleH7CwOJIS-dYm5WoWMJE-MHBCsD2XKtqoXop4"
+                            src="../../../public/cover_photo.jpeg"
                             alt="">
                         <div @click="$store.dispatch('setModal', 'upload-photo')"
                             class="rounded-full absolute left-5 top-12 md:left-5 md:top-12 lg:top-20 md:w-32 md:h-32 lg:w-40 lg:h-40 border-4 bg-white border-white">
