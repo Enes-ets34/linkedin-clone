@@ -34,7 +34,7 @@ watch(() => query.value, (newValue, oldValue) => {
         <div class="flex flex-col md:flex-row flex-1 justify-start items-center md:items-start md:space-x-5 ">
             <div class="flex flex-col w-full lg ne oluyor:basis-1/2   ">
                 <div class=" flex flex-col space-y-2">
-                    <div v-if="!company.length > 0 && !users.length > 0"
+                    <div v-if="!company?.length > 0 && !users?.length > 0"
                         class=" border rounded-lg bg-white pt-2 pb-24 w-full sm:w-4/5 mx-auto">
                         <div class="w-full sm:w-1/2 flex flex-col justify-center items-center mx-auto text-center">
                             <img src="/noResult.png" alt="" class="w-64 object-containt">
@@ -46,7 +46,7 @@ watch(() => query.value, (newValue, oldValue) => {
                             </button>
                         </div>
                     </div>
-                    <div v-if="company.length > 0" class="">
+                    <div v-if="company?.length > 0" class="">
                         <div
                             class="border pt-3  py-4 px-4  text-sm bg-white rounded-lg flex justify-start items-start space-x-2">
                             <img :src="company.media" alt="" class="object-contain  w-24 h-24 ">
@@ -77,7 +77,7 @@ watch(() => query.value, (newValue, oldValue) => {
 
                             </div>
                         </div>
-                        <div v-if="company.employees && company.employees.length > 0"
+                        <div v-if="company?.employees && company?.employees?.length > 0"
                             class="border mt-2  py-2  text-sm bg-white rounded-lg">
                             <p class="font-semibold text-xl mb-4  px-4">Kişiler</p>
                             <div v-for="employee in company.employees" :key="employee._id"
